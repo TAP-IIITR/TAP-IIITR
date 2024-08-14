@@ -1,11 +1,13 @@
-import { Button } from "@/components/ui/button"
+import Overview from "@/components/home/overview"
+import Banner from "../components/home/banner"
+import Footer from "@/components/footer"
 
 const Home = () => {
   return (
-    <div>
-        <Button>
-            Hello world
-        </Button>
+    <div className="bg-[#DCE5EE] flex-col space-y-5">
+        <Banner/>
+        <Overview/>
+        <Footer/>
     </div>
   )
 }
