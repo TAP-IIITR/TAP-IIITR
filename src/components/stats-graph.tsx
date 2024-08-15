@@ -8,6 +8,7 @@ interface StatsGraphProps {
 }
 const StatsGraph = ({ year }: StatsGraphProps) => {
 
+    console.log(year)
     const packageList = [
         {
             label: "Highest Package",
