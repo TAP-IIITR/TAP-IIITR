@@ -1,6 +1,9 @@
+import CommonLayout from '../common-layout'
 const PastRecruiters = () => {
   return (
-    <div>PastRecruiters</div>
+    <CommonLayout title='Past Recruiters'>
+      <img src='' />
+    </CommonLayout>
   )
 }
 export default PastRecruiters
