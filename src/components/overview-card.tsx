@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 
 interface OverviewCardProps {
@@ -20,25 +20,50 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
   buttonText,
   socialLinks,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Function to clip the description to 50 words
+  const clipText = (text: string, wordLimit: number) => {
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
+  };
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden w-[80%] mx-auto my-10">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden w-[20rem] md:w-[74rem] mx-auto my-10">
       <div className="flex flex-col-reverse md:flex-row md:p-4">
         <div className="md:w-3/4 p-6">
           <h2 className="text-4xl font-bold text-[#0928A0] mb-4">{title}</h2>
           <p className="text-sm text-gray-600 mb-4">
             <span className="text-[#0928A0] italic">{subtitle} </span>
-            {description}
+            {isExpanded || window.innerWidth >= 768 // Check for mobile view
+              ? description
+              : clipText(description, 50)}
           </p>
+          {window.innerWidth < 768 && description.split(" ").length > 50 && (
+            <button
+              onClick={toggleExpand}
+              className="text-blue-500 underline text-sm mb-2"
+            >
+              {isExpanded ? "Show Less" : "Read More"}
+            </button>
+          )}
           {(designation || buttonText) && (
-            <div className="mb-4  rounded-md">
+            <div className="mb-4 rounded-md">
               {buttonText && (
                 <a
                   href={
-                    buttonText.indexOf("@") == -1
+                    buttonText.indexOf("@") === -1
                       ? buttonText
                       : `mailto:${buttonText}`
                   }
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Button className="text-sm text-white">
                     {buttonText.split(":")}
@@ -47,8 +72,9 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
               )}
             </div>
           )}
+          
         </div>
-        <div className="md:w-1/4 flex-col mr-5 mb-4 ">
+        <div className="md:w-1/4 flex-col mr-5 mb-4">
           <img
             src={image}
             alt={title}
@@ -70,7 +96,11 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <img src={link.icon} alt="Social Icon" className="w-8 h-8 scale-125 " />
+                  <img
+                    src={link.icon}
+                    alt="Social Icon"
+                    className="w-8 h-8 scale-125"
+                  />
                 </a>
               ))}
             </div>
