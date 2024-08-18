@@ -1,8 +1,8 @@
 import React from "react";
-import iiitr from "../assets/footer-iiitr.svg";
-import tw from "../assets/twitter.svg";
-import ln from "../assets/linkedin.svg";
-import insta from "../assets/insta.svg";
+import iiitr from "@/assets/footer-iiitr.svg";
+import tw from "@/assets/twitter.svg";
+import ln from "@/assets/linkedin.svg";
+import insta from "@/assets/insta.svg";
 const Footer: React.FC = () => {
   return (
     <footer className="bg-black text-white py-4">

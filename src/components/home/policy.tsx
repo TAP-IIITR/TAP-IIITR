@@ -8,9 +8,9 @@ const policyItems = [
 const Policy = () => {
     return (
         <CommonLayout title="Placement Policy">
-            <div className="flex items-center gap-y-4 flex-col">
+            <div className="flex items-center gap-y-4 flex-col m-3 md:m-0">
                 <div className="text-center">
-                    <p>The placement season in Indian Institute of Information Technology Ranchi runs throughout the year, commencing from the first week of July through to May. The Training and Placement (TnP) Cell oversees the placement process, following the <span className="text-primary font-semibold">placement policy :</span></p>
+                    <p>The placement season in Indian Institute of Information Technology Ranchi runs throughout the year, commencing from the first week of July through to May. The Training and Placement (TnP) Cell oversees the placement process, following the<span className="text-primary font-semibold">placement policy :</span></p>
                 </div>
 
                 <ul className="flex items-start mt-4 gap-y-1 w-[70%] flex-col">

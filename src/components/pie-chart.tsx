@@ -12,10 +12,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-]
+
+import {pieChartData as chartData} from "@/data"
+
 
 const chartConfig = {
   visitors: {

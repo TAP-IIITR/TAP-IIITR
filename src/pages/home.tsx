@@ -1,5 +1,5 @@
 import Overview from "@/components/home/overview"
-import Banner from "../components/home/banner"
+import Banner from "@/components/home/banner"
 import Footer from "@/components/footer"
 import WhyRecruit from "@/components/home/why-recruit"
 import PlacementStats from "@/components/home/placement-stats"

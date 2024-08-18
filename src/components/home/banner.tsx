@@ -1,7 +1,7 @@
 import React from "react";
-import backgroundImg from "../../assets/background-img.jpg";
-import iiitr from "../../assets/iiitr-logo.png";
-import Navbar from "../navbar";
+import backgroundImg from "@/assets/background-img.jpg";
+import iiitr from "@/assets/iiitr-logo.png";
+import Navbar from "@/components/navbar";
 
 const Banner: React.FC = () => {
   return (

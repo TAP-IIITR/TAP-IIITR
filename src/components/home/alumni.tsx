@@ -8,7 +8,7 @@ const Alumni = () => {
         Our Alumni
       </h1>
 
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid  md:grid-cols-4 gap-6">
         {alumniData.map((alumni, index) => (
           <AlumniCard
             key={index}

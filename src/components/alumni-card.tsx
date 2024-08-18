@@ -8,7 +8,7 @@ interface AlumniCardProps {
 }
 const AlumniCard = ({ image, name, lpa, company }: AlumniCardProps) => {
     return (
-        <Card>
+        <Card className="m-4">
             <CardHeader>
                 <img className="rounded-md" src={image} alt="" />
             </CardHeader>

@@ -3,12 +3,7 @@ import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
-const chartData = [
-    { branch: "CSE", eligible: 186, offers: 80 },
-    { branch: "ECE", eligible: 305, offers: 200 },
-    { branch: "DS & AI", eligible: 237, offers: 120 },
-    { branch: "ECE & IOT", eligible: 73, offers: 190 },
-]
+import {barChartData as chartData} from "@/data"
 
 const chartConfig = {
     eligible: {

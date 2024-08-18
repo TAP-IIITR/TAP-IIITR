@@ -13,7 +13,7 @@ const Team = () => {
           <p className="text-sm">{teamsData[0].department}</p>
         </div>
 
-        <div className="grid grid-cols-4 gap-6 w-full place-items-center">
+        <div className="grid md:grid-cols-4 grid-cols-1  gap-6 w-full place-items-center">
           {
             teamsData.slice(1).map((member, i) => {
               return (
@@ -26,8 +26,8 @@ const Team = () => {
           }
         </div>
 
-        <div className="flex items-center gap-x-10 w-[80%]">
-          <Card className="w-1/2">
+        <div className="flex md:flex-row flex-col items-center gap-x-10 gap-y-2 md:gap-y-0 w-[80%]">
+          <Card className="md:w-1/2 w-fit">
             <CardHeader>
               <CardTitle>
                 Training and Placement Cell
@@ -47,7 +47,7 @@ const Team = () => {
               <p>156498949861</p>
             </CardFooter>
           </Card>
-          <Card className="w-1/2">
+          <Card className="w-fit md:w-1/2">
             <CardHeader>
               <CardTitle>
                 Dr.Santosh Kumar Mahato
