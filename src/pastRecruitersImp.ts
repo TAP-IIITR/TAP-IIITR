@@ -1,5 +1,5 @@
 import Affine from "@/assets/companies/Affine.png";
-import AppsForBharat from "@/assets/companies/AppsForBharat.png";
+import AppsForBharat from "@/assets/companies/AppsForbharat.png";
 import arm from "@/assets/companies/arm.png";
 import beehyv from "@/assets/companies/beehyv.png";
 import bny from "@/assets/companies/bny.png";
