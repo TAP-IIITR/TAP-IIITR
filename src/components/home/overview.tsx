@@ -7,6 +7,7 @@ import tw from '../../assets/twitter.svg';
 import ln from '../../assets/linkedin.svg';
 import insta from '../../assets/insta.svg';
 import yt from '../../assets/youtube.svg';
+import CommonLayout from "../common-layout";
 interface OverviewCardProps {
   image: string;
   title: string;
@@ -78,10 +79,7 @@ const OverviewData: OverviewCardProps[] = [
 
 const Overview = () => {
   return (
-    <div id="#about">
-      <h1 className="text-[#0928A0] font-bold text-3xl md:text-5xl text-center">
-        OVERVIEW OF OUR INSTITUTE
-      </h1>
+    <CommonLayout title="OVERVIEW OF OUR INSTITUTE">
       {OverviewData.map((e: OverviewCardProps, index: number) => (
         <OverviewCard
           key={index}
@@ -94,7 +92,7 @@ const Overview = () => {
           socialLinks={e.socialLinks}
         />
       ))}
-    </div>
+    </CommonLayout>
   );
 };
 export default Overview;

@@ -5,32 +5,23 @@ import Navbar from "@/components/navbar";
 
 const Banner: React.FC = () => {
   return (
-    <div className="relative bg-blue-50 overflow-hidden">
+    <div className="relative bg-blue-50 h-screen">
       <Navbar />
-      <div className="absolute inset-0">
-        <img
-          src={backgroundImg} 
-          alt="Background"
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <div className=" relative gap-20 z-10 flex flex-col items-center justify-center min-h-screen text-center">
-        <img
-          src={iiitr}
-          alt="IIIT Ranchi Logo"
-          className="h-[10rem] mb-4 w-[12rem] md:h-[16rem] md:mb-6 md:w-[18rem] rounded-[2rem] bg-slate-200 opacity-90 shadow-[0px_6px_10px_5px_#1a202c] "
-        />
-        <div className="p-1 h-[3.6rem] w-[16rem] text-md pl-4 pr-4 md:p-2 md:h-[6rem] md:w-[36rem] md:text-4xl font-bold flex-col items md:pl-10 md:pr-10 rounded-[2rem] bg-slate-200 opacity-90 shadow-[0px_6px_10px_5px_#1a202c] ">
-          <h1 className=" text-[#0928A0] mb-2 ">
-            Training and Placement Cell
-          </h1>
-          <h2 className=" text-[#0928A0] ">
-            IIIT Ranchi
-          </h2>
+      <div className="w-full h-full">
+        <img src={backgroundImg} className="h-full w-full object-cover" alt="" />
+
+        <div className="absolute top-1/2 w-full flex items-center flex-col gap-y-6 left-1/2 -translate-x-1/2 -translate-y-[40%]">
+          <div className="bg-white backdrop:filter w-fit backdrop-blur-lg shadow-xl bg-opacity-70 rounded-xl p-4">
+            <img src={iiitr} className="md:max-w-[300px] max-w-[250px]" alt="" />
+          </div>
+          <div className="bg-white backdrop:filter backdrop-blur-lg shadow-xl bg-opacity-70 rounded-[60px] text-center  py-4 px-10">
+            <h1 className="text-primary font-extrabold md:text-5xl sm:text-3xl text-2xl">Training and Placement Cell <br /> <span className="md:text-4xl sm:text-2xl text-xl">IIIT Ranchi</span></h1>
+          </div>
+          <div className="bg-white backdrop:filter backdrop-blur-lg shadow-xl bg-opacity-70 rounded-[40px] px-16 py-4">
+            <h1 className="text-primary font-extrabold md:text-3xl text-xl">Download Brochure</h1>
+          </div>
+
         </div>
-        <button className="h-[2.6rem] w-[12rem] text-sm pl-2 pr-2 md:p-2 md:h-[4rem] md:w-[30rem] md:text-2xl text-[#0928A0] font-bold flex-col items md:pl-10 md:pr-10 rounded-[2rem] bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg">
-          Download Brochure
-        </button>
       </div>
     </div>
   );

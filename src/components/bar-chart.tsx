@@ -18,7 +18,7 @@ const chartConfig = {
 
 export function BarChartComp() {
     return (
-        <ChartContainer config={chartConfig} className="min-h-[200px]">
+        <ChartContainer config={chartConfig} className="min-h-[200px] sm:w-auto w-full">
             <BarChart accessibilityLayer data={chartData}>
                 <CartesianGrid vertical={false} />
                 <XAxis

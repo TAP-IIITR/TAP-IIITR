@@ -1,14 +1,12 @@
 import { alumniData } from "@/data"
 import AlumniCard from "../alumni-card"
+import CommonLayout from "../common-layout"
 
 const Alumni = () => {
   return (
-    <div className="flex flex-col md:w-[74rem] m-auto">
-      <h1 className="text-primary font-bold text-2xl md:text-4xl text-center my-12">
-        Our Alumni
-      </h1>
+    <CommonLayout title="Our Alumni">
 
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
         {alumniData.map((alumni, index) => (
           <AlumniCard
             key={index}
@@ -19,7 +17,7 @@ const Alumni = () => {
           />
         ))}
       </div>
-    </div>
+    </CommonLayout>
   )
 }
 export default Alumni

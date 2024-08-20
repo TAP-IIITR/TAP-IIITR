@@ -35,7 +35,7 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden w-[20rem] md:w-[74rem] mx-auto my-10">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden mx-auto my-10">
       <div className="flex flex-col-reverse md:flex-row md:p-4">
         <div className="md:w-3/4 p-6">
           <h2 className="text-4xl font-bold text-[#0928A0] mb-4">{title}</h2>

@@ -4,7 +4,7 @@ interface CommonLayoutProps {
 }
 const CommonLayout = ({ title, children }: CommonLayoutProps) => {
     return (
-        <div className="flex flex-col md:w-[74rem] m-auto">
+        <div className="flex flex-col lg:px-28 md:px-14 sm:px-8 px-4">
             <h1 className="text-primary font-bold text-2xl md:text-4xl text-center my-12">
                 {title}
             </h1>

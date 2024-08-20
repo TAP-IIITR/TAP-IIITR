@@ -13,7 +13,7 @@ const Team = () => {
           <p className="text-sm">{teamsData[0].department}</p>
         </div>
 
-        <div className="grid md:grid-cols-4 grid-cols-1  gap-6 w-full place-items-center">
+        <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1  gap-6 w-full place-items-center">
           {
             teamsData.slice(1).map((member, i) => {
               return (

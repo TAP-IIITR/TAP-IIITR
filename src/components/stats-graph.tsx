@@ -27,8 +27,8 @@ const StatsGraph = ({ year }: StatsGraphProps) => {
         },
     ]
     return (
-        <Card className="flex items-center justify-between mt-6 py-8 px-10 gap-x-10">
-            <div className="w-1/2 flex flex-col gap-y-4">
+        <Card className="flex md:flex-row flex-col items-center justify-between mt-6 md:py-8 py-6 md:px-10 px-4 gap-x-10">
+            <div className="lg:w-1/2 w-full flex flex-col gap-y-4">
                 <div className="flex flex-col gap-y-2">
                     {
                         packageList.map((item, i) => {
@@ -40,7 +40,7 @@ const StatsGraph = ({ year }: StatsGraphProps) => {
                 </div>
                 <PieChartComp />
             </div>
-            <div className="w-1/2 border rounded-md p-6">
+            <div className="lg:w-1/2 w-full border rounded-md p-6">
                 <BarChartComp />
             </div>
         </Card>

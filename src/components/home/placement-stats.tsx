@@ -26,7 +26,7 @@ const PlacementStats = () => {
   }
   return (
     <CommonLayout title="Placement Statistics">
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
         {
           statsTabs.map((year, i) => {
             return <div key={i} onClick={() => updateTabs(i)} className={cn(`bg-white rounded-md font-bold text-lg py-3 hover:bg-primary hover:text-white cursor-pointer transition-all flex items-center justify-center`, activeIdx === i && "bg-primary text-white")}>{year.label}</div>
