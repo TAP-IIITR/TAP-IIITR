@@ -1,32 +1,78 @@
-import { group1, group2, group3, group4 } from "@/pastRecruitersImp";
+import { group1, group2} from "@/pastRecruitersImp";
 import CommonLayout from "../common-layout";
+import Autoplay from "embla-carousel-autoplay";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
-const ImageCard = (company: string, index: number) => (
-  <img
-    key={index}
-    src={company}
-    alt="company logo"
-    className="w-32 h-24 object-contain"
-  />
-);
+interface ImageCardProps {
+  company: string;
+}
+
+const ImageCard: React.FC<ImageCardProps> = ({ company }) => {
+  return (
+    <img
+      src={company}
+      alt="company logo"
+      className="w-32 h-24 object-contain"
+    />
+  );
+};
 
 const PastRecruiters = () => {
   return (
     <CommonLayout title="Past Companies" id="Recruiters">
-      <div className="relative flex flex-col md:flex-row  h-[100%] md:h-[300px] overflow-hidden w-[80%] m-auto">
-        <div className="flex md:flex-col md:gap-4 gap-5 animate-scroll-right md:animate-scroll-up w-[25%]">
-          {group1.map((company, index) => ImageCard(company, index))}
-        </div>
-        <div className="flex md:flex-col md:gap-4 gap-5 animate-scroll-left md:animate-scroll-down w-[25%]">
-          {group2.map((company, index) => ImageCard(company, index))}
-        </div>
-        <div className="flex md:flex-col md:gap-4 gap-5 animate-scroll-right md:animate-scroll-up w-[25%]">
-          {group3.map((company, index) => ImageCard(company, index))}
-        </div>
-        <div className="flex md:flex-col md:gap-4 gap-5 animate-scroll-left md:animate-scroll-down w-[25%]">
-          {group4.map((company, index) => ImageCard(company, index))}
-        </div>
-      </div>
+      <Carousel
+        className="w-full mb-10 "
+        opts={{align:"start", loop: true }}
+        plugins={[
+          Autoplay({
+            delay: 950,
+          }),
+        ]}
+        scrollDirection="rtl" 
+      >
+        <CarouselPrevious className="hidden" />
+        <CarouselContent className="-ml-1 transition-transform duration-300 ease-in-out">
+          {group1.map((e, index) => (
+            <CarouselItem key={index} className="basis-1/2 md:basis-1/4 lg:basis-1/6">
+              <ImageCard company={e} />
+            {/* <div className="p-1">
+            </div> */}
+          </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        <CarouselNext className="hidden " />
+      </Carousel>
+      <Carousel
+        className="w-full"
+        opts={{align:"start", loop: true }}
+        plugins={[
+          Autoplay({
+            delay: 950,
+          }),
+        ]}
+        scrollDirection="ltr" 
+        
+      >
+        <CarouselPrevious className="hidden" />
+        <CarouselContent className="-ml-1 transition-transform duration-300 ease-in-out">
+          {group2.map((e, index) => (
+            <CarouselItem key={index} className="basis-1/2 md:basis-1/4 lg:basis-1/6">
+              <ImageCard company={e} />
+            {/* <div className="p-1">
+            </div> */}
+          </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        <CarouselNext className="hidden " />
+      </Carousel>
     </CommonLayout>
   );
 };

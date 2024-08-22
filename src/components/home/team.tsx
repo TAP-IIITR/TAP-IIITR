@@ -87,7 +87,7 @@ const Team = () => {
           className="flex md:flex-row flex-col items-center gap-x-10 gap-y-2 md:gap-y-0 w-[80%]"
           id="Contact"
         >
-          <Card className="md:w-1/2 w-[15rem]  md:h-[15.65rem]">
+          <Card className="md:w-1/2 w-[15rem] flex flex-col flex-wrap lg:min-h-[18rem] min-h-[20rem]">
             <CardHeader>
               <CardTitle>Training and Placement Cell</CardTitle>
             </CardHeader>
@@ -107,7 +107,7 @@ const Team = () => {
             </CardContent>
           </Card>
 
-          <Card className="w-[15rem] md:w-1/2 md:h-[15.65rem]">
+          <Card className="w-[15rem] md:w-1/2 flex flex-col flex-wrap lg:min-h-[18rem] min-h-[20rem]">
             <CardHeader>
               <CardTitle>Dr. Noopur</CardTitle>
             </CardHeader>

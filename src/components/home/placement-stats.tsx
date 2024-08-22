@@ -2,21 +2,7 @@ import { cn } from "@/lib/utils"
 import { useState } from "react"
 import StatsGraph from "../stats-graph"
 import CommonLayout from "../common-layout"
-
-const statsTabs = [
-  {
-    label: "2020 - 2024"
-  },
-  {
-    label: "2019 - 2023"
-  },
-  {
-    label: "2018 - 2022"
-  },
-  {
-    label: "2017 - 2021"
-  },
-]
+import { placementStats as statsTabs } from "@/data"
 const PlacementStats = () => {
 
   const [activeIdx, setActiveIdx] = useState(0)
@@ -33,7 +19,7 @@ const PlacementStats = () => {
           })
         }
       </div>
-      <StatsGraph year={statsTabs[activeIdx].label} />
+      <StatsGraph yearData={statsTabs[activeIdx].data}/>
     </CommonLayout>
   )
 }

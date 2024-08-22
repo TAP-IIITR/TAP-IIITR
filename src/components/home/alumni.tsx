@@ -20,6 +20,7 @@ const Alumni = () => {
             delay: 2000,
           }),
         ]}
+        
       >
         <CarouselPrevious className="hidden" />
         <CarouselContent className="-ml-1">

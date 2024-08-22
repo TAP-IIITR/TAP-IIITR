@@ -18,24 +18,24 @@ import Yash_pandey from "@/assets/alumni/Yash_pandey.jpeg";
 
 //Faculty Images
 import noopur from "@/assets/noopur-mam.png";
-import pooja_mam from "@/assets/team/faculty/pooja_mam.png";
-import ranjan_sir from "@/assets/team/faculty/ranjan_sir.png";
-import shadab_Sir from "@/assets/team/faculty/shadab_sir.png";
+import pooja_mam from "@/assets/team/faculty/pooja_mam.jpg";
+import ranjan_sir from "@/assets/team/faculty/ranjan_sir.jpg";
+import shadab_Sir from "@/assets/team/faculty/shadab_sir.jpg";
 
 //Student Images
-import shivam from "@/assets/team/students/shivam.png";
-import manu from "@/assets/team/students/manu.png";
-import mrinmoy from "@/assets/team/students/mrinmoy.png";
-import shivang from "@/assets/team/students/shivang.png";
-import sakshi from "@/assets/team/students/sakshi.png";
-import manjeet from "@/assets/team/students/manjeet.png";
-import yash from "@/assets/team/students/yash.png";
-import sudhanshu from "@/assets/team/students/sudhanshu.png";
-import akshat from "@/assets/team/students/akshat.png";
-import adarsh from "@/assets/team/students/adarsh.png";
-import prashant from "@/assets/team/students/prashant.png";
-import adityaS from "@/assets/team/students/adityaS.png";
-import pratham from "@/assets/team/students/pratham.png";
+import shivam from "@/assets/team/students/shivam.jpg";
+import manu from "@/assets/team/students/manu.jpeg";
+import mrinmoy from "@/assets/team/students/mrinmoy.jpg";
+import shivang from "@/assets/team/students/shivang.jpg";
+import sakshi from "@/assets/team/students/sakshi.jpg";
+import manjeet from "@/assets/team/students/manjeet.jpg";
+import yash from "@/assets/team/students/yash.jpg";
+import sudhanshu from "@/assets/team/students/sudhanshu.jpg";
+import akshat from "@/assets/team/students/akshat.jpg";
+import adarsh from "@/assets/team/students/adarsh.jpg";
+import prashant from "@/assets/team/students/prashant.jpg";
+import adityaS from "@/assets/team/students/adityaS.jpg";
+import pratham from "@/assets/team/students/pratham.jpg";
 
 //Why Recruit Images
 import nt from "@/assets/whyRecruit/nt.svg";
@@ -73,6 +73,14 @@ type Alumni = {
   company: string;
 };
 
+type PlacementStats = {
+  label: string;
+  data: {
+    label: string;
+    value: number;
+    color: string;
+  }[];
+};
 type WhyRecuritCardProps = {
   image: string;
   title: string;
@@ -138,17 +146,7 @@ export const OverviewData: OverviewCardProps[] = [
   },
 ];
 
-export const pieChartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-];
 
-export const barChartData = [
-  { branch: "CSE", eligible: 186, offers: 80 },
-  { branch: "ECE", eligible: 305, offers: 200 },
-  { branch: "DS & AI", eligible: 237, offers: 120 },
-  { branch: "ECE & IOT", eligible: 73, offers: 190 },
-];
 
 export const alumniData: Alumni[] = [
   { image: aniket_singh, name: "Aniket Sinha", company: "C-DAC" },
@@ -340,3 +338,102 @@ export const procedureData = [
 
 export const PlacementBrochure =
   "https://drive.google.com/file/d/1fJUSEmC2O8VjdXn8yO7GMsb1HiuFzi1t/view?usp=drivesdk";
+
+
+
+/**Chart datas */
+
+export const placementStats: PlacementStats[] = [
+  {
+    label: "2020 - 2024",
+    data: [
+      {
+        label: "Highest Package",
+        value: 28,
+        color: "#017B41",
+      },
+      {
+        label: "Average Package",
+        value: 12.14,
+        color: "#5028c6",
+      },
+      {
+        label: "Median Package",
+        value: 9.56,
+        color: "#F03C3F",
+      },
+    ],
+  },
+  {
+    label: "2019 - 2023",
+    data: [
+      {
+        label: "Highest Package",
+        value: 83,
+        color: "#017B41",
+      },
+      {
+        label: "Average Package",
+        value: 15.93,
+        color: "#5028c6",
+      },
+      {
+        label: "Median Package",
+        value: 123,
+        color: "#F03C3F",
+      },
+    ],
+  },
+  {
+    label: "2018 - 2022",
+    data: [
+      {
+        label: "Highest Package",
+        value: 46,
+        color: "#017B41",
+      },
+      {
+        label: "Average Package",
+        value: 12.8,
+        color: "#5028c6",
+      },
+      {
+        label: "Median Package",
+        value: 123,
+        color: "#F03C3F",
+      },
+    ],
+  },
+  {
+    label: "2017 - 2021",
+    data: [
+      {
+        label: "Highest Package",
+        value: 22,
+        color: "#017B41",
+      },
+      {
+        label: "Average Package",
+        value: 7.2,
+        color: "#5028c6",
+      },
+      {
+        label: "Median Package",
+        value: 123,
+        color: "#F03C3F",
+      },
+    ],
+  },
+];
+
+export const pieChartData = [
+  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+];
+
+export const barChartData = [
+  { branch: "CSE", eligible: 186, offers: 80 },
+  { branch: "ECE", eligible: 305, offers: 200 },
+  { branch: "DS & AI", eligible: 237, offers: 120 },
+  { branch: "ECE & IOT", eligible: 73, offers: 190 },
+];
