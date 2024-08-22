@@ -80,18 +80,15 @@ import zeotap from "@/assets/companies/zeotap.png";
 
 // Grouping imports into 4 arrays
 export const group1 = [
+  Cognizant, fis, fitee, FocusOil, futureFirst, hpLogo, IBMSoftwareLab, inciture, Infosys, Intellipaat, ITH, JioLogo, JungleWorks, Morphle, Nvidia, o9sol, publicSapiens, saamaInsuranceAnalyticsLogo, Shoconnect, ShortHills, SuprDaily, swiggy, t314e, tcsLogo, TestVagrant, Thrillophilia, traveloka, truminds, yhillsLogo, Zorang,
+  
   Affine, AppsForBharat, arm, beehyv, bny, Broadridge, Byjus, CDot, capgeminiLogo, CGI, adobe, amazon, americanExpress, atlassian, brane, commmvault, deloitte, ericsson, goldmansachs, google, hpPwd, hyperverge, infoedge, intuit, logicFruit, maqSoftware, maximal, mpl, nagaroo, nykaa, nxtWave, ola, oneP, productive, rakuten, salesForces, samsungSDS, taDigital, Tekion, tensergo, unknown, vwware, walmat, whiteklay, zeotap
 
 ];
 
 export const group2 = [
+  
+  Affine, AppsForBharat, arm, beehyv, bny, Broadridge, Byjus, CDot, capgeminiLogo, CGI, adobe, amazon, americanExpress, atlassian, brane, commmvault, deloitte, ericsson, goldmansachs, google, hpPwd, hyperverge, infoedge, intuit, logicFruit, maqSoftware, maximal, mpl, nagaroo, nykaa, nxtWave, ola, oneP, productive, rakuten, salesForces, samsungSDS, taDigital, Tekion, tensergo, unknown, vwware, walmat, whiteklay, zeotap,
+
   Cognizant, fis, fitee, FocusOil, futureFirst, hpLogo, IBMSoftwareLab, inciture, Infosys, Intellipaat, ITH, JioLogo, JungleWorks, Morphle, Nvidia, o9sol, publicSapiens, saamaInsuranceAnalyticsLogo, Shoconnect, ShortHills, SuprDaily, swiggy, t314e, tcsLogo, TestVagrant, Thrillophilia, traveloka, truminds, yhillsLogo, Zorang,
-];
-
-export const group3 = [
-  ITH, JioLogo, JungleWorks, Morphle, Nvidia, o9sol, publicSapiens, saamaInsuranceAnalyticsLogo, Shoconnect, ShortHills,
-];
-
-export const group4 = [
-  SuprDaily, swiggy, t314e, tcsLogo, TestVagrant, Thrillophilia, traveloka, truminds, yhillsLogo, Zorang,
 ];

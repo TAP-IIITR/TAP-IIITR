@@ -30,6 +30,7 @@ const PastRecruiters = () => {
         className="w-full mb-10 "
         opts={{align:"start", loop: true }}
         plugins={[
+
           Autoplay({
             delay: 950,
           }),
@@ -37,9 +38,9 @@ const PastRecruiters = () => {
         scrollDirection="rtl" 
       >
         <CarouselPrevious className="hidden" />
-        <CarouselContent className="-ml-1 transition-transform duration-300 ease-in-out">
+        <CarouselContent className="-ml-1 transition-transform duration-700 linear">
           {group1.map((e, index) => (
-            <CarouselItem key={index} className="basis-1/2 md:basis-1/4 lg:basis-1/6">
+            <CarouselItem key={index} className="basis-1/2 md:basis-1/4 lg:basis-1/5">
               <ImageCard company={e} />
             {/* <div className="p-1">
             </div> */}
@@ -60,18 +61,15 @@ const PastRecruiters = () => {
         scrollDirection="ltr" 
         
       >
-        <CarouselPrevious className="hidden" />
-        <CarouselContent className="-ml-1 transition-transform duration-300 ease-in-out">
+        <CarouselContent className="-ml-1 transition-transform duration-700 linear">
           {group2.map((e, index) => (
-            <CarouselItem key={index} className="basis-1/2 md:basis-1/4 lg:basis-1/6">
+            <CarouselItem key={index} className="basis-1/2 md:basis-1/4 lg:basis-1/5">
               <ImageCard company={e} />
             {/* <div className="p-1">
             </div> */}
           </CarouselItem>
           ))}
         </CarouselContent>
-
-        <CarouselNext className="hidden " />
       </Carousel>
     </CommonLayout>
   );
