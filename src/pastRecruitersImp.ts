@@ -50,7 +50,7 @@ import deloitte from "@/assets/companies/deloitte.png";
 import ericsson from "@/assets/companies/ericsson.png";
 import goldmansachs from "@/assets/companies/goldmansachs.png";
 import google from "@/assets/companies/google.png";
-import hpPwd from "@/assets/companies/hpPwd.png";
+import hpPwd from "@/assets/companies/hpp.png";
 import hyperverge from "@/assets/companies/hyperverge.png";
 import infoedge from "@/assets/companies/infoedge.png";
 import intuit from "@/assets/companies/intuit.png";
