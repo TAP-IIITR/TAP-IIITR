@@ -21,6 +21,9 @@ const Team = () => {
   return (
     <CommonLayout title="Our Team" id="Team">
       <div className="flex items-center gap-y-10 flex-col">
+        <h2 className="text-2xl text-center text-blue-800 font-bold mb-4">
+          Faculty Committee
+        </h2>
         <div className="flex flex-col md:flex-row gap-20">
           {teamsData.map((team, i) => {
             return (
@@ -40,7 +43,9 @@ const Team = () => {
             );
           })}
         </div>
-
+        <h2 className="text-2xl text-center text-blue-800 font-bold mb-4">
+          Student Coordinators
+        </h2>
         <Carousel
           className="w-3/4 mx-auto "
           plugins={[
@@ -48,6 +53,10 @@ const Team = () => {
               delay: 2000,
             }),
           ]}
+          opts={{
+            align: "start",
+            loop: true,
+          }}
         >
           <CarouselPrevious />
           <CarouselContent className="-ml-1">
@@ -56,7 +65,10 @@ const Team = () => {
                 key={index}
                 className="pl-1 md:basis-1/2 lg:basis-1/3"
               >
-                <div key={index} className="flex flex-col gap-y-2  items-center">
+                <div
+                  key={index}
+                  className="flex flex-col gap-y-2  items-center"
+                >
                   <img
                     className="rounded-full w-40 h-40 object-cover"
                     src={member.image}
@@ -75,50 +87,44 @@ const Team = () => {
           className="flex md:flex-row flex-col items-center gap-x-10 gap-y-2 md:gap-y-0 w-[80%]"
           id="Contact"
         >
-          <Card className="md:w-1/2 w-fit">
+          <Card className="md:w-1/2 w-[15rem]  md:h-[15.65rem]">
             <CardHeader>
               <CardTitle>Training and Placement Cell</CardTitle>
             </CardHeader>
             <CardContent>
               IIIT Ranchi
               <br />
-              Science & Technology Campus
+              Advanced Regional Telecom Training Centre (ARTTC), BSNL
               <br />
-              Khojatoli, Namkum, Ranchi,
+              Near Jumar River Bridge, Hazaribag Road, Ranchi
               <br />
-              Jharkhand - 834 010
-              <a href={`mailto:placementcell@iiitranchi.ac.in`}>
+              Jharkhand 835217, India 
+              <a href={`mailto:tpo@iiitranchi.ac.in`}>
                 <p className="mt-4 text-blueColor font-medium">
-                  placementcell@iiitranchi.ac.in
+                  tpo@iiitranchi.ac.in
                 </p>
               </a>
             </CardContent>
-            <CardFooter className="flex items-start flex-col">
-              <p>156498949861</p>
-              <p>156498949861</p>
-            </CardFooter>
           </Card>
-          <Card className="w-fit md:w-1/2">
+
+          <Card className="w-[15rem] md:w-1/2 md:h-[15.65rem]">
             <CardHeader>
-              <CardTitle>Dr.Santosh Kumar Mahato</CardTitle>
+              <CardTitle>Dr. Noopur</CardTitle>
             </CardHeader>
 
             <CardContent>
-              Associate Dean, Training and Placement Notation <br />
-              Associate Dean, Research & Development <br />
+              Faculty Coordinator <br />
+              Training & Placement Cell
+              <br />
               IIIT Ranchi
               <div className="mt-4 text-blueColor flex flex-col font-medium">
-                <a href="mailto:tpo@iiitranchi.ac.in">tpo@iiitranchi.ac.in</a>
-                <a href="mailto:skumar@iiitranchi.ac.in">
-                  skumar@iiitranchi.ac.in
-                </a>
-                <a href="mailto:assodean.tnp@iiitranchi.ac.in">
-                  assodean.tnp@iiitranchi.ac.in
+                <a href="mailto:noopur@iiitranchi.ac.in">
+                  noopur@iiitranchi.ac.in
                 </a>
               </div>
             </CardContent>
             <CardFooter className="flex items-start flex-col">
-              156498949861
+              +91 8171760675
             </CardFooter>
           </Card>
         </div>

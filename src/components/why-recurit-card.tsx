@@ -15,7 +15,7 @@ const WhyRecuritCard: React.FC<WhyRecuritCardProps> = ({
     <div className="flex flex-col justify-center gap-5 items-center p-5 bg-white  w-[20rem] text-center rounded-md">
       <img src={image} alt="" />
       <h2 className="font-bold text-2xl">{title}</h2>
-      <p>{description}</p>
+      <p className="flex-1 ">{description}</p>
     </div>
   );
 };

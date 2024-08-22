@@ -130,7 +130,7 @@ export const OverviewData: OverviewCardProps[] = [
     description:
       "Dear Recruiter, It gives me great pleasure to invite you to visit the Indian Institute of Information Technology Ranchi campus for the 2023-24 placement session. As an Institute of National Importance, IIIT Ranchi always focuses on its solid visionary objectives. Our Institution inculcates the very idea of preparing students to face various technical and non-technical issues. As a result of constant endeavour by the Training and Placement Cell members under the guidance of the honourable Director, Institute has succeeded in obtaining an overwhelming response from various recruiters. Activities of Training and Placement Cell centre on making strong relationships with Industries and to exploit the relationship for personality and skill development of the graduating students through various interactive programmes.Training and Placement Cell looks forward to more robust collaboration with Industries so that deserving students can get the best platform to nurture their talents and improve their credibility for better placement prospects.",
     designation: {
-      name: "Dr. Noopur Pandey",
+      name: "Dr. Noopur",
       designation: "Faculty Coordinator Training & Placement Cell",
       loc: "IIIT Ranchi",
     },
@@ -193,7 +193,7 @@ type Team = {
 export const profTeamData: Team[] = [
   {
     image: noopur,
-    name: "Dr.Noopur Pandey",
+    name: "Dr. Noopur",
     designation: "Faculty Coordinator",
     department: "Training & Placement Cell, IIIT Ranchi",
   },
@@ -287,7 +287,7 @@ export const whyRecuitData: WhyRecuritCardProps[] = [
   },
   {
     image: st,
-    title: "Superlative Thinker ",
+    title: "Superlative Thinker",
     description:
       "Our students every year take part in renowned programming competitions like ACM-ICPC, Google Summer of Code, Google Code Jam and have always made their presence felt by securing high ranks. We also have a large number of students honing their coding skills on websites like TopCoder, SPOJ, CodeChef etc.",
   },
@@ -339,4 +339,4 @@ export const procedureData = [
 ];
 
 export const PlacementBrochure =
-  "https://drive.google.com/file/d/1b_FuUUhB2fF2T1Dp0DOKuH8rdbNSzPv6/view?usp=drivesdk";
+  "https://drive.google.com/file/d/1fJUSEmC2O8VjdXn8yO7GMsb1HiuFzi1t/view?usp=drivesdk";

@@ -21,7 +21,7 @@ const Alumni = () => {
           }),
         ]}
       >
-        <CarouselPrevious />
+        <CarouselPrevious className="hidden" />
         <CarouselContent className="-ml-1">
           {alumniData.map((_, index) => (
             <CarouselItem
@@ -35,7 +35,7 @@ const Alumni = () => {
           ))}
         </CarouselContent>
 
-        <CarouselNext />
+        <CarouselNext className="hidden " />
       </Carousel>
     </CommonLayout>
   );
