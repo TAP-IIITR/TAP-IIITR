@@ -25,7 +25,7 @@ import shadab_Sir from "@/assets/team/faculty/shadab_sir.jpg";
 //Student Images
 import shivam from "@/assets/team/students/shivam.jpg";
 import manu from "@/assets/team/students/manu.jpeg";
-import mrinmoy from "@/assets/team/students/mrinmoy.jpg";
+import mrinmoy from "@/assets/team/students/Mrinmoy.jpg";
 import shivang from "@/assets/team/students/shivang.jpg";
 import sakshi from "@/assets/team/students/sakshi.jpg";
 import manjeet from "@/assets/team/students/manjeet.jpg";
@@ -33,9 +33,9 @@ import yash from "@/assets/team/students/yash.jpg";
 import sudhanshu from "@/assets/team/students/sudhanshu.jpg";
 import akshat from "@/assets/team/students/akshat.jpg";
 import adarsh from "@/assets/team/students/adarsh.jpg";
-import prashant from "@/assets/team/students/prashant.jpg";
+import prashant from "@/assets/team/students/Prashant.jpg";
 import adityaS from "@/assets/team/students/adityaS.jpg";
-import pratham from "@/assets/team/students/pratham.jpg";
+import pratham from "@/assets/team/students/Pratham.jpg";
 
 //Why Recruit Images
 import nt from "@/assets/whyRecruit/nt.svg";
