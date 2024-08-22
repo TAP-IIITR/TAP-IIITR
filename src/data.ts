@@ -25,7 +25,7 @@ import shadab_Sir from "@/assets/team/faculty/shadab_sir.jpg";
 //Student Images
 import shivam from "@/assets/team/students/shivam.jpg";
 import manu from "@/assets/team/students/manu.jpeg";
-import mrinmoy from "@/assets/team/students/Mrinmoy.jpg";
+import mrinmoy from "@/assets/team/students/mrinmoy.jpg";
 import shivang from "@/assets/team/students/shivang.jpg";
 import sakshi from "@/assets/team/students/sakshi.jpg";
 import manjeet from "@/assets/team/students/manjeet.jpg";
