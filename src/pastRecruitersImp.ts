@@ -65,7 +65,7 @@ import ola from "@/assets/companies/ola.png";
 import oneP from "@/assets/companies/oneP.png";
 import productive from "@/assets/companies/productive.png";
 import rakuten from "@/assets/companies/rakuten.png";
-import salesForces from "@/assets/companies/salesForce.png";
+import salesForces from "@/assets/companies/salesforce.png";
 import samsungSDS from "@/assets/companies/samsungSDS.png";
 import taDigital from "@/assets/companies/taDigital.png";
 import Tekion from "@/assets/companies/Tekion.png";
