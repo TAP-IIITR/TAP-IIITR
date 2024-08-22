@@ -11,23 +11,23 @@ import { Separator } from "./ui/separator";
 
 const navbarItems = [
   {
-    link: "#",
+    link: "#About",
     label: "About"
   },
   {
-    link: "#",
+    link: "#Students",
     label: "Students"
   },
   {
-    link: "#",
+    link: "#Team",
     label: "Team"
   },
   {
-    link: "#",
+    link: "#Recruiters",
     label: "Recruiters"
   },
   {
-    link: "#",
+    link: "#Contact",
     label: "Contact"
   },
 ]

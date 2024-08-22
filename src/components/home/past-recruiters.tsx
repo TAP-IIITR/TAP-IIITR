@@ -12,7 +12,7 @@ const ImageCard = (company: string, index: number) => (
 
 const PastRecruiters = () => {
   return (
-    <CommonLayout title="Past Companies">
+    <CommonLayout title="Past Companies" id="Recruiters">
       <div className="relative flex flex-col md:flex-row  h-[100%] md:h-[300px] overflow-hidden w-[80%] m-auto">
         <div className="flex md:flex-col md:gap-4 gap-5 animate-scroll-right md:animate-scroll-up w-[25%]">
           {group1.map((company, index) => ImageCard(company, index))}

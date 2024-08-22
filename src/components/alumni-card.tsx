@@ -3,10 +3,9 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 interface AlumniCardProps {
     image: string;
     name: string;
-    lpa: string;
     company: string;
 }
-const AlumniCard = ({ image, name, lpa, company }: AlumniCardProps) => {
+const AlumniCard = ({ image, name, company }: AlumniCardProps) => {
     return (
         <Card className="m-4">
             <CardHeader>
@@ -14,7 +13,7 @@ const AlumniCard = ({ image, name, lpa, company }: AlumniCardProps) => {
             </CardHeader>
             <CardContent className="flex items-center flex-col">
                 <h1 className="font-semibold text-lg">{name}</h1>
-                <p className="text-purpleColor">{company} {lpa}</p>
+                <p className="text-purpleColor">{company}</p>
             </CardContent>
         </Card>
     )

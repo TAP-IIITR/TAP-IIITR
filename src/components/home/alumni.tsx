@@ -1,23 +1,44 @@
-import { alumniData } from "@/data"
-import AlumniCard from "../alumni-card"
-import CommonLayout from "../common-layout"
+import { alumniData } from "@/data";
+import AlumniCard from "../alumni-card";
+import CommonLayout from "../common-layout";
+import Autoplay from "embla-carousel-autoplay";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Alumni = () => {
   return (
-    <CommonLayout title="Our Alumni">
+    <CommonLayout title="Our Alumni" id="Students">
+      <Carousel
+        className="w-full "
+        plugins={[
+          Autoplay({
+            delay: 2000,
+          }),
+        ]}
+      >
+        <CarouselPrevious />
+        <CarouselContent className="-ml-1">
+          {alumniData.map((_, index) => (
+            <CarouselItem
+              key={index}
+              className="pl-1 md:basis-1/2 lg:basis-1/3"
+            >
+              <div className="p-1">
+                <AlumniCard {..._} />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
 
-      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
-        {alumniData.map((alumni, index) => (
-          <AlumniCard
-            key={index}
-            image={alumni.image}
-            name={alumni.name}
-            lpa={alumni.lpa}
-            company={alumni.company}
-          />
-        ))}
-      </div>
+        <CarouselNext />
+      </Carousel>
     </CommonLayout>
-  )
-}
-export default Alumni
+  );
+};
+
+export default Alumni;

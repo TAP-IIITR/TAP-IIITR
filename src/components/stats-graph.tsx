@@ -25,6 +25,7 @@ const StatsGraph = ({ year }: StatsGraphProps) => {
             value: 13,
             color: "#F03C3F"
         },
+        
     ]
     return (
         <Card className="flex md:flex-row flex-col items-center justify-between mt-6 md:py-8 py-6 md:px-10 px-4 gap-x-10">
