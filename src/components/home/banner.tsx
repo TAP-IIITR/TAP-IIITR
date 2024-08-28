@@ -59,7 +59,7 @@ const Banner: React.FC = () => {
               </h1>
             </a>
           </div>
-          <div className="text-white text-2xl hover:cursor-pointer">
+          <div className="text-white text-2xl hover:cursor-pointer animate-size-grow-shrink">
             <a href="#About" onClick={handleArrowClick}>
               <MdKeyboardDoubleArrowDown />
             </a>

@@ -85,6 +85,11 @@ module.exports = {
           from: { transform: "translateX(100%)" },
           to: { transform: "translateX(-100%)" },
         },
+        "size-grow-shrink": {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(2)" },
+          "100%": { transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -92,7 +97,8 @@ module.exports = {
         "scroll-down": "scroll-down 10s linear infinite",
         "scroll-up": "scroll-up 10s linear infinite",
         "scroll-right": "scroll-right 10s linear infinite",
-        "scroll-left": "scroll-left 10s linear infinite"
+        "scroll-left": "scroll-left 10s linear infinite",
+        "size-grow-shrink": "size-grow-shrink 3s ease-in infinite",
       },
     },
   },
