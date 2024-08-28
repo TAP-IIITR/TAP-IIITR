@@ -34,12 +34,12 @@ const navbarItems = [
 const Navbar = () => {
   return (
     <div className="absolute left-10 right-10 top-4">
-      <nav className="bg-white md:block hidden bg-opacity-70 backdrop-blur-lg backdrop-filter w-full h-4 rounded-[50px] py-8 px-8">
+      <nav className="bg-gray-400 md:block hidden bg-opacity-70 backdrop-blur-lg backdrop-filter w-full h-4 rounded-[50px] py-8 px-8">
         <div className="w-full h-full flex items-center gap-x-8 justify-end">
           {
             navbarItems.map((navItem, i) => {
               return (
-                <a key={i} href={navItem.link} className="font-medium text-lg text-primary">
+                <a key={i} href={navItem.link} className="text-lg text-primary font-bold">
                   {navItem.label}
                 </a>
               )

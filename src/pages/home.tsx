@@ -11,8 +11,8 @@ import Policy from "@/components/home/policy"
 
 const Home = () => {
   return (
-    <div className="bg-[#DCE5EE] flex-col space-y-5">
-      <Banner />
+    <div className="bg-[#dedcee] flex-col space-y-5 scroll-smooth">
+      <Banner/>
       <Overview />
       <WhyRecruit />
       <PlacementStats />

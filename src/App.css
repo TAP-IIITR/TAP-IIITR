@@ -1,7 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Arima:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Sans:wght@200;300;400;500;600;700&family=Inter:wght@200;300;400;500;600;700;800&family=Josefin+Sans:wght@100;200;300;400;500;600;700&family=Jost:wght@300;400;500;600;700&family=Leckerli+One&family=Lora:wght@400;500;600;700&family=Mulish:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Overpass:wght@200;300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@200;300;400;500;600;700&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&family=Source+Sans+3:wght@300;400;500;600;700&family=Urbanist:wght@400;600;700&family=Varela&display=swap');
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Roboto";
+@import url("https://fonts.googleapis.com/css2?family=Arima:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Sans:wght@200;300;400;500;600;700&family=Inter:wght@200;300;400;500;600;700;800&family=Josefin+Sans:wght@100;200;300;400;500;600;700&family=Jost:wght@300;400;500;600;700&family=Leckerli+One&family=Lora:wght@400;500;600;700&family=Mulish:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Overpass:wght@200;300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@200;300;400;500;600;700&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&family=Source+Sans+3:wght@300;400;500;600;700&family=Urbanist:wght@400;600;700&family=Varela&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto";
+}
+.scroll-lock {
+  overflow: hidden;
 }

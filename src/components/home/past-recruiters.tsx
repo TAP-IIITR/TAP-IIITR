@@ -38,7 +38,7 @@ const PastRecruiters = () => {
         scrollDirection="rtl" 
       >
         <CarouselPrevious className="hidden" />
-        <CarouselContent className="-ml-1 transition-transform duration-700 linear">
+        <CarouselContent className="-ml-1 transition-transform duration-1000 linear repeat-infinite">
           {group1.map((e, index) => (
             <CarouselItem key={index} className="basis-1/2 md:basis-1/4 lg:basis-1/5">
               <ImageCard company={e} />
@@ -61,7 +61,7 @@ const PastRecruiters = () => {
         scrollDirection="ltr" 
         
       >
-        <CarouselContent className="-ml-1 transition-transform duration-700 linear">
+        <CarouselContent className="-ml-1 transition-transform duration-1000 linear repeat-infinite">
           {group2.map((e, index) => (
             <CarouselItem key={index} className="basis-1/2 md:basis-1/4 lg:basis-1/5">
               <ImageCard company={e} />
