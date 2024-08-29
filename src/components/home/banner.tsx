@@ -5,6 +5,10 @@ import Navbar from "@/components/navbar";
 import { PlacementBrochure } from "@/data";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 
+import {
+  Link
+} from "react-scroll";
+
 const Banner: React.FC = () => {
   const [scrollLocked, setScrollLocked] = useState(true);
 
@@ -28,7 +32,7 @@ const Banner: React.FC = () => {
 
   return (
     <div className="relative bg-blue-50 h-screen scroll-mb-[100%] scroll-smooth">
-      <Navbar />
+      {!scrollLocked && <Navbar />}
       <div className="w-full h-full">
         <img
           src={backgroundImg}
@@ -36,7 +40,7 @@ const Banner: React.FC = () => {
           alt=""
         />
 
-        <div className="absolute top-1/2 w-full flex items-center flex-col gap-y-6 left-1/2 -translate-x-1/2 -translate-y-[40%]">
+        <div className="absolute top-1/2 w-full flex items-center flex-col gap-y-6 left-1/2 -translate-x-1/2 -translate-y-[50%]">
           <div className="p-4">
             <img
               src={iiitrw}
@@ -53,17 +57,30 @@ const Banner: React.FC = () => {
             </h1>
           </div>
           <div className="bg-white backdrop:filter backdrop-blur-lg shadow-xl bg-opacity-70 rounded-[40px] px-10 py-2 hover:cursor-pointer">
-            <a href={PlacementBrochure} target="_blank" rel="noopener noreferrer">
+            <a
+              href={PlacementBrochure}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <h1 className="text-primary font-extrabold md:text-3xl text-xl">
                 Download Brochure
               </h1>
             </a>
           </div>
-          <div className="text-white text-2xl hover:cursor-pointer animate-size-grow-shrink">
-            <a href="#About" onClick={handleArrowClick}>
-              <MdKeyboardDoubleArrowDown />
-            </a>
-          </div>
+          <Link
+            activeClass="active"
+            to="About"
+            spy={true}
+            smooth={true}
+            offset={-30}
+            duration={500}
+          >
+            <div className="text-white text-2xl hover:cursor-pointer animate-size-grow-shrink">
+              <a href="#About" onClick={handleArrowClick}>
+                <MdKeyboardDoubleArrowDown />
+              </a>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

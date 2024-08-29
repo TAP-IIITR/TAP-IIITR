@@ -5,46 +5,59 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 import { Separator } from "./ui/separator";
-
+import {
+  Link,
+} from "react-scroll";
 
 const navbarItems = [
   {
     link: "#About",
-    label: "About"
+    label: "About",
   },
   {
     link: "#Students",
-    label: "Students"
-  },
-  {
-    link: "#Team",
-    label: "Team"
+    label: "Students",
   },
   {
     link: "#Recruiters",
-    label: "Recruiters"
+    label: "Recruiters",
+  },
+  {
+    link: "#Team",
+    label: "Team",
   },
   {
     link: "#Contact",
-    label: "Contact"
+    label: "Contact",
   },
-]
+];
 const Navbar = () => {
   return (
-    <div className="absolute left-10 right-10 top-4">
+    <div className="fixed z-10 left-10 right-10 top-4">
       <nav className="bg-gray-400 md:block hidden bg-opacity-70 backdrop-blur-lg backdrop-filter w-full h-4 rounded-[50px] py-8 px-8">
         <div className="w-full h-full flex items-center gap-x-8 justify-end">
-          {
-            navbarItems.map((navItem, i) => {
-              return (
-                <a key={i} href={navItem.link} className="text-lg text-primary font-bold">
+          {navbarItems.map((navItem, i) => {
+            return (
+              <Link
+                activeClass="active"
+                to={navItem.label}
+                spy={true}
+                smooth={true}
+                offset={-100}
+                duration={500}
+              >
+                <a
+                  key={i}
+                  href={navItem.link}
+                  className="text-lg text-primary font-bold"
+                >
                   {navItem.label}
                 </a>
-              )
-            })
-          }
+              </Link>
+            );
+          })}
         </div>
       </nav>
 
@@ -58,24 +71,34 @@ const Navbar = () => {
           <SheetHeader>
             <SheetDescription>
               <div className="flex flex-col items-start gap-y-4 ">
-                {
-                  navbarItems.map((navItem, i) => {
-                    return (
-                      <>
-                        <a key={i} href={navItem.link} className="font-medium text-lg text-primary">
+                {navbarItems.map((navItem, i) => {
+                  return (
+                    <>
+                      <Link
+                        activeClass="active"
+                        to={navItem.label}
+                        spy={true}
+                        smooth={true}
+                        offset={-100}
+                        duration={500}
+                      >
+                        <a
+                          key={i}
+                          href={navItem.link}
+                          className="font-medium text-lg text-primary"
+                        >
                           {navItem.label}
                         </a>
-                        <Separator className="last:hidden"/>
-                      </>
-                    )
-                  })
-                }
+                      </Link>
+                      <Separator className="last:hidden" />
+                    </>
+                  );
+                })}
               </div>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
       </Sheet>
-
     </div>
   );
 };
