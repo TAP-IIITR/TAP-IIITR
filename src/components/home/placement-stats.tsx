@@ -19,7 +19,7 @@ const PlacementStats = () => {
           })
         }
       </div>
-      <StatsGraph yearData={statsTabs[activeIdx].data}/>
+      <StatsGraph yearData={statsTabs[activeIdx].data} activeIdx={activeIdx}/>
     </CommonLayout>
   )
 }

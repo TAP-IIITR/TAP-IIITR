@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { BarChartComp } from "./bar-chart";
-import { PieChartComp } from "./pie-chart";
 import { Card } from "./ui/card";
+import { barChartData } from "@/data";
 
 interface StatsGraphProps {
   yearData: {
@@ -9,10 +9,17 @@ interface StatsGraphProps {
     value: number;
     color: string;
   }[];
+  activeIdx: number;
 }
-const StatsGraph = ({ yearData }: StatsGraphProps) => {
+interface BarChartData {
+  branch: string;
+  eligible: number;
+  offers: number;
+}
+const chartData: BarChartData[][] = barChartData;
+const StatsGraph = ({ yearData ,activeIdx}: StatsGraphProps) => {
   return (
-    <Card className="flex md:flex-row flex-col items-center justify-between mt-6 md:py-8 py-6 md:px-10 px-4 gap-x-10">
+    <Card className="flex md:flex-row flex-col items-center justify-evenly mt-6 md:py-8 py-6 md:px-10 px-4 gap-x-10">
       <div className="lg:w-1/2 w-full flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-2">
           {yearData.map((item, i) => {
@@ -27,10 +34,10 @@ const StatsGraph = ({ yearData }: StatsGraphProps) => {
             );
           })}
         </div>
-        <PieChartComp />
+        {/* <PieChartComp /> */}
       </div>
       <div className="lg:w-1/2 w-full border rounded-md p-6">
-        <BarChartComp />
+        <BarChartComp  chartData={chartData[activeIdx]}/>
       </div>
     </Card>
   );

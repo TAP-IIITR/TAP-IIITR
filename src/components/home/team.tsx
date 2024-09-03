@@ -70,7 +70,7 @@ const Team = () => {
                   className="flex flex-col gap-y-2  items-center"
                 >
                   <img
-                    className="rounded-full w-40 h-40 object-cover"
+                    className="aspect-auto rounded-full w-40 h-40 object-cover"
                     src={member.image}
                     alt=""
                   />
