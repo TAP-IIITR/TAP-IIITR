@@ -334,6 +334,10 @@ export const procedureData = [
   },
 ];
 
+/* Banner data */
+
+export const JNF = "https://forms.gle/p453mYrHb1qtRr4HA";
+export const contactEmail = "mailto:tpo@iiitranchi.ac.in";
 export const PlacementBrochure =
   "https://drive.google.com/file/d/1fJUSEmC2O8VjdXn8yO7GMsb1HiuFzi1t/view?usp=drivesdk";
 
@@ -423,6 +427,7 @@ export const placementStats: PlacementStats[] = [
 ];
 
 interface BarChartData {
+  year: string;
   branch: string;
   eligible: number;
   offers: number;
@@ -430,19 +435,15 @@ interface BarChartData {
 
 export const barChartData: BarChartData[][] = [
   [
-    { branch: "CSE", eligible: 186, offers: 80 },
-    { branch: "ECE", eligible: 305, offers: 200 },
+    { year: "2020 - 2024 ", branch: "CSE", eligible: 63, offers: 42 },
+    { year: "2020 - 2024 ", branch: "ECE", eligible: 58, offers: 34 },
   ],
   [
-    { branch: "CSE", eligible: 61, offers: 51 },
-    { branch: "ECE", eligible: 46, offers: 36 },
+    { year: "2019 - 2023 ", branch: "CSE", eligible: 61, offers: 51 },
+    { year: "2019 - 2023 ", branch: "ECE", eligible: 46, offers: 36 },
   ],
   [
-    { branch: "CSE", eligible: 45, offers: 40 },
-    { branch: "ECE", eligible: 38, offers: 33 },
+    { year: "2018 - 2022 ", branch: "CSE", eligible: 45, offers: 40 },
+    { year: "2018 - 2022 ", branch: "ECE", eligible: 38, offers: 33 },
   ],
-  // [
-  //   { branch: "CSE", eligible: 186, offers: 80 },
-  //   { branch: "ECE", eligible: 305, offers: 200 },
-  // ],
 ];

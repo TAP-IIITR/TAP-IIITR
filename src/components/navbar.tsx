@@ -7,9 +7,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "./ui/separator";
-import {
-  Link,
-} from "react-scroll";
+import { Link } from "react-scroll";
+import navbarImage from "@/assets/navbar-name.png";
 
 const navbarItems = [
   {
@@ -37,7 +36,12 @@ const Navbar = () => {
   return (
     <div className="fixed z-10 left-10 right-10 top-4">
       <nav className="bg-gray-400 md:block hidden bg-opacity-70 backdrop-blur-lg backdrop-filter w-full h-4 rounded-[50px] py-8 px-8">
-        <div className="w-full h-full flex items-center gap-x-8 justify-end">
+        <div className="w-full h-full flex items-center gap-x-8 ">
+          <img 
+          src={navbarImage} 
+          alt="College Name" 
+          className="lg:h-14 md:h-10  items-start mr-auto "
+          />
           {navbarItems.map((navItem, i) => {
             return (
               <Link

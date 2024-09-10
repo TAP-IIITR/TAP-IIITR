@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/chart";
 
 interface BarChartData {
+  year:string;
   branch: string;
   eligible: number;
   offers: number;
