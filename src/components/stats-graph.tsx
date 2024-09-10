@@ -12,6 +12,7 @@ interface StatsGraphProps {
   activeIdx: number;
 }
 interface BarChartData {
+  year:string;
   branch: string;
   eligible: number;
   offers: number;
