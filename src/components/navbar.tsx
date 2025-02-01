@@ -17,7 +17,7 @@ const navbarItems = [
   },
   {
     link: "#Students",
-    label: "Students",
+    label: "Alumni",
   },
   {
     link: "#Recruiters",
@@ -37,10 +37,10 @@ const Navbar = () => {
     <div className="fixed z-10 left-10 right-10 top-4">
       <nav className="bg-gray-400 md:block hidden bg-opacity-70 backdrop-blur-lg backdrop-filter w-full h-4 rounded-[50px] py-8 px-8">
         <div className="w-full h-full flex items-center gap-x-8 ">
-          <img 
-          src={navbarImage} 
-          alt="College Name" 
-          className="lg:h-14 md:h-10  items-start mr-auto "
+          <img
+            src={navbarImage}
+            alt="College Name"
+            className="lg:h-14 md:h-10  items-start mr-auto "
           />
           {navbarItems.map((navItem, i) => {
             return (
@@ -62,6 +62,11 @@ const Navbar = () => {
               </Link>
             );
           })}
+          <div className="rounded-[32px] bg-[#1E39A4] h-[48px] w-[115px] flex items-center justify-center cursor-pointer">
+            <p className="font-[700] text-lg text-[#FFF] text-center ">
+              TAP Portal
+            </p>
+          </div>
         </div>
       </nav>
 
