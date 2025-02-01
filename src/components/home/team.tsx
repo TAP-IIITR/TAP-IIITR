@@ -21,6 +21,28 @@ const Team = () => {
   return (
     <CommonLayout title="Our Team" id="Team">
       <div className="flex items-center gap-y-10 flex-col">
+        {/* <h2 className="text-2xl text-center text-blue-800 font-bold mb-4">
+          Training and Placement Officer
+        </h2>
+        <div className="flex flex-col md:flex-row gap-20">
+          {teamsData.map((team, i) => {
+            return (
+              <div
+                key={i}
+                className="flex flex-col gap-y-1 leading-tight items-center"
+              >
+                <img
+                  className="rounded-full w-40 h-40 object-cover object-top"
+                  src={team.image}
+                  alt=""
+                />
+                <p className="font-bold text-2xl">{team.name}</p>
+                <p className="text-sm">{team.designation}</p>
+                <p className="text-sm">{team.department}</p>
+              </div>
+            );
+          })}
+        </div> */}
         <h2 className="text-2xl text-center text-blue-800 font-bold mb-4">
           Faculty Committee
         </h2>
@@ -98,7 +120,7 @@ const Team = () => {
               <br />
               Near Jumar River Bridge, Hazaribag Road, Ranchi
               <br />
-              Jharkhand 835217, India 
+              Jharkhand 835217, India
               <a href={`mailto:tpo@iiitranchi.ac.in`}>
                 <p className="mt-4 text-blueColor font-medium">
                   tpo@iiitranchi.ac.in
