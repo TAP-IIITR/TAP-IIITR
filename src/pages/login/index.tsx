@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex h-[100vh] w-screen">
-      <div className="w-full md:w-1/2 p-8 flex items-center justify-center bg-[#E2E2E2] flex-col">
+      <div className="w-full md:w-1/2 px-6 flex items-center justify-center bg-[#E2E2E2] flex-col">
         <div className="flex flex-col gap-[8px] items-center">
           <img
             src={logoIIITR}
