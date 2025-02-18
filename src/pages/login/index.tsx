@@ -1,271 +1,166 @@
-import React, { useState } from "react";
-import logoIIITR from "@/assets/logoIIITR.png";
-import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import acadBlock from "../../assets/acad-block.png";
+import logo from "../../assets/logoIIITR.png";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-const Login: React.FC = () => {
-  const [activeRole, setActiveRole] = useState("Student");
-  const [regNo, setRegNo] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordhide, setPasswordHide] = useState(true);
-  const isFormValid =
-    password && password.length > 0 && regNo && regNo.length > 0;
+const inputs = [
+  {
+    tab: "student",
+    fields: [
+      {
+        type: "text",
+        placeholder: "Roll No. (20XXUGXXXX)",
+      },
+      {
+        type: "password",
+        placeholder: "Password",
+      },
+    ],
+  },
+  {
+    tab: "recruiter",
+    fields: [
+      {
+        type: "email",
+        placeholder: "Registered email",
+      },
+      {
+        type: "password",
+        placeholder: "Password",
+      },
+    ],
+  },
+  {
+    tab: "coordinator",
+    fields: [
+      {
+        type: "email",
+        placeholder: "Registered email",
+      },
+      {
+        type: "password",
+        placeholder: "Password",
+      },
+    ],
+  },
+];
 
-  const roles = ["Student", "Recruiter", "Coordinator"];
+const LoginPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [currentTab, setCurrentTab] = useState("student");
 
   return (
-    <div className="flex h-[100vh] w-screen">
-      <div className="w-full md:w-1/2 px-6 flex items-center justify-center bg-[#E2E2E2] flex-col">
-        <div className="flex flex-col gap-[8px] items-center">
-          <img
-            src={logoIIITR}
-            alt="IIITR Logo"
-            className="w-[196px] h-[196px] object-contain"
-          />
-          <h1 className="text-[26px] font-[500] text-[#222222] leading-[30px]">
-            IIIT RANCHI TAP Portal
+    <div className="flex h-screen">
+      {/* Left side with background image */}
+      <div className="hidden md:flex md:w-1/2 bg-gray-900 relative">
+        <div className="absolute inset-0 bg-black/50 z-10"></div>
+        <img
+          src={acadBlock}
+          alt="Campus View"
+          className="object-cover w-full h-full"
+        />
+        <div className="absolute z-20 text-white p-8 top-[10%] left-8 space-y-4">
+          <p className="text-sm">Placements @ IIT Ranchi</p>
+
+          <h1 className="text-4xl font-bold">
+            Connecting Students and
+            <br />
+            Companies.
           </h1>
-          <p className="text-[18px] font-normal text-indigo-600 leading-[26px]">
-            Please login to continue
-          </p>
+          <h2 className="text-3xl font-semibold">Simplifying Opportunities</h2>
         </div>
-        <div className="w-[348px] h-[51px] rounded-[16px] bg-[#FFF] flex gap-[16px] items-center justify-center mt-[25px] mb-[25px]">
-          {roles.map((role) => (
-            <div
-              key={role}
-              onClick={() => setActiveRole(role)}
-              className={`px-[16px] h-[43px] rounded-[14px] flex items-center justify-center cursor-pointer transition-all duration-300 
-                ${
-                  activeRole === role
-                    ? "bg-[#1E39A4] text-white font-medium cursor-not-allowed"
-                    : "border bg-[#FFF] font-normal"
-                }`}
-            >
-              <p className="text-[16px]">{role}</p>
-            </div>
-          ))}
+      </div>
+
+      {/* Right side with login form */}
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 space-y-8">
+        <div className="flex flex-col items-center space-y-4">
+          <img src={logo} alt="IITR Logo" className="w-32 h-32" />
+          <h2 className="text-2xl font-semibold text-blue-800">
+            Indian Institute of Information Technology, Ranchi
+          </h2>
+          <p className="text-gray-600">Training and Placements Portal</p>
         </div>
-        {activeRole === "Student" ? (
-          <>
-            <form className="w-full xl:w-3/4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Registration number
-                </label>
-                <input
-                  value={regNo}
-                  onChange={(e) => setRegNo(e.target.value)}
-                  type="text"
-                  name="regNo"
-                  id="regNo"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="20XXUGXXXX"
-                  required
-                />
-              </div>
-              <div className="mt-[16px]">
-                <label className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <div className="relative mt-1">
+
+        <div className="flex gap-2 bg-gray-100 rounded-full p-1 w-fit">
+          <button
+            onClick={() => setCurrentTab("student")}
+            className={`flex-1 px-4 py-2 rounded-full ${
+              currentTab === "student"
+                ? "bg-blue-800 text-white"
+                : "hover:bg-gray-200 text-gray-600"
+            } text-sm`}
+          >
+            Student
+          </button>
+          <button
+            onClick={() => setCurrentTab("recruiter")}
+            className={`flex-1 px-4 py-2 rounded-full ${
+              currentTab === "recruiter"
+                ? "bg-blue-800 text-white"
+                : "hover:bg-gray-200 text-gray-600"
+            } text-sm`}
+          >
+            Recruiter
+          </button>
+          <button
+            onClick={() => setCurrentTab("coordinator")}
+            className={`flex-1 px-4 py-2 rounded-full ${
+              currentTab === "coordinator"
+                ? "bg-blue-800 text-white"
+                : "hover:bg-gray-200 text-gray-600"
+            } text-sm`}
+          >
+            Coordinator
+          </button>
+        </div>
+
+        <form className="w-full max-w-md space-y-4">
+          {inputs.map((input) => {
+            if (input.tab === currentTab) {
+              return input.fields.map((field) => (
+                <div key={field.type} className="relative">
                   <input
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    type={passwordhide ? "password" : "text"}
-                    name="password"
-                    id="password"
-                    className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Password"
-                    required
+                    type={field.type === "password" ? (!showPassword ? "password" : "text") : field.type} 
+                    placeholder={field.placeholder}
+                    className="w-full px-4 py-2 text-sm border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 flex items-center pr-3"
-                    onClick={() => {
-                      setPasswordHide(!passwordhide);
-                    }}
-                  >
-                    {passwordhide ? (
-                      <Eye size={24} className="text-gray-400" />
-                    ) : (
-                      <EyeOff size={24} className="text-gray-400" />
-                    )}
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center justify-end mt-[4px]">
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <button
-                type="submit"
-                className={`w-1/2 mx-auto flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white mt-[12px] 
-    bg-[#1E39A4] hover:bg-[#162C80] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E39A4] 
-    ${!isFormValid ? "cursor-not-allowed opacity-50" : ""}`}
-                disabled={!isFormValid}
-              >
-                Login
-              </button>
-            </form>
-            <p className="text-center text-sm text-gray-600 mt-[8px]">
-              Don’t have an account?{" "}
-              <a className="font-medium text-[#1E39A4] hover:text-indigo-500 cursor-pointer">
-                Create an account
-              </a>
-            </p>
-          </>
-        ) : activeRole === "Recruiter" ? (
-          <>
-            <form className="w-full xl:w-3/4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Email address
-                </label>
-                <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="you@example.com"
-                  required
-                />
-              </div>
-              <div className="mt-[16px]">
-                <label className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <div className="relative mt-1">
-                  <input
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    type={passwordhide ? "password" : "text"}
-                    name="password"
-                    id="password"
-                    className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Password"
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 flex items-center pr-3"
-                    onClick={() => {
-                      setPasswordHide(!passwordhide);
-                    }}
-                  >
-                    {passwordhide ? (
-                      <Eye size={24} className="text-gray-400" />
-                    ) : (
-                      <EyeOff size={24} className="text-gray-400" />
-                    )}
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center justify-end mt-[4px]">
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <button
-                type="submit"
-                className={`w-1/2 mx-auto flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white mt-[12px] 
-    bg-[#1E39A4] hover:bg-[#162C80] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E39A4] 
-    ${!isFormValid ? "cursor-not-allowed opacity-50" : ""}`}
-                disabled={!isFormValid}
-              >
-                Login
-              </button>
-            </form>
-            <p className="text-center text-sm text-gray-600 mt-[8px]">
-              Don’t have an account?{" "}
-              <a className="font-medium text-[#1E39A4] hover:text-indigo-500 cursor-pointer">
-                Create an account
-              </a>
-            </p>
-          </>
-        ) : (
-          <form className="w-full xl:w-3/4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                name="email"
-                id="email"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-            <div className="mt-[16px]">
-              <label className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <div className="relative mt-1">
-                <input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  type={passwordhide ? "password" : "text"}
-                  name="password"
-                  id="password"
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Password"
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 flex items-center pr-3"
-                  onClick={() => {
-                    setPasswordHide(!passwordhide);
-                  }}
-                >
-                  {passwordhide ? (
-                    <Eye size={24} className="text-gray-400" />
-                  ) : (
-                    <EyeOff size={24} className="text-gray-400" />
+                  {field.type === "password" && (
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                    >
+                      {!showPassword ? <BsEyeSlash /> : <BsEye />}
+                    </button>
                   )}
-                </button>
-              </div>
-            </div>
-            <div className="flex items-center justify-end mt-[4px]">
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div>
-            <button
-              type="submit"
-              className={`w-1/2 mx-auto flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white mt-[12px] 
-  bg-[#1E39A4] hover:bg-[#162C80] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E39A4] 
-  ${!isFormValid ? "cursor-not-allowed opacity-50" : ""}`}
-              disabled={!isFormValid}
-            >
-              Login
-            </button>
-          </form>
-        )}
+                </div>
+              ));
+            }
+          })}
+
+          <div className="text-right">
+            <a href="#" className="text-blue-800 text-sm hover:underline">
+              Forgot Password?
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-gray-300 text-gray-800 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+          >
+            Sign In
+          </button>
+
+          <div className="text-center text-sm text-gray-600">
+            Don't have an account?{" "}
+            <a href="signup" className="text-blue-800 hover:underline">
+              Sign up
+            </a>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginPage;
