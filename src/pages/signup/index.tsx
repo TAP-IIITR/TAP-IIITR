@@ -88,7 +88,7 @@ const SignupPage = () => {
 
       {/* Right side with login form */}
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 space-y-8 overflow-auto">
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center space-y-4 mt-3">
           <img src={logo} alt="IITR Logo" className="w-32 h-32" />
           <h2 className="text-2xl font-semibold text-blue-800">
             Indian Institute of Information Technology, Ranchi
@@ -125,7 +125,13 @@ const SignupPage = () => {
               return input.fields.map((field) => (
                 <div key={field.type} className="relative">
                   <input
-                    type={field.type === "password" ? (!showPassword ? "password" : "text") : field.type} 
+                    type={
+                      field.type === "password"
+                        ? !showPassword
+                          ? "password"
+                          : "text"
+                        : field.type
+                    }
                     placeholder={field.placeholder}
                     className="w-full px-4 py-2 text-sm border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
