@@ -1,8 +1,8 @@
-import { useState } from "react";
+// import { useState } from "react";
 import ApplicationCompanyCard from "../application-company-card";
 
 const MyApplication = () => {
-  const [applicationStatus, setApplicatonStatus] = useState("");
+  // const [applicationStatus, setApplicatonStatus] = useState("");
 
   return (
     <div className="flex flex-col gap-[20px]">
