@@ -67,3 +67,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+.gradient-bg-sidebar {
+  background: rgb(5, 0, 229);
+  background: linear-gradient(
+    0deg,
+    rgba(5, 0, 229, 1) 0%,
+    rgba(3, 0, 127, 1) 100%
+  );
+}
+
+.shadow-card {
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
+}

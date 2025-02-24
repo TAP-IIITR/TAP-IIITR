@@ -9,6 +9,10 @@ import PlacementOverview from "./components/studentDashboard/PlacementOverview";
 import AllCompaniesList from "./components/studentDashboard/AllCompaniesList";
 import FullCompanyDetails from "./components/company/FullCompanyDetails";
 import MyApplication from "./components/studentDashboard/MyApplication";
+import CoordinatorHomepage from './components/coordinatorDashboard/homepage';
+import CoordinatorLayout from "./pages/dashboard/coordinator";
+import JobListings from "./components/coordinatorDashboard/JobListings";
+import CreateJobPosting from "./components/coordinatorDashboard/CreateJobPosting";
 
 function App() {
   window.onbeforeunload = function () {
@@ -33,6 +37,13 @@ function App() {
             element={<FullCompanyDetails />}
           />
           <Route path="my-applications" element={<MyApplication />} />
+        </Route>
+        <Route path="/dashboard/coordinator" element={<CoordinatorLayout />}>
+          <Route index element={<CoordinatorHomepage />} />
+          <Route path="job-postings">
+            <Route index element={<JobListings />}  />
+            <Route path="new" element={<CreateJobPosting />} />
+          </Route>
         </Route>
       </Routes>
     </>
