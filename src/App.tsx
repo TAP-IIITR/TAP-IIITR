@@ -9,7 +9,7 @@ import PlacementOverview from "./components/studentDashboard/PlacementOverview";
 import AllCompaniesList from "./components/studentDashboard/AllCompaniesList";
 import FullCompanyDetails from "./components/company/FullCompanyDetails";
 import MyApplication from "./components/studentDashboard/MyApplication";
-import CoordinatorHomepage from './components/coordinatorDashboard/homepage';
+import CoordinatorHomepage from "./components/coordinatorDashboard/homepage";
 import CoordinatorLayout from "./pages/dashboard/coordinator";
 import JobListings from "./components/coordinatorDashboard/JobListings";
 import CreateJobPosting from "./components/coordinatorDashboard/CreateJobPosting";
@@ -24,7 +24,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<Signup />} />
         <Route path="/sign-up" element={<Signup />} />
 
         <Route path="/dashboard/student" element={<StudentDashboard />}>
@@ -41,7 +40,7 @@ function App() {
         <Route path="/dashboard/coordinator" element={<CoordinatorLayout />}>
           <Route index element={<CoordinatorHomepage />} />
           <Route path="job-postings">
-            <Route index element={<JobListings />}  />
+            <Route index element={<JobListings />} />
             <Route path="new" element={<CreateJobPosting />} />
           </Route>
         </Route>

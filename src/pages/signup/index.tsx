@@ -5,7 +5,7 @@ import acadBlock from "../../assets/acad-block.png";
 import logo from "../../assets/logoIIITR.png";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-const tabs = ["student", "recruiter", "coordinator"];
+const tabs = ["student", "recruiter"];
 
 const initialState = {
   student: {
@@ -24,12 +24,12 @@ const initialState = {
     linkedin: "",
     password: "",
   },
-  coordinator: {
-    name: "",
-    email: "",
-    mobile: "",
-    password: "",
-  },
+  // coordinator: {
+  //   name: "",
+  //   email: "",
+  //   mobile: "",
+  //   password: "",
+  // },
 };
 
 const SignupPage = () => {
@@ -62,7 +62,7 @@ const SignupPage = () => {
     const apiUrls: { [key: string]: string } = {
       student: "/api/auth/student/register",
       recruiter: "/api/auth/recruiter/register",
-      coordinator: "/api/auth/coordinator/register",
+      // coordinator: "/api/auth/coordinator/register",
     };
 
     try {
