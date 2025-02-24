@@ -78,7 +78,6 @@ const SignupPage = () => {
       setFormData(initialState);
       navigate("/login");
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
         alert(
           error.response?.data?.errors[0]?.message || "Registration failed!"
@@ -172,11 +171,7 @@ const SignupPage = () => {
 
           <button
             type="submit"
-            className={`w-full py-2 rounded-lg transition-colors text-white ${
-              isFormComplete()||loading
-                ? "bg-blue-800 hover:bg-blue-900"
-                : "bg-slate-400 cursor-not-allowed"
-            }`}
+            className="w-full bg-blue-800 text-white py-2 rounded-lg hover:bg-blue-900 transition-colors disabled:opacity-50"
             disabled={!isFormComplete() || loading}
           >
             {loading ? "Registering..." : "Register"}
