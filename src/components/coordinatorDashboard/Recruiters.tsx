@@ -181,7 +181,9 @@ const Recruiters = () => {
   const companyFirstLetters = useMemo(() => {
     const uniqueLetters = [
       ...new Set(
-        recruiters.map((recruiter) => recruiter.companyName.charAt(0).toUpperCase())
+        recruiters.map((recruiter) =>
+          recruiter.companyName.charAt(0).toUpperCase()
+        )
       ),
     ];
     return uniqueLetters.sort();
@@ -221,8 +223,9 @@ const Recruiters = () => {
           Verified Recruiters
         </p>
         <p className="text-[13px] font-[500] leading-[20px] text-[#212121]">
-          View and manage all verified recruiter profiles in one place—track company details,
-          verify information, and maintain effective communication with hiring partners.
+          View and manage all verified recruiter profiles in one place—track
+          company details, verify information, and maintain effective
+          communication with hiring partners.
         </p>
       </div>
 
@@ -271,21 +274,24 @@ const Recruiters = () => {
           >
             <div className="flex items-center gap-4 mb-[16px]">
               {/* Company Logo */}
-              <div 
+              <div
                 className="h-[48px] w-[48px] rounded-full flex items-center justify-center text-white font-bold text-lg"
                 style={{ backgroundColor: recruiter.color }}
               >
                 {recruiter.logo}
               </div>
-              
+
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <p className="text-[22px] font-[600] leading-[30px] text-[#161A80]">
                     {recruiter.companyName}
                   </p>
-                  
+
                   {recruiter.verified && (
-                    <MdOutlineVerified className="text-[#16A34A] h-[20px] w-[20px]" title="Verified Company" />
+                    <MdOutlineVerified
+                      className="text-[#16A34A] h-[20px] w-[20px]"
+                      title="Verified Company"
+                    />
                   )}
                 </div>
                 <p className="text-[14px] font-[400] text-[#666666]">
@@ -308,19 +314,19 @@ const Recruiters = () => {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex gap-[10px] items-center">
                 <div className="bg-[#E0E0E0] h-[32px] w-[32px] rounded-full flex items-center justify-center">
                   <MdOutlineEmail className="text-[#161A80] h-[18px] w-[18px]" />
                 </div>
                 <div className="flex-1 overflow-hidden">
-                  <p className="text-[14px] font-[400] leading-[20px] text-[#3D3D3D] truncate" 
-                     title={recruiter.email}>
+                  <p
+                    className="text-[14px] font-[400] leading-[20px] text-[#3D3D3D] truncate"
+                    title={recruiter.email}
+                  >
                     {recruiter.email}
                   </p>
-                  <p className="text-[12px] font-[400] text-[#666666]">
-                    Email
-                  </p>
+                  <p className="text-[12px] font-[400] text-[#666666]">Email</p>
                 </div>
               </div>
 
@@ -332,9 +338,7 @@ const Recruiters = () => {
                   <p className="text-[14px] font-[400] leading-[20px] text-[#3D3D3D]">
                     {recruiter.phone}
                   </p>
-                  <p className="text-[12px] font-[400] text-[#666666]">
-                    Phone
-                  </p>
+                  <p className="text-[12px] font-[400] text-[#666666]">Phone</p>
                 </div>
               </div>
 
