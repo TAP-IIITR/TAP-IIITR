@@ -129,7 +129,9 @@ const Applications = () => {
       const matchesSearch =
         searchQuery === "" ||
         application.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        application.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        application.jobTitle
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         application.company.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesFilter = filterBy === "" || application.status === filterBy;
@@ -217,7 +219,7 @@ const Applications = () => {
                   {application.company}
                 </p>
               </div>
-              
+
               {/* RIGHT SIDE: Status and buttons */}
               <div className="flex flex-col items-start md:items-end mt-[16px] md:mt-0">
                 {/* Status Indicator */}
@@ -225,21 +227,27 @@ const Applications = () => {
                   {application.status === "Selected" ? (
                     <div className="bg-[#D6FFD6] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
                       <IoIosCheckmarkCircleOutline className="h-[18px] w-[18px] text-[#16A34A]" />
-                      <p className="text-[#16A34A] font-[500] text-[13px]">Selected</p>
+                      <p className="text-[#16A34A] font-[500] text-[13px]">
+                        Selected
+                      </p>
                     </div>
                   ) : application.status === "Rejected" ? (
                     <div className="bg-[#F5CDCD] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
                       <RxCrossCircled className="h-[18px] w-[18px] text-[#DC2626]" />
-                      <p className="text-[#DC2626] font-[500] text-[13px]">Rejected</p>
+                      <p className="text-[#DC2626] font-[500] text-[13px]">
+                        Rejected
+                      </p>
                     </div>
                   ) : (
                     <div className="bg-[#FFF4CD] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
                       <MdOutlineWatchLater className="h-[18px] w-[18px] text-[#D97706]" />
-                      <p className="text-[#D97706] font-[500] text-[13px]">Pending</p>
+                      <p className="text-[#D97706] font-[500] text-[13px]">
+                        Pending
+                      </p>
                     </div>
                   )}
                 </div>
-                
+
                 {/* Action Buttons - Side by side on same row */}
                 <div className="flex gap-[12px]">
                   <button
