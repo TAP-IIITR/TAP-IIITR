@@ -15,6 +15,7 @@ import JobListings from "./components/coordinatorDashboard/JobListings";
 import CreateJobPosting from "./components/coordinatorDashboard/CreateJobPosting";
 import StudentData from "./components/coordinatorDashboard/StudentData";
 import Applications from "./components/coordinatorDashboard/Applications";
+import Recruiters from "./components/coordinatorDashboard/Recruiters";
 
 function App() {
   window.onbeforeunload = function () {
@@ -47,6 +48,7 @@ function App() {
           </Route>
           <Route path="student-data" element={<StudentData />} />
           <Route path="applications" element={<Applications />} />
+          <Route path="recruiters" element={<Recruiters />} />
         </Route>
       </Routes>
     </>
