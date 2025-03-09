@@ -129,7 +129,9 @@ const Applications = () => {
       const matchesSearch =
         searchQuery === "" ||
         application.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        application.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        application.jobTitle
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         application.company.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesFilter = filterBy === "" || application.status === filterBy;
@@ -242,7 +244,6 @@ const Applications = () => {
                     </div>
                   )}
                 </div>
-
 
                 <div className="flex flex-col sm:flex-row gap-[12px]">
                   <button
