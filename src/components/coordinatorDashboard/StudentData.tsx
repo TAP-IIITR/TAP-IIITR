@@ -140,7 +140,6 @@ const StudentData = () => {
   }, [students, searchQuery, filterBy]);
 
   const handleViewProfile = (studentId: number) => {
-    // Navigate to student profile page (to be implemented)
     console.log(`View profile for student ID: ${studentId}`);
   };
 
@@ -192,8 +191,8 @@ const StudentData = () => {
         {filteredStudents.length === 1 ? "student" : "students"}
       </div>
 
-      {/* Student Cards Grid - Fixed 3 cards per row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px]">
+      {/* Student Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px]">
         {filteredStudents.map((student) => (
           <div
             key={student.id}
@@ -205,6 +204,7 @@ const StudentData = () => {
             </p>
 
             <div className="flex flex-col gap-[12px] mb-[20px]">
+              {/* Contact information */}
               <div className="flex gap-[10px] items-center">
                 <div className="bg-[#E0E0E0] h-[32px] w-[32px] rounded-full flex items-center justify-center">
                   <MdOutlineEmail className="text-[#161A80] h-[18px] w-[18px]" />

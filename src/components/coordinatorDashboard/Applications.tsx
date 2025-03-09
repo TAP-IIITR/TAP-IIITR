@@ -129,9 +129,7 @@ const Applications = () => {
       const matchesSearch =
         searchQuery === "" ||
         application.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        application.jobTitle
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
+        application.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
         application.company.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesFilter = filterBy === "" || application.status === filterBy;
@@ -141,12 +139,10 @@ const Applications = () => {
   }, [applications, searchQuery, filterBy]);
 
   const handleViewApplication = (applicationId: number) => {
-    // Navigate to application details page (to be implemented)
     console.log(`View application details for ID: ${applicationId}`);
   };
 
   const handleViewJobDetails = (applicationId: number) => {
-    // Navigate to job details page (to be implemented)
     console.log(`View job details for application ID: ${applicationId}`);
   };
 
@@ -207,7 +203,6 @@ const Applications = () => {
             style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
           >
             <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-              {/* LEFT SIDE: Name, Job Title, Company - Each on its own line */}
               <div>
                 <p className="text-[22px] font-[600] leading-[30px] text-[#161A80]">
                   {application.name}
@@ -248,11 +243,11 @@ const Applications = () => {
                   )}
                 </div>
 
-                {/* Action Buttons - Side by side on same row */}
-                <div className="flex gap-[12px]">
+
+                <div className="flex flex-col sm:flex-row gap-[12px]">
                   <button
                     onClick={() => handleViewApplication(application.id)}
-                    className="h-[44px] w-[140px] rounded-[10px] bg-[#FFFFFF] border-[1.5px] border-[#161A80] flex items-center justify-center cursor-pointer hover:bg-[#F5F5F5] transition-colors"
+                    className="h-[44px] px-[16px] rounded-[10px] bg-[#FFFFFF] border-[1.5px] border-[#161A80] flex items-center justify-center cursor-pointer hover:bg-[#F5F5F5] transition-colors"
                   >
                     <p className="font-[600] text-[14px] text-[#161A80]">
                       View Application
@@ -260,7 +255,7 @@ const Applications = () => {
                   </button>
                   <button
                     onClick={() => handleViewJobDetails(application.id)}
-                    className="h-[44px] w-[140px] rounded-[10px] bg-[#161A80] border-[1.5px] border-[#161A80] flex items-center justify-center cursor-pointer hover:bg-[#14137D] transition-colors"
+                    className="h-[44px] px-[16px] rounded-[10px] bg-[#161A80] border-[1.5px] border-[#161A80] flex items-center justify-center cursor-pointer hover:bg-[#14137D] transition-colors"
                   >
                     <p className="font-[600] text-[14px] text-[#FFFFFF]">
                       View Job Details
