@@ -229,27 +229,23 @@ const Verifications = () => {
                 <div className="flex flex-col md:flex-row gap-[12px] w-full md:w-auto">
                   <button
                     onClick={() => handleViewDetails(verification.id)}
-                    className="px-[16px] py-[10px] rounded-[10px] bg-white border-[1.5px] border-[#E0E0E0] flex items-center justify-center cursor-pointer hover:bg-[#F5F5F5] transition-colors w-full md:w-auto"
+                    className="px-[16px] py-[10px] rounded-[10px] bg-white border-[1.5px] border-[#161A80] flex items-center justify-center cursor-pointer hover:bg-[#F5F5F5] transition-colors w-full md:w-auto"
                   >
-                    <p className="font-[500] text-[14px] text-[#212121]">
+                    <p className="font-[500] text-[14px] text-[#161A80]">
                       View Recruiter Details
                     </p>
                   </button>
                   <button
                     onClick={() => handleApprove(verification.id)}
-                    className="px-[16px] py-[10px] rounded-[10px] bg-[#E6F4EA] flex items-center justify-center cursor-pointer hover:bg-[#D6EAD7] transition-colors w-full md:w-auto"
+                    className="px-[16px] py-[10px] rounded-[10px] bg-[#16A34A] flex items-center justify-center cursor-pointer hover:bg-[#138832] transition-colors w-full md:w-auto"
                   >
-                    <p className="font-[500] text-[14px] text-[#16A34A]">
-                      Approve
-                    </p>
+                    <p className="font-[500] text-[14px] text-white">Approve</p>
                   </button>
                   <button
                     onClick={() => handleReject(verification.id)}
-                    className="px-[16px] py-[10px] rounded-[10px] bg-[#FEEFEF] flex items-center justify-center cursor-pointer hover:bg-[#FDE0DF] transition-colors w-full md:w-auto"
+                    className="px-[16px] py-[10px] rounded-[10px] bg-[#DC2626] flex items-center justify-center cursor-pointer hover:bg-[#B91C1C] transition-colors w-full md:w-auto"
                   >
-                    <p className="font-[500] text-[14px] text-[#DC2626]">
-                      Reject
-                    </p>
+                    <p className="font-[500] text-[14px] text-white">Reject</p>
                   </button>
                 </div>
               </div>
