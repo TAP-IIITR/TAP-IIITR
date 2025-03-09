@@ -13,6 +13,11 @@ import CoordinatorHomepage from "./components/coordinatorDashboard/homepage";
 import CoordinatorLayout from "./pages/dashboard/coordinator";
 import JobListings from "./components/coordinatorDashboard/JobListings";
 import CreateJobPosting from "./components/coordinatorDashboard/CreateJobPosting";
+import StudentData from "./components/coordinatorDashboard/StudentData";
+import Applications from "./components/coordinatorDashboard/Applications";
+import Recruiters from "./components/coordinatorDashboard/Recruiters";
+import Verifications from "./components/coordinatorDashboard/Verifications";
+import CoordinatorStudentProfile from "@/components/coordinatorDashboard/StudentProfile";
 
 function App() {
   window.onbeforeunload = function () {
@@ -43,6 +48,11 @@ function App() {
             <Route index element={<JobListings />} />
             <Route path="new" element={<CreateJobPosting />} />
           </Route>
+          <Route path="student-data" element={<StudentData />} />
+          <Route path="applications" element={<Applications />} />
+          <Route path="recruiters" element={<Recruiters />} />
+          <Route path="verifications" element={<Verifications />} />
+          <Route path="student/:studentId" element={<CoordinatorStudentProfile />} />
         </Route>
       </Routes>
     </>
