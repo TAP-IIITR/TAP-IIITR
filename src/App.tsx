@@ -17,6 +17,7 @@ import StudentData from "./components/coordinatorDashboard/StudentData";
 import Applications from "./components/coordinatorDashboard/Applications";
 import Recruiters from "./components/coordinatorDashboard/Recruiters";
 import Verifications from "./components/coordinatorDashboard/Verifications";
+import CoordinatorStudentProfile from "@/components/coordinatorDashboard/StudentProfile";
 
 function App() {
   window.onbeforeunload = function () {
@@ -51,6 +52,7 @@ function App() {
           <Route path="applications" element={<Applications />} />
           <Route path="recruiters" element={<Recruiters />} />
           <Route path="verifications" element={<Verifications />} />
+          <Route path="student/:studentId" element={<CoordinatorStudentProfile />} />
         </Route>
       </Routes>
     </>

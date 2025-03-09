@@ -1,8 +1,7 @@
 import { useState, useMemo } from "react";
 import { SearchIcon, X } from "lucide-react";
 import { FaBuilding } from "react-icons/fa";
-import { MdPendingActions, MdOutlineEmail, MdPhone } from "react-icons/md";
-import { TbWorld } from "react-icons/tb";
+import { MdPendingActions} from "react-icons/md";
 
 const Verifications = () => {
   const [searchQuery, setSearchQuery] = useState("");

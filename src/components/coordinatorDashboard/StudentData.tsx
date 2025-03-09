@@ -2,10 +2,12 @@ import { useState, useMemo } from "react";
 import { SearchIcon } from "lucide-react";
 import { MdOutlineEmail, MdPhone } from "react-icons/md";
 import { FaGraduationCap } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const StudentData = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterBy, setFilterBy] = useState("");
+  const navigate = useNavigate();
 
   // Sample student data (15 students)
   const students = [
@@ -140,7 +142,7 @@ const StudentData = () => {
   }, [students, searchQuery, filterBy]);
 
   const handleViewProfile = (studentId: number) => {
-    console.log(`View profile for student ID: ${studentId}`);
+    navigate(`/dashboard/coordinator/student/${studentId}`);
   };
 
   return (
