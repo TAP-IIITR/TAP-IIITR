@@ -5,8 +5,17 @@ import {
   MdCurrencyRupee,
   MdOutlineBusinessCenter,
 } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const CompanyCard = () => {
+  const navigate = useNavigate();
+  
+  const handleApplyClick = () => {
+    // Navigate to the full company details page
+    // Using a mock ID for demonstration - you would use the actual company ID in a real app
+    navigate("/dashboard/student/full-company-detail/1");
+  };
+
   return (
     <div className="h-auto min-h-[127px] w-full border-[0.75px] border-[#E0E0E0] rounded-[12px] flex flex-col md:flex-row items-start md:items-center justify-between px-[20px] py-[15px] md:py-0">
       <div className="flex flex-col">
@@ -48,8 +57,11 @@ const CompanyCard = () => {
       </div>
       <div className="flex flex-col gap-[16px] mt-3 md:mt-0 self-end md:self-auto">
         <p className="text-[#3D3D3D] font-[400] text-[13px] text-right">23 Applicants</p>
-        <div className="w-[113px] h-[39px] bg-[#161A80] rounded-[8px] flex items-center justify-center">
-          <p className="text-[#FFF] font-[500] text-[14px]">View Details</p>
+        <div 
+          onClick={handleApplyClick}
+          className="w-[113px] h-[39px] bg-[#161A80] rounded-[8px] flex items-center justify-center cursor-pointer hover:bg-[#0F1163] transition-colors"
+        >
+          <p className="text-[#FFF] font-[500] text-[14px]">Apply Now</p>
         </div>
       </div>
     </div>
