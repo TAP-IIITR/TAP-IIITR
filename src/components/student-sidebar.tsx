@@ -32,8 +32,18 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="text-white p-2"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
           </div>
@@ -42,7 +52,13 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
         {/* Dropdown Menu */}
         {isDropdownOpen && (
           <>
-            <div className="fixed inset-0 bg-black/50 z-20" onClick={() => setIsDropdownOpen(false)} />
+            {/* Overlay */}
+            <div
+              className="fixed inset-0 bg-black/50 z-20"
+              onClick={() => setIsDropdownOpen(false)}
+            />
+
+            {/* Menu */}
             <div className="fixed top-16 left-0 right-0 gradient-bg-sidebar z-30">
               {menuItems.map((item, index) => (
                 <NavLink
@@ -58,7 +74,10 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
                   {item.title}
                 </NavLink>
               ))}
-              <button className="w-full h-12 text-sm flex items-center px-6 text-white hover:bg-[#29A8EF]/20">
+              <button
+                className="w-full h-12 text-sm flex items-center px-6 text-white hover:bg-[#29A8EF]/20"
+                onClick={() => setIsDropdownOpen(false)}
+              >
                 Logout
               </button>
             </div>
@@ -68,93 +87,42 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
     );
   }
 
+
   return (
-    <div
-      className="h-screen w-[180px] py-4 flex flex-col justify-between overflow-y-auto"
-      style={{
-        background: "linear-gradient(180deg, #03007F 0%, #0500E5 100%)",
-      }}
-    >
-      {/* Logo Section */}
-      <div className="flex flex-col gap-4">
+    <div className="flex flex-col h-screen w-56 gradient-bg-sidebar text-white">
+      <div className="p-4">
         <img
           src={logo}
           alt="Campus View"
-          className="object-contain w-[120px] h-[100px] mx-auto"
+          className="object-contain w-[141px] h-[118px] mx-auto"
         />
-
-        {/* Navigation Links */}
-        <div className="flex flex-col gap-[8px] px-2">
-          <NavLink
-            to="/dashboard/student/profile"
-            className={() =>
-              `h-[40px] w-full flex items-center justify-center cursor-pointer ${
-                location.pathname === "/dashboard/student" ||
-                location.pathname === "/dashboard/student/" ||
-                location.pathname === "/dashboard/student/profile" ||
-                location.pathname === "/dashboard/student/profile/"
-                  ? "bg-[#29A8EF]"
-                  : "bg-transparent"
-              }`
-            }
-          >
-            <p className="text-[16px] font-[600] text-[#FFF]">
-              Student Profile
-            </p>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/student/placement-overview"
-            className={({ isActive }) =>
-              `h-[40px] w-full flex items-center justify-center cursor-pointer ${
-                isActive ? "bg-[#29A8EF]" : "bg-transparent"
-              }`
-            }
-          >
-            <p className="text-[16px] font-[600] text-[#FFF]">
-              Placement Overview
-            </p>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/student/job-offers"
-            className={({ isActive }) =>
-              `h-[40px] w-full flex items-center justify-center cursor-pointer ${
-                isActive ? "bg-[#29A8EF]" : "bg-transparent"
-              }`
-            }
-          >
-            <p className="text-[16px] font-[600] text-[#FFF]">Job Offers</p>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/student/my-applications"
-            className={({ isActive }) =>
-              `h-[40px] w-full flex items-center justify-center cursor-pointer ${
-                isActive ? "bg-[#29A8EF]" : "bg-transparent"
-              }`
-            }
-          >
-            <p className="text-[16px] font-[600] text-[#FFF]">
-              My Applications
-            </p>
-          </NavLink>
-        </div>
       </div>
 
-      {/* Logout Button */}
-      <div className="px-2">
-        <NavLink
-          to="/logout"
-          className={({ isActive }) =>
-            `h-[40px] w-full flex items-center justify-center cursor-pointer ${
-              isActive ? "bg-[#29A8EF]" : "bg-transparent"
-            }`
-          }
-        >
-          <p className="text-[16px] font-[600] text-[#FFF]">Logout</p>
-        </NavLink>
-      </div>
+      <nav className="flex-1 mt-5">
+        {menuItems.map((item, index) => {
+          const isActive =
+            location.pathname === item.path ||
+            (index === 0 && 
+             (location.pathname === "/dashboard/student" || 
+              location.pathname === "/dashboard/student/"));
+            
+          return (
+            <NavLink
+              key={index}
+              to={item.path}
+              className={`h-14 text-sm flex items-center justify-center px-6 ${
+                isActive ? "bg-[#29A8EF]" : "hover:bg-[#29A8EF]/20"
+              }`}
+            >
+              {item.title}
+            </NavLink>
+          );
+        })}
+      </nav>
+
+      <button className="h-12 w-full flex items-center justify-center px-6 hover:bg-[#29A8EF]/50 mb-6">
+        Logout
+      </button>
     </div>
   );
 };
