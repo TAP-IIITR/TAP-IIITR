@@ -5,6 +5,11 @@ import acadBlock from "../../assets/acad-block.png";
 import logo from "../../assets/logoIIITR.png";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
+// Create an Axios instance with a base URL
+const api = axios.create({
+  baseURL: "http://localhost:3000", // Your backend server URL
+});
+
 const inputFields = {
   reg_email: "",
   password: "",
@@ -19,7 +24,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -30,28 +35,28 @@ const LoginPage = () => {
     return Object.values(formData).every((value) => value.trim() !== "");
   };
 
-  const handleSubmit = async (e:React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    const apiUrls:{[key:string]:string} = {
+    const apiUrls: { [key: string]: string } = {
       student: "/api/auth/student/login",
       recruiter: "/api/auth/recruiter/login",
-      coordinator: "/api/auth/coordinator/login",
+      coordinator: "/api/auth/tap/login",
     };
 
     try {
-      const { data } = await axios.post(apiUrls[currentTab], formData, {
+      const { data } = await api.post(apiUrls[currentTab], formData, {
         headers: { "Content-Type": "application/json" },
+        withCredentials: true, // Include cookies if your backend uses them (e.g., JWT)
       });
-      alert(data.message)
+      alert(data.message);
       setFormData(inputFields);
       navigate("/dashboard/student");
     } catch (error) {
-      if(axios.isAxiosError(error)){
+      if (axios.isAxiosError(error)) {
         alert(error.response?.data?.errors[0]?.message || "Login failed!");
-      }
-      else{
+      } else {
         alert("An unexpected error occurred");
       }
     } finally {
@@ -59,6 +64,7 @@ const LoginPage = () => {
     }
   };
 
+  // Rest of your component remains unchanged...
   return (
     <div className="flex h-screen">
       {/* Left side with background image */}
