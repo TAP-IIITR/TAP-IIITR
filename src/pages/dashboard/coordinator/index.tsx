@@ -28,6 +28,7 @@ const Layout = () => {
       <main className={`flex-1 overflow-auto bg-[#F5F5F5] ${isMobile ? 'pt-16' : ''}`}>
         <div className="h-full">
           <Outlet />
+
         </div>
       </main>
     </div>

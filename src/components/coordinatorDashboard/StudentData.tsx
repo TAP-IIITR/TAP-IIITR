@@ -1,132 +1,76 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { SearchIcon } from "lucide-react";
 import { MdOutlineEmail, MdPhone } from "react-icons/md";
 import { FaGraduationCap } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axiosInstance"; // Import your Axios instance
+
+interface Student {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  branch: string;
+}
 
 const StudentData = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterBy, setFilterBy] = useState("");
+  const [students, setStudents] = useState<Student[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Sample student data (15 students)
-  const students = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phone: "+91 9876543210",
-      branch: "Computer Science and Engineering",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      phone: "+91 9876543211",
-      branch: "Electronics and Communication Engineering",
-    },
-    {
-      id: 3,
-      name: "Raj Kumar",
-      email: "raj.kumar@example.com",
-      phone: "+91 9876543212",
-      branch: "Computer Science and Engineering",
-    },
-    {
-      id: 4,
-      name: "Priya Singh",
-      email: "priya.singh@example.com",
-      phone: "+91 9876543213",
-      branch: "Mechanical Engineering",
-    },
-    {
-      id: 5,
-      name: "Aditya Sharma",
-      email: "aditya.sharma@example.com",
-      phone: "+91 9876543214",
-      branch: "Electrical Engineering",
-    },
-    {
-      id: 6,
-      name: "Neha Patel",
-      email: "neha.patel@example.com",
-      phone: "+91 9876543215",
-      branch: "Computer Science and Engineering",
-    },
-    {
-      id: 7,
-      name: "Arjun Reddy",
-      email: "arjun.reddy@example.com",
-      phone: "+91 9876543216",
-      branch: "Electronics and Communication Engineering",
-    },
-    {
-      id: 8,
-      name: "Sanya Malhotra",
-      email: "sanya.malhotra@example.com",
-      phone: "+91 9876543217",
-      branch: "Computer Science and Engineering",
-    },
-    {
-      id: 9,
-      name: "Rahul Verma",
-      email: "rahul.verma@example.com",
-      phone: "+91 9876543218",
-      branch: "Information Technology",
-    },
-    {
-      id: 10,
-      name: "Ananya Desai",
-      email: "ananya.desai@example.com",
-      phone: "+91 9876543219",
-      branch: "Computer Science and Engineering",
-    },
-    {
-      id: 11,
-      name: "Vikram Khanna",
-      email: "vikram.khanna@example.com",
-      phone: "+91 9876543220",
-      branch: "Mechanical Engineering",
-    },
-    {
-      id: 12,
-      name: "Shreya Gupta",
-      email: "shreya.gupta@example.com",
-      phone: "+91 9876543221",
-      branch: "Electronics and Communication Engineering",
-    },
-    {
-      id: 13,
-      name: "Karan Sharma",
-      email: "karan.sharma@example.com",
-      phone: "+91 9876543222",
-      branch: "Computer Science and Engineering",
-    },
-    {
-      id: 14,
-      name: "Nisha Patel",
-      email: "nisha.patel@example.com",
-      phone: "+91 9876543223",
-      branch: "Information Technology",
-    },
-    {
-      id: 15,
-      name: "Rohan Mehta",
-      email: "rohan.mehta@example.com",
-      phone: "+91 9876543224",
-      branch: "Electrical Engineering",
-    },
-  ];
+  // Fetch students from the backend
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Build query parameters
+        const params: { branch?: string; batch?: number } = {};
+        if (filterBy) {
+          params.branch = filterBy;
+        }
+        // Note: We're not using the batch filter in the UI yet, but you can add it later if needed
+
+        const response = await api.get("/student/tap", { params });
+        const studentsData = response.data.data.map((student: any) => ({
+          id: student.id,
+          name: `${student.firstName} ${student.lastName}`,
+          email: student.regEmail || "N/A",
+          phone: student.phone || "N/A",
+          branch: student.branch || "N/A",
+        }));
+        setStudents(studentsData);
+      } catch (err: any) {
+        console.error("Error fetching students:", err);
+        if (err.response?.status === 401) {
+          setError("You are not authorized. Please log in again.");
+          setTimeout(() => navigate("/login"), 2000);
+        } else if (err.response?.status === 500) {
+          setError("Server error. Please try again later or contact support.");
+        } else if (err.message === "Network Error") {
+          setError("Unable to connect to the server. Please check your network or server status.");
+        } else {
+          setError(err.response?.data?.message || "Failed to fetch students");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudents();
+  }, [filterBy, navigate]); // Re-fetch when filterBy changes
 
   // Get unique branches for filter options
   const branches = useMemo(() => {
-    const uniqueBranches = [
-      ...new Set(students.map((student) => student.branch)),
-    ];
+    const uniqueBranches = [...new Set(students.map((student) => student.branch))];
     return uniqueBranches.sort();
   }, [students]);
 
-  // Filter students based on search query and branch filter
+  // Filter students based on search query (client-side filtering for name, email, etc.)
   const filteredStudents = useMemo(() => {
     return students.filter((student) => {
       const matchesSearch =
@@ -135,15 +79,21 @@ const StudentData = () => {
         student.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
         student.branch.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesFilter = filterBy === "" || student.branch === filterBy;
-
-      return matchesSearch && matchesFilter;
+      return matchesSearch;
     });
-  }, [students, searchQuery, filterBy]);
+  }, [students, searchQuery]);
 
-  const handleViewProfile = (studentId: number) => {
+  const handleViewProfile = (studentId: string) => {
     navigate(`/dashboard/coordinator/student/${studentId}`);
   };
+
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-600">{error}</div>;
+  }
 
   return (
     <div className="flex flex-col gap-[26px] p-[24px]">

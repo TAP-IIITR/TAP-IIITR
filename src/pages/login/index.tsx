@@ -52,7 +52,15 @@ const LoginPage = () => {
       });
       alert(data.message);
       setFormData(inputFields);
-      navigate("/dashboard/student");
+      if(currentTab === "student" ){
+
+        navigate("/dashboard/student");
+      } 
+      else if(currentTab === "coordinator"){
+        
+
+        navigate("/dashboard/coordinator");
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error.response?.data?.errors[0]?.message || "Login failed!");

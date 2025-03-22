@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axiosInstance"; // Import your Axios instance
 
 const CreateJobPosting = () => {
   const navigate = useNavigate();
@@ -14,6 +15,9 @@ const CreateJobPosting = () => {
     requiredSkills: "",
     applicationDeadline: "",
   });
+  const [loading, setLoading] = useState(false); // Add loading state
+  const [error, setError] = useState<string | null>(null); // Add error state
+  const [success, setSuccess] = useState<string | null>(null); // Add success state
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -23,11 +27,57 @@ const CreateJobPosting = () => {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log(formData);
-    // navigate('/job-posting'); // Navigate back to job listings after submission
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      // Map form data to the format expected by the backend
+      const jobData = {
+        title: formData.jobTitle,
+        JD: formData.description,
+        location: formData.location,
+        package: formData.salary,
+        eligibility: formData.eligibility,
+        skills: formData.requiredSkills
+          .split(",")
+          .map((skill: string) => skill.trim())
+          .filter((skill: string) => skill.length > 0), // Convert comma-separated skills to an array
+        deadline: formData.applicationDeadline,
+        form: [
+          { label: "Resume", type: "file" },
+          { label: "Cover Letter", type: "text" },
+        ], // Hardcode a default form structure
+        company: formData.company,
+      };
+
+      // Make the API call to create the job
+      const response = await api.post("/jobs/tap", jobData);
+
+      // On success, show a success message and redirect
+      setSuccess(response.data.message || "Job created successfully!");
+      setTimeout(() => {
+        navigate("/dashboard/coordinator/job-postings"); // Redirect to job postings page
+      }, 2000);
+    } catch (err: any) {
+      console.error("Error creating job:", err);
+      if (err.response?.status === 401) {
+        setError("You are not authorized. Please log in again.");
+        setTimeout(() => navigate("/login"), 2000);
+      } else if (err.response?.status === 400) {
+        setError(err.response.data.message || "Invalid input. Please check the form fields.");
+      } else if (err.response?.status === 500) {
+        setError("Server error. Please try again later or contact support.");
+      } else if (err.message === "Network Error") {
+        setError("Unable to connect to the server. Please check your network or server status.");
+      } else {
+        setError("Failed to create job. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const jobTypes = ["Full Time", "Part Time", "Internship", "Contract"];
@@ -42,6 +92,18 @@ const CreateJobPosting = () => {
           Fill in the details below to create a new job posting
         </p>
       </div>
+
+      {/* Display success or error messages */}
+      {success && (
+        <div className="mb-4 p-3 bg-green-100 text-green-800 rounded-lg">
+          {success}
+        </div>
+      )}
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-800 rounded-lg">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Job Details Section */}
@@ -60,7 +122,7 @@ const CreateJobPosting = () => {
                 d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
               />
             </svg>
-            Recent Job Openings
+            Job Details
           </h2>
 
           <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4 md:space-y-0">
@@ -75,6 +137,7 @@ const CreateJobPosting = () => {
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
                 value={formData.jobTitle}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -87,6 +150,7 @@ const CreateJobPosting = () => {
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
                 value={formData.jobType}
                 onChange={handleChange}
+                required
               >
                 <option value="">Select job type</option>
                 {jobTypes.map((type) => (
@@ -108,6 +172,7 @@ const CreateJobPosting = () => {
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
                 value={formData.company}
                 onChange={handleChange}
+                required
               />
             </div>
           </div>
@@ -123,6 +188,7 @@ const CreateJobPosting = () => {
               className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
               value={formData.description}
               onChange={handleChange}
+              required
             />
           </div>
         </section>
@@ -158,6 +224,7 @@ const CreateJobPosting = () => {
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
                 value={formData.location}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -172,6 +239,7 @@ const CreateJobPosting = () => {
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
                 value={formData.salary}
                 onChange={handleChange}
+                required
               />
             </div>
           </div>
@@ -190,7 +258,7 @@ const CreateJobPosting = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M9 0 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
             Requirements
@@ -208,6 +276,7 @@ const CreateJobPosting = () => {
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
                 value={formData.eligibility}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -222,6 +291,7 @@ const CreateJobPosting = () => {
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
                 value={formData.requiredSkills}
                 onChange={handleChange}
+                required
               />
             </div>
           </div>
@@ -256,6 +326,7 @@ const CreateJobPosting = () => {
               className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
               value={formData.applicationDeadline}
               onChange={handleChange}
+              required
             />
           </div>
         </section>
@@ -264,16 +335,18 @@ const CreateJobPosting = () => {
         <div className="flex gap-4 fixed bottom-0 left-0 right-0 p-4 bg-white md:relative md:bg-transparent">
           <button
             type="button"
-            onClick={() => navigate("/job-posting")}
+            onClick={() => navigate("/dashboard/coordinator/job-postings")}
             className="flex-1 py-2 border border-[#14137D] text-[#14137D] rounded-lg hover:bg-gray-50"
+            disabled={loading}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="flex-1 py-2 bg-[#14137D] text-white rounded-lg hover:bg-[#14137D]/90"
+            className="flex-1 py-2 bg-[#14137D] text-white rounded-lg hover:bg-[#14137D]/90 disabled:bg-gray-400"
+            disabled={loading}
           >
-            Post Job
+            {loading ? "Posting..." : "Post Job"}
           </button>
         </div>
       </form>
