@@ -1,81 +1,91 @@
 import { SearchIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axiosInstance"; // Import your Axios instance
+
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  type: string;
+  salary: string;
+  postedTime: string;
+  status: string;
+  applicants: number;
+}
 
 const JobListings = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
-
-  const jobs = [
-    {
-      id: 1,
-      title: "Software Engineer",
-      company: "TechCorp",
-      location: "Ranchi, JH",
-      type: "Full-Time",
-      salary: "₹ 15,00,000/annum",
-      postedTime: "3 days ago",
-      status: "pending",
-      applicants: 23,
-    },
-    {
-      id: 2,
-      title: "Software Engineer",
-      company: "TechCorp",
-      location: "Ranchi, JH",
-      type: "Full-Time",
-      salary: "₹ 15,00,000/annum",
-      postedTime: "3 days ago",
-      status: "pending",
-      applicants: 23,
-    },
-    {
-      id: 3,
-      title: "Software Engineer",
-      company: "TechCorp",
-      location: "Ranchi, JH",
-      type: "Full-Time",
-      salary: "₹ 15,00,000/annum",
-      postedTime: "3 days ago",
-      status: "verified",
-      applicants: 23,
-    },
-    {
-      id: 4,
-      title: "Software Engineer",
-      company: "TechCorp",
-      location: "Ranchi, JH",
-      type: "Full-Time",
-      salary: "₹ 15,00,000/annum",
-      postedTime: "3 days ago",
-      status: "pending",
-      applicants: 23,
-    },
-    {
-      id: 5,
-      title: "Software Engineer",
-      company: "TechCorp",
-      location: "Ranchi, JH",
-      type: "Full-Time",
-      salary: "₹ 15,00,000/annum",
-      postedTime: "3 days ago",
-      status: "pending",
-      applicants: 23,
-    },
-    {
-      id: 6,
-      title: "Software Engineer",
-      company: "TechCorp",
-      location: "Ranchi, JH",
-      type: "Full-Time",
-      salary: "₹ 15,00,000/annum",
-      postedTime: "3 days ago",
-      status: "pending",
-      applicants: 23,
-    },
-  ];
-
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // Fetch jobs from the backend
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const params: { search?: string; sortBy?: string; sortOrder?: string } = {};
+        if (searchQuery) {
+          params.search = searchQuery;
+        }
+        if (sortBy) {
+          params.sortBy = sortBy === "newest" || sortBy === "oldest" ? "postedTime" : "salary";
+          params.sortOrder = sortBy === "newest" ? "desc" : sortBy === "oldest" ? "asc" : "desc";
+        }
+
+        const response = await api.get("/jobs/tap", { params });
+        setJobs(response.data.data);
+      } catch (err: any) {
+        console.error("Error fetching jobs:", err);
+        if (err.response?.status === 401) {
+          setError("You are not authorized. Please log in again.");
+          setTimeout(() => navigate("/login"), 2000);
+        } else if (err.response?.status === 500) {
+          setError("Server error. Please try again later or contact support.");
+        } else if (err.message === "Network Error") {
+          setError("Unable to connect to the server. Please check your network or server status.");
+        } else {
+          setError(err.response?.data?.message || "Failed to fetch jobs");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, [searchQuery, sortBy, navigate]);
+
+  const handleVerifyOffer = async (jobId: string) => {
+    try {
+      await api.post(`/jobs/tap/${jobId}/verify`);
+      setJobs((prevJobs) =>
+        prevJobs.map((job) =>
+          job.id === jobId ? { ...job, status: "verified" } : job
+        )
+      );
+    } catch (err: any) {
+      console.error("Error verifying job:", err);
+      setError(err.response?.data?.message || "Failed to verify job");
+    }
+  };
+
+  const handleViewOffer = (jobId: string) => {
+    navigate(`/dashboard/coordinator/job-postings/${jobId}`);
+  };
+
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-600">{error}</div>;
+  }
 
   return (
     <div className="p-3 md:p-6">
@@ -99,7 +109,7 @@ const JobListings = () => {
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
         >
-          <option value="">Sort By Role</option>
+          <option value="">Sort By</option>
           <option value="newest">Newest First</option>
           <option value="oldest">Oldest First</option>
           <option value="salary">Salary</option>
@@ -130,6 +140,11 @@ const JobListings = () => {
 
       {/* Job Listings */}
       <div className="space-y-3 md:space-y-4">
+        {jobs.length === 0 && (
+          <div className="text-center py-10 text-gray-600">
+            No jobs found.
+          </div>
+        )}
         {jobs.map((job) => (
           <div
             key={job.id}
@@ -154,7 +169,12 @@ const JobListings = () => {
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    {/* ... SVG path ... */}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
                   </svg>
                   <span className="text-sm md:text-base">{job.company}</span>
                 </div>
@@ -163,11 +183,17 @@ const JobListings = () => {
               {/* Action Button */}
               <div className="flex justify-end">
                 {job.status === "pending" ? (
-                  <button className="bg-[#14137D] text-white px-4 py-2 md:px-5 md:py-3 rounded-lg md:rounded-xl text-xs">
+                  <button
+                    onClick={() => handleVerifyOffer(job.id)}
+                    className="bg-[#14137D] text-white px-4 py-2 md:px-5 md:py-3 rounded-lg md:rounded-xl text-xs"
+                  >
                     Verify Offer
                   </button>
                 ) : (
-                  <button className="border border-[#14137D] text-[#14137D] px-4 py-2 md:px-5 md:py-3 rounded-lg md:rounded-xl text-xs">
+                  <button
+                    onClick={() => handleViewOffer(job.id)}
+                    className="border border-[#14137D] text-[#14137D] px-4 py-2 md:px-5 md:py-3 rounded-lg md:rounded-xl text-xs"
+                  >
                     View Offer
                   </button>
                 )}
@@ -183,7 +209,12 @@ const JobListings = () => {
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  {/* ... SVG path ... */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
                 </svg>
                 {job.location}
               </div>
@@ -194,7 +225,12 @@ const JobListings = () => {
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  {/* ... SVG path ... */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
                 </svg>
                 {job.type}
               </div>
@@ -206,11 +242,16 @@ const JobListings = () => {
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  {/* ... SVG path ... */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
                 </svg>
-                {job.postedTime}
+                {new Date(job.postedTime).toLocaleDateString()}
               </div>
-              {job.applicants && (
+              {job.applicants > 0 && (
                 <div className="flex items-center gap-1 ml-auto">
                   <span className="text-green-600">
                     {job.applicants} Applicants
