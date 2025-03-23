@@ -2,6 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance"; // Import your Axios instance
 
+interface FormField {
+  label: string;
+  type: string; // e.g., "text", "file", "textarea"
+}
+
 const CreateJobPosting = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -15,11 +20,16 @@ const CreateJobPosting = () => {
     requiredSkills: "",
     applicationDeadline: "",
   });
-  const [loading, setLoading] = useState(false); // Add loading state
-  const [error, setError] = useState<string | null>(null); // Add error state
-  const [success, setSuccess] = useState<string | null>(null); // Add success state
+  const [formFields, setFormFields] = useState<FormField[]>([
+    { label: "Resume", type: "file" }, // Default field
+    { label: "Cover Letter", type: "textarea" }, // Default field
+  ]);
+  const [newField, setNewField] = useState({ label: "", type: "text" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -27,14 +37,34 @@ const CreateJobPosting = () => {
     }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleNewFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setNewField((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const addFormField = () => {
+    if (!newField.label || !newField.type) {
+      setError("Please provide a label and type for the new form field.");
+      return;
+    }
+    setFormFields([...formFields, { label: newField.label, type: newField.type }]);
+    setNewField({ label: "", type: "text" }); // Reset the new field input
+  };
+
+  const removeFormField = (index: number) => {
+    setFormFields(formFields.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(null);
 
     try {
-      // Map form data to the format expected by the backend
       const jobData = {
         title: formData.jobTitle,
         JD: formData.description,
@@ -44,22 +74,18 @@ const CreateJobPosting = () => {
         skills: formData.requiredSkills
           .split(",")
           .map((skill: string) => skill.trim())
-          .filter((skill: string) => skill.length > 0), // Convert comma-separated skills to an array
+          .filter((skill: string) => skill.length > 0),
         deadline: formData.applicationDeadline,
-        form: [
-          { label: "Resume", type: "file" },
-          { label: "Cover Letter", type: "text" },
-        ], // Hardcode a default form structure
+        form: formFields, // Include the dynamic form fields
         company: formData.company,
+        jobType: formData.jobType,
       };
 
-      // Make the API call to create the job
       const response = await api.post("/jobs/tap", jobData);
 
-      // On success, show a success message and redirect
       setSuccess(response.data.message || "Job created successfully!");
       setTimeout(() => {
-        navigate("/dashboard/coordinator/job-postings"); // Redirect to job postings page
+        navigate("/dashboard/coordinator/job-postings");
       }, 2000);
     } catch (err: any) {
       console.error("Error creating job:", err);
@@ -81,6 +107,7 @@ const CreateJobPosting = () => {
   };
 
   const jobTypes = ["Full Time", "Part Time", "Internship", "Contract"];
+  const fieldTypes = ["text", "textarea", "file"];
 
   return (
     <div className="p-4 md:p-10 w-full bg-white md:bg-[#F5F5F5]">
@@ -93,7 +120,6 @@ const CreateJobPosting = () => {
         </p>
       </div>
 
-      {/* Display success or error messages */}
       {success && (
         <div className="mb-4 p-3 bg-green-100 text-green-800 rounded-lg">
           {success}
@@ -294,6 +320,83 @@ const CreateJobPosting = () => {
                 required
               />
             </div>
+          </div>
+        </section>
+
+        {/* Application Form Fields Section */}
+        <section className="space-y-4 md:bg-white md:p-6 md:rounded-lg md:shadow-sm">
+          <h2 className="text-base font-semibold flex items-center gap-2">
+            <svg
+              className="w-4 h-4 md:w-5 md:h-5 text-[#14137D]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            Application Form Fields
+          </h2>
+
+          <div className="space-y-2">
+            {formFields.map((field, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <span className="flex-1 p-2 bg-gray-100 rounded-lg">
+                  {field.label} ({field.type})
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeFormField(index)}
+                  className="p-2 text-red-600 hover:text-red-800"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Field Label
+              </label>
+              <input
+                type="text"
+                name="label"
+                placeholder="e.g. Portfolio Link"
+                className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
+                value={newField.label}
+                onChange={handleNewFieldChange}
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Field Type
+              </label>
+              <select
+                name="type"
+                className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
+                value={newField.type}
+                onChange={handleNewFieldChange}
+              >
+                {fieldTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button
+              type="button"
+              onClick={addFormField}
+              className="self-end px-4 py-2 bg-[#14137D] text-white rounded-lg hover:bg-[#14137D]/90"
+            >
+              Add Field
+            </button>
           </div>
         </section>
 
