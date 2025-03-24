@@ -3,8 +3,10 @@ import { SearchIcon } from "lucide-react";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { RxCrossCircled } from "react-icons/rx";
 import { MdOutlineWatchLater } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Applications = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterBy, setFilterBy] = useState("");
 
@@ -22,7 +24,7 @@ const Applications = () => {
       name: "Jane Smith",
       jobTitle: "Frontend Developer",
       company: "WebSolutions",
-      status: "Rejected",
+      status: "Selected",
     },
     {
       id: 3,
@@ -57,7 +59,7 @@ const Applications = () => {
       name: "Arjun Reddy",
       jobTitle: "QA Engineer",
       company: "QualityTech",
-      status: "Rejected",
+      status: "Selected",
     },
     {
       id: 8,
@@ -78,7 +80,7 @@ const Applications = () => {
       name: "Ananya Desai",
       jobTitle: "ML Engineer",
       company: "AILabs",
-      status: "Rejected",
+      status: "Selected",
     },
     {
       id: 11,
@@ -106,7 +108,7 @@ const Applications = () => {
       name: "Nisha Patel",
       jobTitle: "Cloud Engineer",
       company: "CloudNine",
-      status: "Rejected",
+      status: "Selected",
     },
     {
       id: 15,
@@ -145,7 +147,7 @@ const Applications = () => {
   };
 
   const handleViewJobDetails = (applicationId: number) => {
-    console.log(`View job details for application ID: ${applicationId}`);
+    navigate(`/dashboard/coordinator/job-details/${applicationId}`);
   };
 
   return (

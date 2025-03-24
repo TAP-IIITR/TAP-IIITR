@@ -41,7 +41,7 @@ const CoordinatorHomepage = () => {
   const [recentJobs, setRecentJobs] = useState<Job[]>([]);
   const [recentApplications] = useState<Application[]>([
     { name: "John Doe", role: "Software Dev at TechCorp", status: "Accepted" },
-    { name: "John Doe", role: "Software Dev at TechCorp", status: "Rejected" },
+    { name: "John Doe", role: "Software Dev at TechCorp", status: "Selected" },
     { name: "John Doe", role: "Software Dev at TechCorp", status: "Under Review" },
   ]); // Hardcoded data for recent applications
   const [loading, setLoading] = useState(true);
