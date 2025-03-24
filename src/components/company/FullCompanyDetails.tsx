@@ -74,10 +74,10 @@ const FullCompanyDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleInputChange = (fieldId: string, value: string | File) => {
+  const handleInputChange = (label: string, value: string | File) => {
     setFormData((prev: any) => ({
       ...prev,
-      [fieldId]: value,
+      [label]: value instanceof File ? value.name : value,
     }));
   };
 
@@ -85,15 +85,23 @@ const FullCompanyDetails = () => {
     e.preventDefault();
     
     try {
-      // Prepare form data for submission
       const applicationData = {
         form: {
-          ...formData,
           studentName: `${jobData.student.firstName} ${jobData.student.lastName}`,
           email: jobData.student.regEmail,
           contactNumber: jobData.student.mobile,
           cgpa: jobData.student.cgpa,
           resumeUrl: jobData.student.resume?.url || "",
+          rollNumber: jobData.student.id,
+          branch: jobData.student.branch,
+          ...Object.fromEntries(
+            (jobData.form || [])
+              .filter((field: any) => field?.label)
+              .map((field: any) => [
+                field.label,
+                formData[field.label] || ""
+              ])
+          ),
         },
       };
 
@@ -161,8 +169,8 @@ const FullCompanyDetails = () => {
     preFilledFields.flatMap(section => section.fields).map(field => field.label.toLowerCase())
   );
 
-  const additionalFields = jobData.form.filter(
-    (field: any) => !preFilledLabels.has(field.label.toLowerCase())
+  const additionalFields = (jobData.form || []).filter(
+    (field: any) => field?.label && !preFilledLabels.has(field.label.toLowerCase())
   );
 
   const applicationFormConfig: FormSection[] = [
@@ -171,8 +179,8 @@ const FullCompanyDetails = () => {
       ? [{
           sectionId: "additional",
           title: "Additional Information",
-          fields: additionalFields.map((field: any, index: number) => ({
-            id: `additional-${index}`,
+          fields: additionalFields.map((field: any) => ({
+            id: field.label.toLowerCase().replace(/\s+/g, '-'),
             label: field.label,
             type: field.type as "text" | "file" | "textarea",
             required: true,
@@ -324,7 +332,7 @@ const FullCompanyDetails = () => {
                         <textarea
                           required={field.required}
                           placeholder={field.placeholder}
-                          onChange={(e) => handleInputChange(field.id, e.target.value)}
+                          onChange={(e) => handleInputChange(field.label, e.target.value)}
                           className={`w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none transition-all
                             ${field.readOnly ? 'bg-gray-100 cursor-not-allowed' : 'focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]'}
                             min-h-[100px]`}
@@ -335,9 +343,9 @@ const FullCompanyDetails = () => {
                           required={field.required}
                           accept={field.accept}
                           placeholder={field.placeholder}
-                          value={field.readOnly ? field.value : (field.type === "file" ? undefined : formData[field.id] || "")}
+                          value={field.readOnly ? field.value : (field.type === "file" ? undefined : formData[field.label] || "")}
                           readOnly={field.readOnly}
-                          onChange={(e) => handleInputChange(field.id, field.type === "file" ? e.target.files![0] : e.target.value)}
+                          onChange={(e) => handleInputChange(field.label, field.type === "file" ? e.target.files![0] : e.target.value)}
                           className={`w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none transition-all
                             ${field.readOnly ? 'bg-gray-100 cursor-not-allowed' : 'focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]'}
                             file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold
