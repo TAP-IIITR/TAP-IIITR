@@ -5,23 +5,148 @@ import { MdCurrencyRupee, MdOutlineBusinessCenter } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRef, useState } from "react";
 
-interface FormFieldBase {
+
+interface FormField {
   id: string;
   label: string;
+  type: "text" | "file";
   required: boolean;
   placeholder?: string;
+  accept?: string;
+  validation?: {
+    pattern?: string;
+    message?: string;
+  };
 }
 
-interface TextFieldConfig extends FormFieldBase {
-  type: 'text';
+interface FormSection {
+  sectionId: string;
+  title: string;
+  fields: FormField[];
 }
 
-interface FileFieldConfig extends FormFieldBase {
-  type: 'file';
-  accept: string;
-}
-
-type FormFieldConfig = TextFieldConfig | FileFieldConfig;
+// This is the object structure that would come from backend
+const applicationFormConfig: FormSection[] = [
+  {
+    sectionId: "personal",
+    title: "Personal Information",
+    fields: [
+      {
+        id: "fullName",
+        label: "Full Name",
+        type: "text",
+        required: true,
+        placeholder: "Enter your full name",
+        validation: {
+          pattern: "^[a-zA-Z ]{2,50}$",
+          message: "Name should be 2-50 characters long",
+        },
+      },
+      {
+        id: "email",
+        label: "Email Address",
+        type: "text",
+        required: true,
+        placeholder: "Enter your email address",
+        validation: {
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+          message: "Please enter a valid email address",
+        },
+      },
+      {
+        id: "phone",
+        label: "Phone Number",
+        type: "text",
+        required: true,
+        placeholder: "Enter your phone number",
+        validation: {
+          pattern: "^[0-9]{10}$",
+          message: "Please enter a valid 10-digit phone number",
+        },
+      },
+    ],
+  },
+  {
+    sectionId: "academic",
+    title: "Academic Information",
+    fields: [
+      {
+        id: "rollNumber",
+        label: "Roll Number",
+        type: "text",
+        required: true,
+        placeholder: "Enter your roll number",
+        validation: {
+          pattern: "^[0-9]{8}$",
+          message: "Please enter a valid 8-digit roll number",
+        },
+      },
+      {
+        id: "branch",
+        label: "Branch",
+        type: "text",
+        required: true,
+        placeholder: "Enter your branch",
+      },
+      {
+        id: "semester",
+        label: "Current Semester",
+        type: "text",
+        required: true,
+        placeholder: "Enter your current semester",
+        validation: {
+          pattern: "^[1-8]$",
+          message: "Please enter a semester between 1-8",
+        },
+      },
+      {
+        id: "cgpa",
+        label: "CGPA",
+        type: "text",
+        required: true,
+        placeholder: "Enter your CGPA",
+        validation: {
+          pattern: "^[0-9](.[0-9]{1,2})?$|^10(.[0]{1,2})?$",
+          message: "Please enter a valid CGPA between 0-10",
+        },
+      },
+    ],
+  },
+  {
+    sectionId: "documents",
+    title: "Required Documents",
+    fields: [
+      {
+        id: "resume",
+        label: "Resume",
+        type: "file",
+        required: true,
+        accept: ".pdf,.doc,.docx",
+      },
+      {
+        id: "profilePhoto",
+        label: "Profile Photo",
+        type: "file",
+        required: true,
+        accept: ".jpg,.jpeg,.png",
+      },
+      {
+        id: "coverLetter",
+        label: "Cover Letter",
+        type: "file",
+        required: false,
+        accept: ".pdf,.doc,.docx",
+      },
+      {
+        id: "transcripts",
+        label: "Academic Transcripts",
+        type: "file",
+        required: true,
+        accept: ".pdf",
+      },
+    ],
+  },
+];
 
 const FullCompanyDetails = () => {
   const { id } = useParams();
@@ -49,45 +174,21 @@ const FullCompanyDetails = () => {
     "Git",
   ];
 
-  const formFields: FormFieldConfig[] = [
-    {
-      id: 'fullName',
-      label: 'Full Name',
-      type: 'text',
-      required: true,
-      placeholder: 'Enter your full name'
-    },
-    {
-      id: 'photo',
-      label: 'Profile Photo',
-      type: 'file',
-      required: true,
-      accept: 'image/*'
-    },
-    {
-      id: 'resume',
-      label: 'Resume',
-      type: 'file',
-      required: true,
-      accept: '.pdf,.doc,.docx'
-    }
-  ];
-
   const handleApplyNow = () => {
     setShowApplicationForm(true);
     setTimeout(() => {
-      applicationFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+      applicationFormRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
 
   const handleExitApplication = () => {
     setShowApplicationForm(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSubmitApplication = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Application submitted successfully!');
+    alert("Application submitted successfully!");
     handleExitApplication();
   };
 
@@ -98,7 +199,7 @@ const FullCompanyDetails = () => {
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-[#161A80] hover:text-[#29A8EF] w-fit transition-colors"
       >
-        <FaArrowLeft size={14} /> Full time Intern
+        <FaArrowLeft size={14} /> Back to Applications
       </button>
 
       {/* Company Name */}
@@ -235,86 +336,99 @@ const FullCompanyDetails = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex-shrink-0 w-[280px] lg:w-auto">
-                <div className="flex items-center gap-[12px]">
-                  <div className="bg-[#F5F5F5] h-[40px] w-[40px] rounded-full flex items-center justify-center">
-                    <IoMdAlarm className="h-[20px] w-[20px] text-[#161A80]" />
-                  </div>
-                  <div>
-                    <p className="text-[14px] text-[#666666]">
-                      Assessment Round
-                    </p>
-                    <p className="text-[16px] font-[500] text-[#212121]">
-                      December 20, 2023
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-shrink-0 w-[280px] lg:w-auto">
-                <div className="flex items-center gap-[12px]">
-                  <div className="bg-[#F5F5F5] h-[40px] w-[40px] rounded-full flex items-center justify-center">
-                    <IoMdAlarm className="h-[20px] w-[20px] text-[#161A80]" />
-                  </div>
-                  <div>
-                    <p className="text-[14px] text-[#666666]">
-                      Interview Round
-                    </p>
-                    <p className="text-[16px] font-[500] text-[#212121]">
-                      December 25, 2023
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
           {/* Apply Button */}
           <button
             onClick={handleApplyNow}
-            className="w-full bg-[#161A80] hover:bg-[#14137D] text-white py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static"
+            disabled={showApplicationForm}
+            className={`w-full py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static ${
+              showApplicationForm
+                ? "bg-[#A0A0A0] cursor-not-allowed"
+                : "bg-[#161A80] hover:bg-[#14137D] text-white"
+            }`}
           >
-            Apply Now
+            {showApplicationForm ? "Application in Progress" : "Apply Now"}
           </button>
         </div>
       </div>
 
       {/* Application Form Section */}
       {showApplicationForm && (
-        <div 
+        <div
           ref={applicationFormRef}
           className="mt-8 bg-white rounded-[12px] p-[16px] md:p-[24px]"
-          style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
+          style={{
+            boxShadow:
+              "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          }}
         >
-          <h2 className="text-[24px] font-[600] text-[#212121] mb-6">Application Form</h2>
-          <form onSubmit={handleSubmitApplication} className="space-y-6">
-            {formFields.map((field) => (
-              <div key={field.id}>
-                <label className="block text-[14px] font-[500] text-[#666666] mb-2">
-                  {field.label}
-                </label>
-                <input
-                  type={field.type}
-                  required={field.required}
-                  accept={field.type === 'file' ? field.accept : undefined}
-                  placeholder={field.type === 'text' ? field.placeholder : undefined}
-                  className="w-full p-3 border border-[#E0E0E0] rounded-[8px] focus:outline-none focus:border-[#161A80]"
-                />
+          <div className="mb-6">
+            <h2 className="text-[28px] font-[600] text-[#161A80]">
+              Application Form
+            </h2>
+            <p className="text-[#666666] text-[14px] mt-2">
+              Please fill in all the required fields marked with an asterisk
+              (*).
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmitApplication} className="space-y-8">
+            {applicationFormConfig.map((section) => (
+              <div key={section.sectionId} className="space-y-4">
+                <h3 className="text-[20px] font-[600] text-[#161A80] pb-2 border-b-2 border-[#E0E0E0]">
+                  {section.title}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {section.fields.map((field) => (
+                    <div
+                      key={field.id}
+                      className={`${
+                        field.type === "file" ? "md:col-span-2" : ""
+                      } transition-all duration-200 ease-in-out`}
+                    >
+                      <label className="block text-[15px] font-[500] text-[#444444] mb-2">
+                        {field.label}
+                        {field.required && (
+                          <span className="text-[#DC2626] ml-1">*</span>
+                        )}
+                      </label>
+                      <input
+                        type={field.type}
+                        required={field.required}
+                        accept={field.accept}
+                        placeholder={field.placeholder}
+                        pattern={field.validation?.pattern}
+                        title={field.validation?.message}
+                        className="w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80] transition-all
+                          file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold
+                          file:bg-[#161A80] file:text-white hover:file:bg-[#14137D]"
+                      />
+                      {field.validation?.message && (
+                        <p className="text-[12px] text-[#666666] mt-1">
+                          {field.validation.message}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-8">
               <button
                 type="submit"
-                className="flex-1 bg-[#161A80] hover:bg-[#14137D] text-white py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors"
+                className="flex-1 bg-[#161A80] hover:bg-[#14137D] text-white py-[14px] rounded-[10px] font-[600] text-[16px] transition-all duration-200 hover:shadow-lg"
               >
                 Submit Application
               </button>
               <button
                 type="button"
                 onClick={handleExitApplication}
-                className="flex-1 bg-[#DC2626] hover:bg-[#B91C1C] text-white py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors"
+                className="flex-1 border-2 border-[#DC2626] text-[#DC2626] hover:bg-[#FEE2E2] py-[14px] rounded-[10px] font-[600] text-[16px] transition-all duration-200"
               >
-                Exit Application
+                Cancel Application
               </button>
             </div>
           </form>
