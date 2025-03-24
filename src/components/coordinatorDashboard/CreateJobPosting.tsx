@@ -5,6 +5,7 @@ import api from "../api/axiosInstance"; // Import your Axios instance
 interface FormField {
   label: string;
   type: string; // e.g., "text", "file", "textarea"
+  mandatory?: boolean; // Add a flag to indicate if the field is mandatory
 }
 
 const CreateJobPosting = () => {
@@ -20,10 +21,18 @@ const CreateJobPosting = () => {
     requiredSkills: "",
     applicationDeadline: "",
   });
+
+  // Initialize formFields with mandatory fields
   const [formFields, setFormFields] = useState<FormField[]>([
-    { label: "Resume", type: "file" }, // Default field
-    { label: "Cover Letter", type: "textarea" }, // Default field
+    { label: "Name", type: "text", mandatory: true },
+    { label: "Email", type: "text", mandatory: true },
+    { label: "Phone Number", type: "text", mandatory: true },
+    { label: "Roll Number", type: "text", mandatory: true },
+    { label: "Branch", type: "text", mandatory: true },
+    { label: "Resume", type: "file", mandatory: false }, // Non-mandatory default field
+    { label: "Cover Letter", type: "textarea", mandatory: false }, // Non-mandatory default field
   ]);
+
   const [newField, setNewField] = useState({ label: "", type: "text" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,11 +59,16 @@ const CreateJobPosting = () => {
       setError("Please provide a label and type for the new form field.");
       return;
     }
-    setFormFields([...formFields, { label: newField.label, type: newField.type }]);
+    setFormFields([...formFields, { label: newField.label, type: newField.type, mandatory: false }]);
     setNewField({ label: "", type: "text" }); // Reset the new field input
   };
 
   const removeFormField = (index: number) => {
+    const field = formFields[index];
+    if (field.mandatory) {
+      setError("Cannot remove mandatory fields (Name, Email, Phone Number, Roll Number, Branch).");
+      return;
+    }
     setFormFields(formFields.filter((_, i) => i !== index));
   };
 
@@ -76,7 +90,7 @@ const CreateJobPosting = () => {
           .map((skill: string) => skill.trim())
           .filter((skill: string) => skill.length > 0),
         deadline: formData.applicationDeadline,
-        form: formFields, // Include the dynamic form fields
+        form: formFields.map(({ label, type }) => ({ label, type })), // Exclude the mandatory flag from the payload
         company: formData.company,
         jobType: formData.jobType,
       };
@@ -346,12 +360,13 @@ const CreateJobPosting = () => {
             {formFields.map((field, index) => (
               <div key={index} className="flex items-center gap-2">
                 <span className="flex-1 p-2 bg-gray-100 rounded-lg">
-                  {field.label} ({field.type})
+                  {field.label} ({field.type}) {field.mandatory && <span className="text-red-600 text-sm">(Required)</span>}
                 </span>
                 <button
                   type="button"
                   onClick={() => removeFormField(index)}
-                  className="p-2 text-red-600 hover:text-red-800"
+                  className={`p-2 ${field.mandatory ? "text-gray-400 cursor-not-allowed" : "text-red-600 hover:text-red-800"}`}
+                  disabled={field.mandatory}
                 >
                   Remove
                 </button>
