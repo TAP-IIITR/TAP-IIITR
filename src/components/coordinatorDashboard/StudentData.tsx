@@ -36,11 +36,12 @@ const StudentData = () => {
         // Note: We're not using the batch filter in the UI yet, but you can add it later if needed
 
         const response = await api.get("/student/tap", { params });
+        console.log("response is ",response)
         const studentsData = response.data.data.map((student: any) => ({
           id: student.id,
           name: `${student.firstName} ${student.lastName}`,
           email: student.regEmail || "N/A",
-          phone: student.phone || "N/A",
+          phone: student.mobile || "N/A",
           branch: student.branch || "N/A",
         }));
         setStudents(studentsData);

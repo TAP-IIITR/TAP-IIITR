@@ -16,7 +16,7 @@ interface FormField {
   placeholder?: string;
   accept?: string;
   readOnly?: boolean;
-  value?: string | number;
+  value?: string | number | File;
 }
 
 interface FormSection {
@@ -32,14 +32,13 @@ const FullCompanyDetails = () => {
   const applicationFormRef = useRef<HTMLDivElement>(null);
   const [jobData, setJobData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState<any>({});
 
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
         `http://localhost:3000/api/jobs/student/${id}`,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       
       if (data.success) {
@@ -49,9 +48,7 @@ const FullCompanyDetails = () => {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(
-          error.response?.data?.message || "Error fetching job data"
-        );
+        toast.error(error.response?.data?.message || "Error fetching job data");
       } else {
         toast.error("An unexpected error occurred");
       }
@@ -73,13 +70,51 @@ const FullCompanyDetails = () => {
 
   const handleExitApplication = () => {
     setShowApplicationForm(false);
+    setFormData({});
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSubmitApplication = (e: React.FormEvent) => {
+  const handleInputChange = (fieldId: string, value: string | File) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      [fieldId]: value,
+    }));
+  };
+
+  const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Application submitted successfully!");
-    handleExitApplication();
+    
+    try {
+      // Prepare form data for submission
+      const applicationData = {
+        form: {
+          ...formData,
+          studentName: `${jobData.student.firstName} ${jobData.student.lastName}`,
+          email: jobData.student.regEmail,
+          contactNumber: jobData.student.mobile,
+          cgpa: jobData.student.cgpa,
+          resumeUrl: jobData.student.resume?.url || "",
+        },
+      };
+
+      const response = await axios.post(
+        `http://localhost:3000/api/jobs/student/${id}/apply`,
+        applicationData,
+        { withCredentials: true }
+      );
+
+      if (response.data.statusCode === 200) {
+        toast.success("Application submitted successfully!");
+        setJobData((prev: any) => ({ ...prev, hasApplied: true }));
+        handleExitApplication();
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Error submitting application");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    }
   };
 
   if (loading) {
@@ -101,83 +136,35 @@ const FullCompanyDetails = () => {
     );
   }
 
-  // Define pre-filled fields
   const preFilledFields: FormSection[] = [
     {
       sectionId: "personal",
       title: "Personal Information",
       fields: [
-        {
-          id: "fullName",
-          label: "Name",
-          type: "text",
-          required: true,
-          readOnly: true,
-          value: `${jobData.student.firstName} ${jobData.student.lastName}`,
-        },
-        {
-          id: "email",
-          label: "Email",
-          type: "text",
-          required: true,
-          readOnly: true,
-          value: jobData.student.regEmail,
-        },
-        {
-          id: "phone",
-          label: "Phone Number",
-          type: "text",
-          required: true,
-          readOnly: true,
-          value: jobData.student.mobile,
-        },
+        { id: "fullName", label: "Name", type: "text", required: true, readOnly: true, value: `${jobData.student.firstName} ${jobData.student.lastName}` },
+        { id: "email", label: "Email", type: "text", required: true, readOnly: true, value: jobData.student.regEmail },
+        { id: "phone", label: "Phone Number", type: "text", required: true, readOnly: true, value: jobData.student.mobile },
       ],
     },
     {
       sectionId: "academic",
       title: "Academic Information",
       fields: [
-        {
-          id: "rollNumber",
-          label: "Roll Number",
-          type: "text",
-          required: true,
-          readOnly: true,
-          value: jobData.student.id,
-        },
-        {
-          id: "branch",
-          label: "Branch",
-          type: "text",
-          required: true,
-          readOnly: true,
-          value: jobData.student.branch,
-        },
-        {
-          id: "cgpa",
-          label: "CGPA",
-          type: "text",
-          required: true,
-          readOnly: true,
-          value: jobData.student.cgpa.toString(),
-        },
+        { id: "rollNumber", label: "Roll Number", type: "text", required: true, readOnly: true, value: jobData.student.id },
+        { id: "branch", label: "Branch", type: "text", required: true, readOnly: true, value: jobData.student.branch },
+        { id: "cgpa", label: "CGPA", type: "text", required: true, readOnly: true, value: jobData.student.cgpa.toString() },
       ],
     },
   ];
 
-  // Get labels of pre-filled fields to filter out duplicates
   const preFilledLabels = new Set(
-    preFilledFields
-      .flatMap(section => section.fields)
-      .map(field => field.label.toLowerCase())
+    preFilledFields.flatMap(section => section.fields).map(field => field.label.toLowerCase())
   );
 
-  // Filter out fields that are already pre-filled
   const additionalFields = jobData.form.filter(
     (field: any) => !preFilledLabels.has(field.label.toLowerCase())
   );
 
-  // Generate form configuration
   const applicationFormConfig: FormSection[] = [
     ...preFilledFields,
     ...(additionalFields.length > 0
@@ -221,37 +208,27 @@ const FullCompanyDetails = () => {
             <div className="flex flex-wrap gap-[20px]">
               <div className="flex items-center gap-[6px]">
                 <CiLocationOn className="h-[20px] w-[20px] text-[#212121]" />
-                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">
-                  {jobData.location}
-                </p>
+                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">{jobData.location}</p>
               </div>
               <div className="flex items-center gap-[6px]">
                 <MdOutlineBusinessCenter className="h-[20px] w-[20px] text-[#212121]" />
-                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">
-                  {jobData.jobType}
-                </p>
+                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">{jobData.jobType}</p>
               </div>
               <div className="flex items-center gap-[6px]">
                 <MdCurrencyRupee className="h-[20px] w-[20px] text-[#212121]" />
-                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">
-                  {jobData.package}
-                </p>
+                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">{jobData.package}</p>
               </div>
             </div>
 
             <div className="mt-[12px]">
-              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">
-                Job Description
-              </p>
+              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">Job Description</p>
               <div className="space-y-[12px] text-[14px] text-[#3D3D3D] leading-[22px]">
                 <p>{jobData.JD}</p>
               </div>
             </div>
 
             <div className="mt-[16px]">
-              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">
-                Required Skills
-              </p>
+              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">Required Skills</p>
               <div className="flex flex-wrap gap-[8px]">
                 {jobData.skills.map((skill: string, index: number) => (
                   <span
@@ -265,9 +242,7 @@ const FullCompanyDetails = () => {
             </div>
 
             <div className="mt-[16px]">
-              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">
-                Eligibility Criteria
-              </p>
+              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">Eligibility Criteria</p>
               <ul className="list-disc list-inside text-[14px] text-[#3D3D3D] leading-[22px] space-y-[8px]">
                 <li>{jobData.eligibility}</li>
               </ul>
@@ -280,9 +255,7 @@ const FullCompanyDetails = () => {
             className="bg-[#FFF] rounded-[12px] p-[16px]"
             style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
           >
-            <p className="text-[20px] md:text-[22px] font-[600] text-[#212121] mb-[12px]">
-              Important Dates
-            </p>
+            <p className="text-[20px] md:text-[22px] font-[600] text-[#212121] mb-[12px]">Important Dates</p>
             <div className="flex lg:flex-col gap-[12px] overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
               <div className="flex-shrink-0 w-[280px] lg:w-auto">
                 <div className="flex items-center gap-[12px]">
@@ -290,9 +263,7 @@ const FullCompanyDetails = () => {
                     <IoMdAlarm className="h-[20px] w-[20px] text-[#161A80]" />
                   </div>
                   <div>
-                    <p className="text-[14px] text-[#666666]">
-                      Application Deadline
-                    </p>
+                    <p className="text-[14px] text-[#666666]">Application Deadline</p>
                     <p className="text-[16px] font-[500] text-[#212121]">
                       {new Date(jobData.deadline).toLocaleDateString()}
                     </p>
@@ -324,18 +295,12 @@ const FullCompanyDetails = () => {
         <div
           ref={applicationFormRef}
           className="mt-8 bg-white rounded-[12px] p-[16px] md:p-[24px]"
-          style={{
-            boxShadow:
-              "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
-          }}
+          style={{ boxShadow: "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)" }}
         >
           <div className="mb-6">
-            <h2 className="text-[28px] font-[600] text-[#161A80]">
-              Application Form
-            </h2>
+            <h2 className="text-[28px] font-[600] text-[#161A80]">Application Form</h2>
             <p className="text-[#666666] text-[14px] mt-2">
-              Please fill in all the required fields marked with an asterisk (*).
-              Pre-filled fields cannot be modified.
+              Please fill in all the required fields marked with an asterisk (*). Pre-filled fields cannot be modified.
             </p>
           </div>
 
@@ -349,22 +314,17 @@ const FullCompanyDetails = () => {
                   {section.fields.map((field) => (
                     <div
                       key={field.id}
-                      className={`${
-                        field.type === "file" || field.type === "textarea"
-                          ? "md:col-span-2"
-                          : ""
-                      } transition-all duration-200 ease-in-out`}
+                      className={`${field.type === "file" || field.type === "textarea" ? "md:col-span-2" : ""} transition-all duration-200 ease-in-out`}
                     >
                       <label className="block text-[15px] font-[500] text-[#444444] mb-2">
                         {field.label}
-                        {field.required && (
-                          <span className="text-[#DC2626] ml-1">*</span>
-                        )}
+                        {field.required && <span className="text-[#DC2626] ml-1">*</span>}
                       </label>
                       {field.type === "textarea" ? (
                         <textarea
                           required={field.required}
                           placeholder={field.placeholder}
+                          onChange={(e) => handleInputChange(field.id, e.target.value)}
                           className={`w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none transition-all
                             ${field.readOnly ? 'bg-gray-100 cursor-not-allowed' : 'focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]'}
                             min-h-[100px]`}
@@ -375,8 +335,9 @@ const FullCompanyDetails = () => {
                           required={field.required}
                           accept={field.accept}
                           placeholder={field.placeholder}
-                          value={field.value}
+                          value={field.readOnly ? field.value : (field.type === "file" ? undefined : formData[field.id] || "")}
                           readOnly={field.readOnly}
+                          onChange={(e) => handleInputChange(field.id, field.type === "file" ? e.target.files![0] : e.target.value)}
                           className={`w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none transition-all
                             ${field.readOnly ? 'bg-gray-100 cursor-not-allowed' : 'focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]'}
                             file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold
