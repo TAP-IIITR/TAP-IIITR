@@ -4,6 +4,7 @@ import axios from "axios";
 import acadBlock from "../../assets/acad-block.png";
 import logo from "../../assets/logoIIITR.png";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const tabs = ["student", "recruiter"];
 
@@ -74,16 +75,16 @@ const SignupPage = () => {
         }
       );
 
-      alert(data.message || "Registration successful!");
+      toast.success(data.message || "Registration successful!");
       setFormData(initialState);
       navigate("/login");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(
+        toast.error(
           error.response?.data?.errors[0]?.message || "Registration failed!"
         );
       } else {
-        alert("An unexpected error occurred!");
+        toast.error("An unexpected error occurred!");
       }
     } finally {
       setLoading(false);

@@ -9,6 +9,7 @@ import {
 import { Separator } from "./ui/separator";
 import { Link } from "react-scroll";
 import navbarImage from "@/assets/navbar-name.png";
+import { useNavigate } from "react-router-dom";
 
 const navbarItems = [
   {
@@ -33,6 +34,7 @@ const navbarItems = [
   },
 ];
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <div className="fixed z-10 left-10 right-10 top-4">
       <nav className="bg-gray-400 md:block hidden bg-opacity-70 backdrop-blur-lg backdrop-filter w-full h-4 rounded-[50px] py-8 px-8">
@@ -62,7 +64,12 @@ const Navbar = () => {
               </Link>
             );
           })}
-          <div className="rounded-[32px] bg-[#1E39A4] h-[48px] w-[115px] flex items-center justify-center cursor-pointer">
+          <div
+            className="rounded-[32px] bg-[#1E39A4] h-[48px] w-[115px] flex items-center justify-center cursor-pointer"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
             <p className="font-[700] text-lg text-[#FFF] text-center ">
               TAP Portal
             </p>

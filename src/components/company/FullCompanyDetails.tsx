@@ -1,10 +1,14 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { FaArrowLeft } from "react-icons/fa";
 import { IoMdAlarm } from "react-icons/io";
 import { MdCurrencyRupee, MdOutlineBusinessCenter } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRef, useState } from "react";
-
+import { useRef } from "react";
+import { toast } from "react-toastify";
+import { error } from "console";
+import api from "../api/axiosInstance";
 
 interface FormField {
   id: string;
@@ -191,6 +195,55 @@ const FullCompanyDetails = () => {
     alert("Application submitted successfully!");
     handleExitApplication();
   };
+
+  const [jobData, setJobData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const fetchJobData = async () => {
+    console.log("NEWW");
+    try {
+      const data = await api.get(`/jobs/student/${id}`);
+      // const { data } = await axios.get(
+      //   `http://localhost:3000/api/jobs/student/${id}`,
+      //   {
+      //     withCredentials: true,
+      //   }
+      // );
+      console.log(data);
+      // if (data.statusCode === 200) {
+      //   setJobData(data.jobs);
+      //   console.log(data.jobs);
+      // } else {
+      //   console.log(error);
+      //   toast.error("Failed to load jobs data");
+      // }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Error fetching jobs data"
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-800 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-[16px] p-[8px] md:p-[16px]">
