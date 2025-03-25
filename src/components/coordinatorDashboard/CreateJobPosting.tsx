@@ -38,7 +38,11 @@ const CreateJobPosting = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -46,7 +50,9 @@ const CreateJobPosting = () => {
     }));
   };
 
-  const handleNewFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleNewFieldChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setNewField((prev) => ({
       ...prev,
@@ -59,14 +65,19 @@ const CreateJobPosting = () => {
       setError("Please provide a label and type for the new form field.");
       return;
     }
-    setFormFields([...formFields, { label: newField.label, type: newField.type, mandatory: false }]);
+    setFormFields([
+      ...formFields,
+      { label: newField.label, type: newField.type, mandatory: false },
+    ]);
     setNewField({ label: "", type: "text" }); // Reset the new field input
   };
 
   const removeFormField = (index: number) => {
     const field = formFields[index];
     if (field.mandatory) {
-      setError("Cannot remove mandatory fields (Name, Email, Phone Number, Roll Number, Branch).");
+      setError(
+        "Cannot remove mandatory fields (Name, Email, Phone Number, Roll Number, Branch)."
+      );
       return;
     }
     setFormFields(formFields.filter((_, i) => i !== index));
@@ -107,11 +118,16 @@ const CreateJobPosting = () => {
         setError("You are not authorized. Please log in again.");
         setTimeout(() => navigate("/login"), 2000);
       } else if (err.response?.status === 400) {
-        setError(err.response.data.message || "Invalid input. Please check the form fields.");
+        setError(
+          err.response.data.message ||
+            "Invalid input. Please check the form fields."
+        );
       } else if (err.response?.status === 500) {
         setError("Server error. Please try again later or contact support.");
       } else if (err.message === "Network Error") {
-        setError("Unable to connect to the server. Please check your network or server status.");
+        setError(
+          "Unable to connect to the server. Please check your network or server status."
+        );
       } else {
         setError("Failed to create job. Please try again.");
       }
@@ -120,7 +136,7 @@ const CreateJobPosting = () => {
     }
   };
 
-  const jobTypes = ["Full Time", "Part Time", "Internship", "Contract"];
+  const jobTypes = ["Internship", "Full-Time", "Intern + Full-Time"];
   const fieldTypes = ["text", "textarea", "file"];
 
   return (
@@ -360,12 +376,19 @@ const CreateJobPosting = () => {
             {formFields.map((field, index) => (
               <div key={index} className="flex items-center gap-2">
                 <span className="flex-1 p-2 bg-gray-100 rounded-lg">
-                  {field.label} ({field.type}) {field.mandatory && <span className="text-red-600 text-sm">(Required)</span>}
+                  {field.label} ({field.type}){" "}
+                  {field.mandatory && (
+                    <span className="text-red-600 text-sm">(Required)</span>
+                  )}
                 </span>
                 <button
                   type="button"
                   onClick={() => removeFormField(index)}
-                  className={`p-2 ${field.mandatory ? "text-gray-400 cursor-not-allowed" : "text-red-600 hover:text-red-800"}`}
+                  className={`p-2 ${
+                    field.mandatory
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-red-600 hover:text-red-800"
+                  }`}
                   disabled={field.mandatory}
                 >
                   Remove

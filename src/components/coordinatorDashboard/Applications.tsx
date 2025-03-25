@@ -1,127 +1,72 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { SearchIcon } from "lucide-react";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { RxCrossCircled } from "react-icons/rx";
-import { MdOutlineWatchLater } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Applications = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterBy, setFilterBy] = useState("");
 
-  // Sample applications data (15 applications)
-  const applications = [
-    {
-      id: 1,
-      name: "John Doe",
-      jobTitle: "Software Engineer",
-      company: "TechCorp",
-      status: "Selected",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      jobTitle: "Frontend Developer",
-      company: "WebSolutions",
-      status: "Selected",
-    },
-    {
-      id: 3,
-      name: "Raj Kumar",
-      jobTitle: "Full Stack Developer",
-      company: "InnovateTech",
-      status: "Pending",
-    },
-    {
-      id: 4,
-      name: "Priya Singh",
-      jobTitle: "Data Scientist",
-      company: "DataMinds",
-      status: "Selected",
-    },
-    {
-      id: 5,
-      name: "Aditya Sharma",
-      jobTitle: "DevOps Engineer",
-      company: "CloudTech",
-      status: "Pending",
-    },
-    {
-      id: 6,
-      name: "Neha Patel",
-      jobTitle: "Product Manager",
-      company: "ProductX",
-      status: "Selected",
-    },
-    {
-      id: 7,
-      name: "Arjun Reddy",
-      jobTitle: "QA Engineer",
-      company: "QualityTech",
-      status: "Selected",
-    },
-    {
-      id: 8,
-      name: "Sanya Malhotra",
-      jobTitle: "UX Designer",
-      company: "DesignHub",
-      status: "Pending",
-    },
-    {
-      id: 9,
-      name: "Rahul Verma",
-      jobTitle: "Backend Developer",
-      company: "ServerLogic",
-      status: "Selected",
-    },
-    {
-      id: 10,
-      name: "Ananya Desai",
-      jobTitle: "ML Engineer",
-      company: "AILabs",
-      status: "Selected",
-    },
-    {
-      id: 11,
-      name: "Vikram Khanna",
-      jobTitle: "Systems Architect",
-      company: "ArchSystems",
-      status: "Pending",
-    },
-    {
-      id: 12,
-      name: "Shreya Gupta",
-      jobTitle: "Mobile Developer",
-      company: "AppWorks",
-      status: "Selected",
-    },
-    {
-      id: 13,
-      name: "Karan Sharma",
-      jobTitle: "Software Engineer",
-      company: "TechCorp",
-      status: "Pending",
-    },
-    {
-      id: 14,
-      name: "Nisha Patel",
-      jobTitle: "Cloud Engineer",
-      company: "CloudNine",
-      status: "Selected",
-    },
-    {
-      id: 15,
-      name: "Rohan Mehta",
-      jobTitle: "Database Administrator",
-      company: "DataCore",
-      status: "Selected",
-    },
-  ];
+  // Updated interface to match the new data structure
+  interface Application {
+    id: string;
+    jobId: string;
+    jobTitle: string;
+    company: string;
+    createdAt: string;
+    student: any;
+    // You might want to add a status field if not present in the data
+    status?: string;
+  }
 
-  // Get unique statuses for filter options
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchApplications = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/jobs/tap/applications`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      if (data.success) {
+        // Assuming data.data is the array of applications
+        setApplications(data.data);
+      } else {
+        toast.error(data.message || "Failed to load applications data");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Error fetching applications data"
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchApplications();
+  }, []);
+
+  // Get unique statuses for filter options (if status is available)
   const statuses = useMemo(() => {
-    const uniqueStatuses = [...new Set(applications.map((app) => app.status))];
+    // If status is not directly available, you might derive it from another field
+    // For example, using creation date or some other criteria
+    const uniqueStatuses = [
+      ...new Set(
+        applications.map(
+          (app) => app.status || new Date(app.createdAt).toLocaleDateString()
+        )
+      ),
+    ];
     return uniqueStatuses.sort();
   }, [applications]);
 
@@ -130,25 +75,45 @@ const Applications = () => {
     return applications.filter((application) => {
       const matchesSearch =
         searchQuery === "" ||
-        application.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        application.student.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         application.jobTitle
           .toLowerCase()
           .includes(searchQuery.toLowerCase()) ||
-        application.company.toLowerCase().includes(searchQuery.toLowerCase());
+        application.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        application.student.email
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
 
-      const matchesFilter = filterBy === "" || application.status === filterBy;
+      const matchesFilter =
+        filterBy === "" ||
+        application.status === filterBy ||
+        new Date(application.createdAt).toLocaleDateString() === filterBy;
 
       return matchesSearch && matchesFilter;
     });
   }, [applications, searchQuery, filterBy]);
 
-  const handleViewApplication = (applicationId: number) => {
+  const handleViewApplication = (applicationId: string) => {
     console.log(`View application details for ID: ${applicationId}`);
+    // Implement navigation or modal for application details
   };
 
-  const handleViewJobDetails = (applicationId: number) => {
-    navigate(`/dashboard/coordinator/job-details/${applicationId}`);
+  const handleViewJobDetails = (jobId: string) => {
+    navigate(`/dashboard/coordinator/job-details/${jobId}`);
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-800 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-[26px] p-[24px]">
@@ -170,7 +135,7 @@ const Applications = () => {
           <SearchIcon size={18} className="text-[#9E9E9E] mr-[8px]" />
           <input
             type="text"
-            placeholder="Search by student name, job title, or company..."
+            placeholder="Search by student name, job title, company, or email..."
             className="w-full bg-transparent text-[14px] focus:outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -209,7 +174,7 @@ const Applications = () => {
             <div className="flex flex-col md:flex-row md:justify-between md:items-start">
               <div>
                 <p className="text-[22px] font-[600] leading-[30px] text-[#161A80]">
-                  {application.name}
+                  {application.student.name}
                 </p>
                 <p className="text-[18px] font-[500] leading-[26px] text-[#3D3D3D] mt-[8px]">
                   {application.jobTitle}
@@ -217,36 +182,18 @@ const Applications = () => {
                 <p className="text-[16px] font-[400] leading-[22px] text-[#666666] mt-[6px]">
                   {application.company}
                 </p>
+                {Object.entries(application.student).map(([key, value]) => (
+                  <p
+                    key={key}
+                    className="text-[14px] font-[400] leading-[20px] text-[#666666] mt-[4px] capitalize"
+                  >
+                    {key.replace(/([A-Z])/g, " $1")}: {String(value) || "N/A"}
+                  </p>
+                ))}
               </div>
 
-              {/* RIGHT SIDE: Status and buttons */}
+              {/* RIGHT SIDE: Buttons */}
               <div className="flex flex-col items-start md:items-end mt-[16px] md:mt-0">
-                {/* Status Indicator */}
-                <div className="mb-[16px]">
-                  {application.status === "Selected" ? (
-                    <div className="bg-[#D6FFD6] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
-                      <IoIosCheckmarkCircleOutline className="h-[18px] w-[18px] text-[#16A34A]" />
-                      <p className="text-[#16A34A] font-[500] text-[13px]">
-                        Selected
-                      </p>
-                    </div>
-                  ) : application.status === "Rejected" ? (
-                    <div className="bg-[#F5CDCD] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
-                      <RxCrossCircled className="h-[18px] w-[18px] text-[#DC2626]" />
-                      <p className="text-[#DC2626] font-[500] text-[13px]">
-                        Rejected
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="bg-[#FFF4CD] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
-                      <MdOutlineWatchLater className="h-[18px] w-[18px] text-[#D97706]" />
-                      <p className="text-[#D97706] font-[500] text-[13px]">
-                        Pending
-                      </p>
-                    </div>
-                  )}
-                </div>
-
                 <div className="flex flex-col sm:flex-row gap-[12px]">
                   <button
                     onClick={() => handleViewApplication(application.id)}
@@ -257,7 +204,7 @@ const Applications = () => {
                     </p>
                   </button>
                   <button
-                    onClick={() => handleViewJobDetails(application.id)}
+                    onClick={() => handleViewJobDetails(application.jobId)}
                     className="h-[44px] px-[16px] rounded-[10px] bg-[#161A80] border-[1.5px] border-[#161A80] flex items-center justify-center cursor-pointer hover:bg-[#14137D] transition-colors"
                   >
                     <p className="font-[600] text-[14px] text-[#FFFFFF]">

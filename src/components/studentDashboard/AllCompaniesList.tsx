@@ -16,6 +16,7 @@ interface Job {
   deadline: string;
   status: string;
   jobType: string;
+  jobid: any;
 }
 
 const AllCompaniesList = () => {
@@ -26,9 +27,12 @@ const AllCompaniesList = () => {
   const fetchJobData = async () => {
     try {
       const query = jobTypeFilter ? `?query=${jobTypeFilter}` : "";
-      const { data } = await axios.get(`http://localhost:3000/api/jobs/student${query}`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `http://localhost:3000/api/jobs/student${query}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (data.statusCode === 200) {
         setJobData(data.jobs);
       } else {
@@ -36,7 +40,9 @@ const AllCompaniesList = () => {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Error fetching jobs data");
+        toast.error(
+          error.response?.data?.message || "Error fetching jobs data"
+        );
       } else {
         toast.error("An unexpected error occurred");
       }
@@ -87,9 +93,11 @@ const AllCompaniesList = () => {
         style={{ boxShadow: "1px 1px 6px 0px #00000040" }}
       >
         {jobData && jobData.length > 0 ? (
-          jobData.map((job) => <CompanyCard key={job.jobid} jobData={job} />)
+          jobData.map((job) => <CompanyCard key={job?.jobid} jobData={job} />)
         ) : (
-          <p className="text-center text-gray-600">No jobs available at the moment.</p>
+          <p className="text-center text-gray-600">
+            No jobs available at the moment.
+          </p>
         )}
       </div>
     </div>

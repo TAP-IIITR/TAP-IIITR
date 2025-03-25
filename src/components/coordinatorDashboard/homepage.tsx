@@ -12,6 +12,8 @@ import DocumentIcon from "../../assets/coordinatorDashboard/document.png";
 import LocationIcon from "../../assets/coordinatorDashboard/location.png";
 import JobTypeIcon from "../../assets/coordinatorDashboard/job-type.png";
 import TimeIcon from "../../assets/coordinatorDashboard/time.png";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 // Define interfaces for the data
 interface Stat {
@@ -31,34 +33,58 @@ interface Job {
 }
 
 interface Application {
-  name: string;
-  role: string;
-  status: string;
+  id: string;
+  jobId: string;
+  jobTitle: string;
+  company: string;
+  createdAt: string;
+  student: any;
+  status?: string;
 }
 
 const CoordinatorHomepage = () => {
   const [stats, setStats] = useState<Stat[]>([]);
   const [recentJobs, setRecentJobs] = useState<Job[]>([]);
-  const [recentApplications] = useState<Application[]>([
-    { name: "John Doe", role: "Software Dev at TechCorp", status: "Accepted" },
-    { name: "John Doe", role: "Software Dev at TechCorp", status: "Rejected" },
-    {
-      name: "John Doe",
-      role: "Software Dev at TechCorp",
-      status: "Under Review",
-    },
-    { name: "John Doe", role: "Software Dev at TechCorp", status: "Selected" },
-    {
-      name: "John Doe",
-      role: "Software Dev at TechCorp",
-      status: "Under Review",
-    },
-  ]); // Hardcoded data for recent applications
+
+  const [applications, setApplications] = useState<Application[]>([]); // Hardcoded data for recent applications
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   // Fetch data from the backend on component mount (excluding recent applications)
+
+  const fetchApplications = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/jobs/tap/applications`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      if (data.success) {
+        // Assuming data.data is the array of applications
+        setApplications(data.data);
+      } else {
+        toast.error(data.message || "Failed to load applications data");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Error fetching applications data"
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchApplications();
+  }, []);
+
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
@@ -66,6 +92,7 @@ const CoordinatorHomepage = () => {
 
         // Fetch dashboard stats
         const statsResponse = await api.get("/dashboard/tap");
+        console.log("HIII", statsResponse.data);
         const statsData = statsResponse.data.data;
         setStats([
           {
@@ -152,11 +179,13 @@ const CoordinatorHomepage = () => {
   }
 
   return (
-    <div className="p-4 md:p-16">
+    <div className="p-4 md:p-6">
       <div className="mb-8 md:mb-12">
         <h1 className="text-xl md:text-2xl text-[#161A80]">
           Welcome,{" "}
-          <span className="text-4xl md:text-5xl font-bold">John Doe!</span>
+          <span className="text-4xl md:text-5xl font-bold">
+            T&P Coordinator
+          </span>
         </h1>
         <p className="text-sm md:text-base text-gray-600">
           View and manage all the job postings, verify recruiters, and track
@@ -225,9 +254,6 @@ const CoordinatorHomepage = () => {
                         </span>
                       </div>
                     </div>
-                    <span className="text-xs md:text-sm font-bold bg-[#E7E7FF] text-[#161A80] px-4 py-2 rounded-full mt-2 md:mt-0">
-                      {job.status}
-                    </span>
                   </div>
                 </div>
               ))
@@ -250,32 +276,20 @@ const CoordinatorHomepage = () => {
             Recent Applications
           </h2>
           <div className="space-y-4">
-            {recentApplications.length > 0 ? (
-              recentApplications.map((application, index) => (
+            {applications.length > 0 ? (
+              applications.slice(0, 5).map((application, index) => (
                 <div
                   key={index}
                   className="border-b pb-4 flex flex-col md:flex-row md:items-center justify-between"
                 >
                   <div className="flex flex-col">
                     <h3 className="font-semibold text-sm md:text-base">
-                      {application.name}
+                      {application.student?.name}
                     </h3>
                     <p className="text-gray-600 text-xs md:text-sm">
-                      {application.role}
+                      {application.jobTitle} at {application.company}
                     </p>
                   </div>
-                  <span
-                    className={`text-xs md:text-sm font-bold px-4 py-2 rounded-full mt-2 md:mt-0 ${
-                      application.status === "Selected" ||
-                      application.status === "Accepted"
-                        ? "bg-green-100 text-green-800"
-                        : application.status === "Rejected"
-                        ? "bg-red-100 text-red-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {application.status}
-                  </span>
                 </div>
               ))
             ) : (

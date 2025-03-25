@@ -37,7 +37,7 @@ const StudentDashboard = () => {
             isMobile ? "pt-16" : ""
           }`}
         >
-          <div className="h-full p-4 md:p-6 lg:p-8">
+          <div className="h-full p-4 md:p-6 lg:p-8 overflow-auto">
             <Outlet />
           </div>
         </main>

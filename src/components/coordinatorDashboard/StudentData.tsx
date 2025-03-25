@@ -27,6 +27,7 @@ const StudentData = () => {
       try {
         setLoading(true);
         setError(null);
+        console.log("Fetch Students");
 
         // Build query parameters
         const params: { branch?: string; batch?: number } = {};
@@ -36,7 +37,7 @@ const StudentData = () => {
         // Note: We're not using the batch filter in the UI yet, but you can add it later if needed
 
         const response = await api.get("/student/tap", { params });
-        console.log("response is ",response)
+        console.log("response is ", response);
         const studentsData = response.data.data.map((student: any) => ({
           id: student.id,
           name: `${student.firstName} ${student.lastName}`,
@@ -53,7 +54,9 @@ const StudentData = () => {
         } else if (err.response?.status === 500) {
           setError("Server error. Please try again later or contact support.");
         } else if (err.message === "Network Error") {
-          setError("Unable to connect to the server. Please check your network or server status.");
+          setError(
+            "Unable to connect to the server. Please check your network or server status."
+          );
         } else {
           setError(err.response?.data?.message || "Failed to fetch students");
         }
@@ -67,7 +70,9 @@ const StudentData = () => {
 
   // Get unique branches for filter options
   const branches = useMemo(() => {
-    const uniqueBranches = [...new Set(students.map((student) => student.branch))];
+    const uniqueBranches = [
+      ...new Set(students.map((student) => student.branch)),
+    ];
     return uniqueBranches.sort();
   }, [students]);
 
@@ -188,7 +193,7 @@ const StudentData = () => {
 
             <div className="border-t border-[#E0E0E0] pt-[16px]">
               <button
-                onClick={() => handleViewProfile(student.id)}
+                onClick={() => handleViewProfile(student?.id)}
                 className="w-full h-[44px] rounded-[10px] bg-[#FFFFFF] border-[1.5px] border-[#161A80] flex items-center justify-center cursor-pointer hover:bg-[#F5F5F5] transition-colors"
               >
                 <p className="font-[600] text-[16px] text-[#161A80]">

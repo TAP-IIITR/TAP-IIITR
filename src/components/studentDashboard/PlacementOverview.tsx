@@ -1,8 +1,56 @@
 import { MdApartment, MdOutlineWorkOutline } from "react-icons/md";
 import RecentJobOpeningsCard from "./RecentJobOpeningsCard";
 import { BsPersonVcardFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const PlacementOverview = () => {
+  const [applicationData, setApplicationData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchApplications = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/jobs/student/mm`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      if (data.statusCode === 200) {
+        setApplicationData(data.applications);
+      } else {
+        toast.error("Failed to load jobs data");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Error fetching jobs data"
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchApplications();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-800 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-[26px]">
       <div className="flex flex-col">

@@ -1,78 +1,91 @@
+import { useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
-import { CiLocationOn } from "react-icons/ci";
-import { IoIosCheckmarkCircleOutline, IoMdAlarm } from "react-icons/io";
-import {
-  MdCorporateFare,
-  MdCurrencyRupee,
-  MdOutlineBusinessCenter,
-} from "react-icons/md";
-import { RxCrossCircled } from "react-icons/rx";
+import { IoMdAlarm } from "react-icons/io";
+import { MdCorporateFare, MdOutlineBusinessCenter } from "react-icons/md";
 
 interface ApplicationCompanyCardProps {
-  applicationStatus: string;
+  data: any;
 }
 
-const ApplicationCompanyCard = ({
-  applicationStatus,
-}: ApplicationCompanyCardProps) => {
+const ApplicationCompanyCard = ({ data }: ApplicationCompanyCardProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function formatTimestamp(timestamp: any) {
+    if (!timestamp?.seconds) return "N/A";
+    const date = new Date(timestamp.seconds * 1000);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
   return (
-    <div className="h-auto min-h-[127px] w-full border-[0.75px] border-[#E0E0E0] rounded-[12px] flex flex-col md:flex-row items-start md:items-center justify-between px-[20px] py-[15px] md:py-0">
-      <div className="flex flex-col">
-        <p className="text-[#212121] font-[600] text-[20px] md:text-[25px] leading-[30px] md:leading-[38px]">
-          Software Engineer
-        </p>
-        <div className="flex gap-[10px]">
-          <MdCorporateFare className="h-[28px] w-[28px] text-[#212121]" />
-          <p className="text-[#3D3D3D] text-[18px] md:text-[20px] font-[500] leading-[30px]">
-            TechCorp
+    <>
+      {/* Main Card */}
+      <div className="h-auto min-h-[127px] w-full border border-[#E0E0E0] rounded-[12px] flex flex-col md:flex-row items-start md:items-center justify-between px-5 py-4">
+        <div className="flex flex-col">
+          <p className="text-[#212121] font-semibold text-[20px] md:text-[25px]">
+            {data.job.title}
           </p>
-        </div>
-        <div className="flex flex-wrap gap-[10px] md:gap-[18px] mt-[8px]">
-          <div className="flex items-center justify-center gap-[6px]">
-            <CiLocationOn className="h-[16px] w-[16px] text-[#212121]" />
-            <p className="text-[#3D3D3D] font-[400] text-[13px] leading-[20px]">
-              Ranchi, JH
+          <div className="flex gap-2">
+            <MdCorporateFare className="h-7 w-7 text-[#212121]" />
+            <p className="text-[#3D3D3D] text-[18px] font-medium">
+              {data.job.company}
             </p>
           </div>
-          <div className="flex items-center justify-center gap-[6px]">
-            <MdOutlineBusinessCenter className="h-[16px] w-[16px] text-[#212121]" />
-            <p className="text-[#3D3D3D] font-[400] text-[13px] leading-[20px]">
-              Full-Time
-            </p>
-          </div>
-          <div className="flex items-center justify-center gap-[6px]">
-            <MdCurrencyRupee className="h-[16px] w-[16px] text-[#212121]" />
-            <p className="text-[#3D3D3D] font-[400] text-[13px] leading-[20px]">
-              120,000/annum
-            </p>
-          </div>
-          <div className="flex items-center justify-center gap-[6px]">
-            <IoMdAlarm className="h-[16px] w-[16px] text-[#212121]" />
-            <p className="text-[#3D3D3D] font-[400] text-[13px] leading-[20px]">
-              25/01/2025
-            </p>
+          <div className="flex flex-wrap gap-4 mt-2">
+            <div className="flex items-center gap-2">
+              <MdOutlineBusinessCenter className="h-4 w-4 text-[#212121]" />
+              <p className="text-[#3D3D3D] text-sm">{data.job.jobType}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <IoMdAlarm className="h-4 w-4 text-[#212121]" />
+              <p className="text-[#3D3D3D] text-sm">
+                {formatTimestamp(data.job.deadline)}
+              </p>
+            </div>
           </div>
         </div>
+
+        {/* View Application Button */}
+        <button
+          onClick={() => setIsOpen(true)}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg mt-3 md:mt-0"
+        >
+          View Application
+        </button>
       </div>
-      <div className="mt-3 md:mt-0 self-end md:self-auto">
-        {applicationStatus == "Selected" ? (
-          <div className="bg-[#D6FFD6] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
-            <IoIosCheckmarkCircleOutline className="h-[18px] w-[18px] text-[#16A34A]" />
-            <p className="text-[#16A34A] font-[500] text-[13px]">Selected</p>
+
+      {/* Modal */}
+      {isOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg w-[90%] max-w-md shadow-lg">
+            <h2 className="text-xl font-semibold text-center">
+              Application Details
+            </h2>
+            <div className="mt-4">
+              {Object.entries(data?.form || {}).map(([key, value]) => (
+                <p key={key} className="text-gray-600 text-sm mt-2">
+                  <span className="font-medium capitalize">
+                    {key.replace(/([A-Z])/g, " $1")}
+                  </span>
+                  : {String(value) || "N/A"}
+                </p>
+              ))}
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg"
+            >
+              Close
+            </button>
           </div>
-        ) : applicationStatus == "Rejected" ? (
-          <div className="bg-[#F5CDCD] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
-            <RxCrossCircled className="h-[18px] w-[18px] text-[#DC2626]" />
-            <p className="text-[#DC2626] font-[500] text-[13px]">Rejected</p>
-          </div>
-        ) : (
-          <div className="bg-[#FFF1C3] rounded-[12px] h-[40px] w-[122px] flex items-center justify-center gap-[4px]">
-            <AiOutlineClockCircle className="h-[18px] w-[18px] text-[#FFC715]" />
-            <p className="text-[#FFC715] font-[500] text-[13px]">Pending</p>
-          </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
