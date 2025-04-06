@@ -38,7 +38,6 @@ const AllCompaniesList = () => {
       if (data.statusCode === 200) {
         setJobData(data.jobs);
         setFilteredJobData(data.jobs);
-        console.log(" the jobs are ", data.jobs);
       } else {
         toast.error("Failed to load jobs data");
       }

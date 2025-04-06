@@ -22,7 +22,6 @@ const MyApplication = () => {
       if (data.statusCode === 200) {
         setJobData(data.applications);
         setFilteredJobData(data.applications);
-        console.log(" the application data is ", data.applications);
       } else {
         toast.error("Failed to load jobs data");
       }

@@ -1,6 +1,8 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/iiitranchi-white-logo.png";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 type StudentSidebarProps = {
   isMobile: boolean;
@@ -9,13 +11,40 @@ type StudentSidebarProps = {
 const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
-
+    const navigate = useNavigate();
+  
   const menuItems = [
     { title: "Student Profile", path: "/dashboard/student/profile" },
     { title: "Placement Overview", path: "/dashboard/student/placement-overview" },
     { title: "Job Offers", path: "/dashboard/student/job-offers" },
     { title: "My Applications", path: "/dashboard/student/my-applications" },
   ];
+
+
+  const handleLogout = async () => {
+
+    try {
+      const { data } = await axios.post("/api/auth/student/logout",
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      toast.success(data.message || "Logout successful!");
+      navigate("/login");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.errors[0]?.message || "Logout failed!"
+        );
+      } else {
+        toast.error("An unexpected error occurred!");
+      }
+    }
+  };
+
+
+
 
   if (isMobile) {
     return (
@@ -76,7 +105,7 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
               ))}
               <button
                 className="w-full h-12 text-sm flex items-center px-6 text-white hover:bg-[#29A8EF]/20"
-                onClick={() => setIsDropdownOpen(false)}
+                onClick={handleLogout}
               >
                 Logout
               </button>
@@ -120,7 +149,7 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
         })}
       </nav>
 
-      <button className="h-12 w-full flex items-center justify-center px-6 hover:bg-[#29A8EF]/50 mb-6">
+      <button className="h-12 w-full flex items-center justify-center px-6 hover:bg-[#29A8EF]/50 mb-6" onClick={handleLogout}>
         Logout
       </button>
     </div>

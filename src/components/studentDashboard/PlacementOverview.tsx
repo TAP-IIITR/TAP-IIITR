@@ -40,10 +40,6 @@ const PlacementOverview = () => {
       // Process applications data
       if (applicationsResponse.data.statusCode === 200) {
         setApplicationData(applicationsResponse.data.applications);
-        console.log(
-          "Applications data loaded:",
-          applicationsResponse.data.applications
-        );
       } else {
         toast.error("Failed to load applications data");
       }
@@ -51,7 +47,6 @@ const PlacementOverview = () => {
       // Process placements/jobs data
       if (placementsResponse.data.statusCode === 200) {
         setPlacementData(placementsResponse.data.jobs);
-        console.log("Placement data loaded:", placementsResponse.data.jobs);
       } else {
         toast.error("Failed to load placement data");
       }
