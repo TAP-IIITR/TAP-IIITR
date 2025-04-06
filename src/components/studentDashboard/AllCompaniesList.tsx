@@ -35,6 +35,7 @@ const AllCompaniesList = () => {
       );
       if (data.statusCode === 200) {
         setJobData(data.jobs);
+        console.log(" the jobs are ", data.jobs)
       } else {
         toast.error("Failed to load jobs data");
       }
@@ -89,7 +90,7 @@ const AllCompaniesList = () => {
         </select>
       </div>
       <div
-        className="flex flex-col bg-[#FFFFFF] rounded-[16px] w-full h-fit p-[24px] gap-[10px]"
+        className="flex flex-col bg-[#FFFFFF] rounded-[16px] w-full h-fit p-[24px] gap-4"
         style={{ boxShadow: "1px 1px 6px 0px #00000040" }}
       >
         {jobData && jobData.length > 0 ? (
