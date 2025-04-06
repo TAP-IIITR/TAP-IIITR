@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import { IoLocationOutline } from "react-icons/io5";
-import { Building2, IndianRupee } from "lucide-react";
+import { Building2, Clock, IndianRupee } from "lucide-react";
 import { MdBusinessCenter } from "react-icons/md";
+
+interface Timestamp {
+  seconds: number;
+  nanoseconds: number;
+}
 
 interface Job {
   id: string;
@@ -13,7 +18,7 @@ interface Job {
   skills: string[];
   applicationCount: number;
   createdAt: string;
-  deadline: string;
+  deadline: Timestamp|string;
   status: string;
   jobType: string;
 }
@@ -23,13 +28,32 @@ interface CompanyCardProps {
 }
 
 const CompanyCard = ({ jobData }: CompanyCardProps) => {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+  const formatDate = (deadline: Timestamp | string) => {
+    let date: Date;
+
+    // Check if deadline is a Firestore timestamp object
+    if (deadline && typeof deadline === "object" && "seconds" in deadline) {
+      // Convert Firestore timestamp to Date
+      date = new Date(deadline.seconds * 1000);
+    }
+    // Check if deadline is an ISO string
+    else if (typeof deadline === "string") {
+      // Parse ISO string to Date
+      date = new Date(deadline);
+    }
+    // Fallback for unexpected format
+    else {
+      return "Invalid date";
+    }
+
+    // Return formatted date
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
     });
   };
+
 
   return (
     <div className="group relative overflow-hidden bg-white rounded-lg px-6 py-5 shadow-sm border  border-gray-300 hover:shadow-md hover:border-blue-100 transition-all duration-300 transform hover:-translate-y-1 ">
@@ -62,16 +86,16 @@ const CompanyCard = ({ jobData }: CompanyCardProps) => {
               <IndianRupee className="text-gray-500 size-4 group-hover:text-indigo-500 transition-colors duration-300" />
               <span className="text-xs text-gray-600 group-hover:text-indigo-600 transition-colors duration-300">{jobData.package}</span>
             </div>
+            <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-full group-hover:bg-indigo-50 transition-colors duration-300">
+              <Clock className="text-gray-500 size-4 group-hover:text-indigo-500 transition-colors duration-300" />
+              <span className="text-xs text-gray-600 group-hover:text-indigo-600 transition-colors duration-300">{formatDate(jobData.deadline)}</span>
+            </div>
+
           </div>
         </div>
         
         <div className="flex flex-col items-end gap-3">
-          <div className="flex items-center gap-2">
-            <div className="text-xs font-medium text-gray-500 group-hover:text-indigo-600 transition-colors duration-300">Deadline:</div>
-            <div className="text-xs px-2 py-1 bg-gray-50 rounded-full text-gray-600 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors duration-300">
-              {formatDate(jobData.deadline)}
-            </div>
-          </div>
+
           
           <div className="flex items-center gap-2">
             <div className="px-2 py-1 bg-indigo-50 rounded-full text-xs font-medium text-indigo-600">
