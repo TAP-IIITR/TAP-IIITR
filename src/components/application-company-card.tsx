@@ -123,7 +123,7 @@ const ApplicationCompanyCard = ({ data }: ApplicationCompanyCardProps) => {
                 Object.entries(data.form).map(([key, value]) => (
                   <div
                     key={key}
-                    className="py-2 border-b border-gray-100 dark:border-gray-700 flex gap-3"
+                    className="py-2 border-b border-gray-100 dark:border-gray-700 flex gap-3 items-center"
                   >
                     <span className="text-xs font-medium text-gray-500 dark:text-gray-400 capitalize block">
                       {key.replace(/([A-Z])/g, " $1").trim()}
