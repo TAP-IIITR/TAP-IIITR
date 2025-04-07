@@ -56,7 +56,6 @@ const FullCompanyDetails = () => {
         withCredentials: true,
       });
       if (data.success) {
-        console.log("the data is ",data.data)
         setJob(data.data);
       } else {
         toast.error("Failed to load job details");
