@@ -28,9 +28,8 @@ const AllCompaniesList = () => {
 
   const fetchJobData = async () => {
     try {
-      const query = jobTypeFilter ? `?query=${jobTypeFilter}` : "";
       const { data } = await axios.get(
-        `http://localhost:3000/api/jobs/student${query}`,
+        `http://localhost:3000/api/jobs/student`,
         {
           withCredentials: true,
         }
@@ -65,13 +64,24 @@ const AllCompaniesList = () => {
       const matchesSearch = searchTerm === "" || 
         item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
         item.company.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      return matchesSearch ;
+
+      let matchesJobType = true;
+      if (jobTypeFilter !== "") {
+          if (jobTypeFilter === "Internship") {
+            matchesJobType = item.jobType === "Internship";
+          } else if (jobTypeFilter === "Full Time") {
+            matchesJobType = item.jobType === "Full Time";
+          } else if (jobTypeFilter === "Intern + Full-Time") {
+            matchesJobType = item.jobType === "Intern + Full-Time";
+          }
+        }
+        
+        return matchesSearch && matchesJobType;
     });
     setFilteredJobData(filtered);
 
 
-  },[searchTerm,jobData])
+  },[searchTerm,jobData,jobTypeFilter])
 
 
   const handleJobTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -115,11 +125,11 @@ const AllCompaniesList = () => {
           value={jobTypeFilter}
           onChange={handleJobTypeChange}
         >
-          <option value="">Filter by Job Type</option>
-          <option value="intern">Internship</option>
-          <option value="fte">Full-Time</option>
-          <option value="intern_fte">Intern + Full-Time</option>
-        </select>
+          <option value="">All Job Types</option>
+          <option value="Internship">Internship</option>
+          <option value="Full Time">Full-Time</option>
+          <option value="Intern + Full-Time">Intern + Full-Time</option>
+        </select>   
       </div>
       <div
         className="flex flex-col bg-[#FFFFFF] rounded-[16px] w-full h-fit p-[24px] gap-4"
