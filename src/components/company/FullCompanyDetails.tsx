@@ -40,7 +40,7 @@ const FullCompanyDetails = () => {
         `http://localhost:3000/api/jobs/student/${id}`,
         { withCredentials: true }
       );
-      
+
       if (data.success) {
         setJobData(data.data);
       } else {
@@ -83,10 +83,19 @@ const FullCompanyDetails = () => {
 
   const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
+
       const applicationData = {
         form: {
+          // ...Object.fromEntries(
+          //   (jobData.form || [])
+          //     .filter((field: any) => field?.label)
+          //     .map((field: any) => [
+          //       field.label,
+          //       formData[field.label] || ""
+          //     ])
+          // ),
           studentName: `${jobData.student.firstName} ${jobData.student.lastName}`,
           email: jobData.student.regEmail,
           contactNumber: jobData.student.mobile,
@@ -94,16 +103,11 @@ const FullCompanyDetails = () => {
           resumeUrl: jobData.student.resume?.url || "",
           rollNumber: jobData.student.id,
           branch: jobData.student.branch,
-          ...Object.fromEntries(
-            (jobData.form || [])
-              .filter((field: any) => field?.label)
-              .map((field: any) => [
-                field.label,
-                formData[field.label] || ""
-              ])
-          ),
+          additionalFields: formData
         },
       };
+
+      console.log("Application Data:", applicationData);
 
       const response = await axios.post(
         `http://localhost:3000/api/jobs/student/${id}/apply`,
@@ -177,17 +181,17 @@ const FullCompanyDetails = () => {
     ...preFilledFields,
     ...(additionalFields.length > 0
       ? [{
-          sectionId: "additional",
-          title: "Additional Information",
-          fields: additionalFields.map((field: any) => ({
-            id: field.label.toLowerCase().replace(/\s+/g, '-'),
-            label: field.label,
-            type: field.type as "text" | "file" | "textarea",
-            required: true,
-            placeholder: `Enter ${field.label.toLowerCase()}`,
-            accept: field.type === "file" ? ".pdf,.doc,.docx" : undefined,
-          })),
-        }]
+        sectionId: "additional",
+        title: "Additional Information",
+        fields: additionalFields.map((field: any) => ({
+          id: field.label.toLowerCase().replace(/\s+/g, '-'),
+          label: field.label,
+          type: field.type as "text" | "file" | "textarea",
+          required: true,
+          placeholder: `Enter ${field.label.toLowerCase()}`,
+          accept: field.type === "file" ? ".pdf,.doc,.docx" : undefined,
+        })),
+      }]
       : []),
   ];
 
@@ -284,17 +288,16 @@ const FullCompanyDetails = () => {
           <button
             onClick={handleApplyNow}
             disabled={showApplicationForm || jobData.hasApplied}
-            className={`w-full py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static ${
-              showApplicationForm || jobData.hasApplied
-                ? "bg-[#A0A0A0] cursor-not-allowed"
-                : "bg-[#161A80] hover:bg-[#14137D] text-white"
-            }`}
+            className={`w-full py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static ${showApplicationForm || jobData.hasApplied
+              ? "bg-[#A0A0A0] cursor-not-allowed"
+              : "bg-[#161A80] hover:bg-[#14137D] text-white"
+              }`}
           >
             {showApplicationForm
               ? "Application in Progress"
               : jobData.hasApplied
-              ? "Already Applied"
-              : "Apply Now"}
+                ? "Already Applied"
+                : "Apply Now"}
           </button>
         </div>
       </div>
