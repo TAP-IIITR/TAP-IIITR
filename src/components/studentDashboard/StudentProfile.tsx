@@ -1,7 +1,14 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { BiSolidFilePdf } from "react-icons/bi";
-import { FaDownload, FaEdit, FaUpload, FaUserCircle, FaGraduationCap, FaFileAlt } from "react-icons/fa";
+import {
+  FaDownload,
+  FaEdit,
+  FaUpload,
+  FaUserCircle,
+  FaGraduationCap,
+  FaFileAlt,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -58,7 +65,7 @@ const StudentProfile = () => {
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
-  
+
   const handleUpdateClick = () => {
     updateInputRef.current?.click();
   };
@@ -66,13 +73,13 @@ const StudentProfile = () => {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     // Check if file is a PDF
     if (file.type !== "application/pdf") {
       toast.error("Please upload a PDF file");
       return;
     }
-    
+
     // Check file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
       toast.error("File size should be less than 5MB");
@@ -82,16 +89,19 @@ const StudentProfile = () => {
     setUploading(true);
 
     try {
-      const { data } = await axios.post("/api/student/resume/upload-url", {resume:file}, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        "/api/student/resume/upload-url",
+        { resume: file },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
 
-        toast.success("Resume uploaded successfully");
-        fetchUserData(); 
-      
+      toast.success("Resume uploaded successfully");
+      fetchUserData();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data?.message || "Error uploading resume");
@@ -106,36 +116,35 @@ const StudentProfile = () => {
   const handleResumeUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     // Check if file is a PDF
     if (file.type !== "application/pdf") {
       toast.error("Please upload a PDF file");
       return;
     }
-    
+
     // Check file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
       toast.error("File size should be less than 5MB");
       return;
     }
-  
+
     setUploading(true);
-  
+
     try {
-      
-      
       const resumeUrl = userData?.resume;
-      
-      const updateResponse = await axios.put("/api/student/resume/", 
+
+      const updateResponse = await axios.put(
+        "/api/student/resume/",
         { resumeUrl },
-        { 
+        {
           headers: {
             "Content-Type": "application/json",
           },
           withCredentials: true,
         }
       );
-  
+
       if (updateResponse.data.success) {
         toast.success("Resume updated successfully");
         fetchUserData();
@@ -158,7 +167,9 @@ const StudentProfile = () => {
       <div className="flex items-center justify-center h-screen bg-gray-50">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-gray-600 font-medium">Loading your dashboard...</p>
+          <p className="mt-4 text-gray-600 font-medium">
+            Loading your dashboard...
+          </p>
         </div>
       </div>
     );
@@ -170,14 +181,18 @@ const StudentProfile = () => {
       <div className="flex items-center gap-4 bg-white p-6 rounded-xl shadow-md">
         <div className="h-[60px] w-[60px] md:h-[80px] md:w-[80px] bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700">
           <span className="text-xl md:text-3xl font-bold">
-            {userData?.first_name.charAt(0).toUpperCase()}{userData?.last_name.charAt(0).toUpperCase()}
+            {userData?.first_name.charAt(0).toUpperCase()}
+            {userData?.last_name.charAt(0).toUpperCase()}
           </span>
         </div>
         <div>
           <h1 className="text-xl md:text-3xl font-bold text-gray-800">
             {userData?.first_name} {userData?.last_name}
           </h1>
-          <p className="text-indigo-600 font-medium">{userData?.branch} • {Number(userData?.batch) - 4} - {Number(userData?.batch)}</p>
+          <p className="text-indigo-600 font-medium">
+            {userData?.branch} • {Number(userData?.batch) - 4} -{" "}
+            {Number(userData?.batch)}
+          </p>
         </div>
       </div>
 
@@ -185,21 +200,38 @@ const StudentProfile = () => {
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="flex items-center gap-3 p-5 bg-indigo-50 border-b border-indigo-100">
           <FaUserCircle className="text-indigo-700 text-xl" />
-          <h2 className="text-xl font-semibold text-gray-800">Personal Details</h2>
+          <h2 className="text-xl font-semibold text-gray-800">
+            Personal Details
+          </h2>
         </div>
         <div className="p-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex flex-col">
-              <span className="text-gray-500 text-sm font-medium">Email Address</span>
-              <span className="text-gray-800 font-medium">{userData?.email}</span>
+              <span className="text-gray-500 text-sm font-medium">
+                Email Address
+              </span>
+              <span className="text-gray-800 font-medium">
+                {userData?.email}
+              </span>
             </div>
             <div className="flex flex-col">
-              <span className="text-gray-500 text-sm font-medium">Phone Number</span>
-              <span className="text-gray-800 font-medium">+91 {userData?.mobile}</span>
+              <span className="text-gray-500 text-sm font-medium">
+                Phone Number
+              </span>
+              <span className="text-gray-800 font-medium">
+                +91 {userData?.mobile}
+              </span>
             </div>
             <div className="flex flex-col">
-              <span className="text-gray-500 text-sm font-medium">LinkedIn Profile</span>
-              <a href={userData?.linkedin} target="_blank" rel="noopener noreferrer" className="text-indigo-600 font-medium hover:text-indigo-800 transition-colors">
+              <span className="text-gray-500 text-sm font-medium">
+                LinkedIn Profile
+              </span>
+              <a
+                href={userData?.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 font-medium hover:text-indigo-800 transition-colors"
+              >
                 {userData?.linkedin}
               </a>
             </div>
@@ -211,33 +243,49 @@ const StudentProfile = () => {
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="flex items-center gap-3 p-5 bg-indigo-50 border-b border-indigo-100">
           <FaGraduationCap className="text-indigo-700 text-xl" />
-          <h2 className="text-xl font-semibold text-gray-800">Academic Details</h2>
+          <h2 className="text-xl font-semibold text-gray-800">
+            Academic Details
+          </h2>
         </div>
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <span className="text-gray-500 text-sm font-medium">Enrollment Number</span>
-              <span className="text-gray-800 font-medium">{userData?.rollNumber.toUpperCase()}</span>
+              <span className="text-gray-500 text-sm font-medium">
+                Enrollment Number
+              </span>
+              <span className="text-gray-800 font-medium">
+                {userData?.rollNumber.toUpperCase()}
+              </span>
             </div>
             <div className="flex flex-col">
               <span className="text-gray-500 text-sm font-medium">CGPA</span>
               <div className="flex items-center">
-                <span className="text-gray-800 font-medium">{userData?.cgpa}</span>
+                <span className="text-gray-800 font-medium">
+                  {userData?.cgpa}
+                </span>
                 <div className="ml-2 w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-indigo-600 rounded-full" 
-                    style={{ width: `${((userData?.cgpa?userData.cgpa:0 )/ 10) * 100}%` }}
+                  <div
+                    className="h-full bg-indigo-600 rounded-full"
+                    style={{
+                      width: `${
+                        ((userData?.cgpa ? userData.cgpa : 0) / 10) * 100
+                      }%`,
+                    }}
                   ></div>
                 </div>
               </div>
             </div>
             <div className="flex flex-col">
               <span className="text-gray-500 text-sm font-medium">Batch</span>
-              <span className="text-gray-800 font-medium">{Number(userData?.batch) - 4} - {Number(userData?.batch)}</span>
+              <span className="text-gray-800 font-medium">
+                {Number(userData?.batch) - 4} - {Number(userData?.batch)}
+              </span>
             </div>
             <div className="flex flex-col">
               <span className="text-gray-500 text-sm font-medium">Branch</span>
-              <span className="text-gray-800 font-medium">{userData?.branch}</span>
+              <span className="text-gray-800 font-medium">
+                {userData?.branch}
+              </span>
             </div>
           </div>
         </div>
@@ -258,17 +306,22 @@ const StudentProfile = () => {
                 </div>
                 <div>
                   <p className="text-gray-800 font-medium">Resume.pdf</p>
-                  <p className="text-gray-500 text-sm">Click on the download icon to view your resume</p>
+                  <p className="text-gray-500 text-sm">
+                    Click on the download icon to view your resume
+                  </p>
                 </div>
               </div>
               <div className="flex gap-4">
-                <Link 
-                  to={userData.resume} 
-                  target="_blank" 
+                <Link
+                  to={userData.resume}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="h-10 w-10 bg-indigo-50 hover:bg-indigo-100 rounded-full flex items-center justify-center transition-colors"
                 >
-                  <FaDownload className="text-indigo-700" title="Download Resume" />
+                  <FaDownload
+                    className="text-indigo-700"
+                    title="Download Resume"
+                  />
                 </Link>
                 <button
                   onClick={handleUpdateClick}
@@ -283,7 +336,10 @@ const StudentProfile = () => {
               <div className="h-16 w-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
                 <FaFileAlt className="text-indigo-600 text-2xl" />
               </div>
-              <p className="text-gray-600 mb-4 text-center">No resume uploaded yet. Upload your resume to make it available to recruiters.</p>
+              <p className="text-gray-600 mb-4 text-center">
+                No resume uploaded yet. Upload your resume to make it available
+                to recruiters.
+              </p>
               <button
                 onClick={handleUploadClick}
                 disabled={uploading}

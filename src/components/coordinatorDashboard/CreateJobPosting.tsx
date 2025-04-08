@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance"; // Import your Axios instance
+import { FaGraduationCap } from "react-icons/fa";
 
 interface FormField {
   label: string;
@@ -18,7 +19,7 @@ const CreateJobPosting = () => {
     location: "",
     salary: "",
     eligibility: "",
-    requiredSkills: "",
+    eligibleBatches: "",
     applicationDeadline: "",
   });
 
@@ -96,7 +97,7 @@ const CreateJobPosting = () => {
         location: formData.location,
         package: formData.salary,
         eligibility: formData.eligibility,
-        skills: formData.requiredSkills
+        eligibleBatches: formData.eligibleBatches
           .split(",")
           .map((skill: string) => skill.trim())
           .filter((skill: string) => skill.length > 0),
@@ -304,19 +305,7 @@ const CreateJobPosting = () => {
         {/* Requirements Section */}
         <section className="space-y-4 md:bg-white md:p-6 md:rounded-lg md:shadow-sm">
           <h2 className="text-base font-semibold flex items-center gap-2">
-            <svg
-              className="w-4 h-4 md:w-5 md:h-5 text-[#14137D]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 0 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+            <FaGraduationCap className="text-[#14137D]" size={20} />
             Requirements
           </h2>
 
@@ -338,14 +327,14 @@ const CreateJobPosting = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Required Skills
+                Eligible Batches
               </label>
               <input
                 type="text"
-                name="requiredSkills"
+                name="eligibleBatches"
                 placeholder="e.g. Python, React"
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
-                value={formData.requiredSkills}
+                value={formData.eligibleBatches}
                 onChange={handleChange}
                 required
               />

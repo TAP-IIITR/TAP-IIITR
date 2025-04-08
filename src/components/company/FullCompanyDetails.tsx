@@ -43,6 +43,7 @@ const FullCompanyDetails = () => {
 
       if (data.success) {
         setJobData(data.data);
+        console.log(data.data);
       } else {
         toast.error("Failed to load job data");
       }
@@ -85,7 +86,6 @@ const FullCompanyDetails = () => {
     e.preventDefault();
 
     try {
-
       const applicationData = {
         form: {
           // ...Object.fromEntries(
@@ -103,7 +103,7 @@ const FullCompanyDetails = () => {
           resumeUrl: jobData.student.resume?.url || "",
           rollNumber: jobData.student.id,
           branch: jobData.student.branch,
-          additionalFields: formData
+          additionalFields: formData,
         },
       };
 
@@ -122,7 +122,9 @@ const FullCompanyDetails = () => {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Error submitting application");
+        toast.error(
+          error.response?.data?.message || "Error submitting application"
+        );
       } else {
         toast.error("An unexpected error occurred");
       }
@@ -153,45 +155,92 @@ const FullCompanyDetails = () => {
       sectionId: "personal",
       title: "Personal Information",
       fields: [
-        { id: "fullName", label: "Name", type: "text", required: true, readOnly: true, value: `${jobData.student.firstName} ${jobData.student.lastName}` },
-        { id: "email", label: "Email", type: "text", required: true, readOnly: true, value: jobData.student.regEmail },
-        { id: "phone", label: "Phone Number", type: "text", required: true, readOnly: true, value: jobData.student.mobile },
+        {
+          id: "fullName",
+          label: "Name",
+          type: "text",
+          required: true,
+          readOnly: true,
+          value: `${jobData.student.firstName} ${jobData.student.lastName}`,
+        },
+        {
+          id: "email",
+          label: "Email",
+          type: "text",
+          required: true,
+          readOnly: true,
+          value: jobData.student.regEmail,
+        },
+        {
+          id: "phone",
+          label: "Phone Number",
+          type: "text",
+          required: true,
+          readOnly: true,
+          value: jobData.student.mobile,
+        },
       ],
     },
     {
       sectionId: "academic",
       title: "Academic Information",
       fields: [
-        { id: "rollNumber", label: "Roll Number", type: "text", required: true, readOnly: true, value: jobData.student.id },
-        { id: "branch", label: "Branch", type: "text", required: true, readOnly: true, value: jobData.student.branch },
-        { id: "cgpa", label: "CGPA", type: "text", required: true, readOnly: true, value: jobData.student.cgpa.toString() },
+        {
+          id: "rollNumber",
+          label: "Roll Number",
+          type: "text",
+          required: true,
+          readOnly: true,
+          value: jobData.student.id,
+        },
+        {
+          id: "branch",
+          label: "Branch",
+          type: "text",
+          required: true,
+          readOnly: true,
+          value: jobData.student.branch,
+        },
+        {
+          id: "cgpa",
+          label: "CGPA",
+          type: "text",
+          required: true,
+          readOnly: true,
+          value: jobData.student.cgpa.toString(),
+        },
       ],
     },
   ];
 
   const preFilledLabels = new Set(
-    preFilledFields.flatMap(section => section.fields).map(field => field.label.toLowerCase())
+    preFilledFields
+      .flatMap((section) => section.fields)
+      .map((field) => field.label.toLowerCase())
   );
 
   const additionalFields = (jobData.form || []).filter(
-    (field: any) => field?.label && !preFilledLabels.has(field.label.toLowerCase())
+    (field: any) =>
+      field?.label && !preFilledLabels.has(field.label.toLowerCase())
   );
 
   const applicationFormConfig: FormSection[] = [
     ...preFilledFields,
     ...(additionalFields.length > 0
-      ? [{
-        sectionId: "additional",
-        title: "Additional Information",
-        fields: additionalFields.map((field: any) => ({
-          id: field.label.toLowerCase().replace(/\s+/g, '-'),
-          label: field.label,
-          type: field.type as "text" | "file" | "textarea",
-          required: true,
-          placeholder: `Enter ${field.label.toLowerCase()}`,
-          accept: field.type === "file" ? ".pdf,.doc,.docx" : undefined,
-        })),
-      }]
+      ? [
+          {
+            sectionId: "additional",
+            title: "Additional Information",
+            fields: additionalFields.map((field: any) => ({
+              id: field.label.toLowerCase().replace(/\s+/g, "-"),
+              label: field.label,
+              type: field.type as "text" | "file" | "textarea",
+              required: true,
+              placeholder: `Enter ${field.label.toLowerCase()}`,
+              accept: field.type === "file" ? ".pdf,.doc,.docx" : undefined,
+            })),
+          },
+        ]
       : []),
   ];
 
@@ -220,27 +269,37 @@ const FullCompanyDetails = () => {
             <div className="flex flex-wrap gap-[20px]">
               <div className="flex items-center gap-[6px]">
                 <CiLocationOn className="h-[20px] w-[20px] text-[#212121]" />
-                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">{jobData.location}</p>
+                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">
+                  {jobData.location}
+                </p>
               </div>
               <div className="flex items-center gap-[6px]">
                 <MdOutlineBusinessCenter className="h-[20px] w-[20px] text-[#212121]" />
-                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">{jobData.jobType}</p>
+                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">
+                  {jobData.jobType}
+                </p>
               </div>
               <div className="flex items-center gap-[6px]">
                 <MdCurrencyRupee className="h-[20px] w-[20px] text-[#212121]" />
-                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">{jobData.package}</p>
+                <p className="text-[#3D3D3D] font-[500] text-[14px] leading-[20px]">
+                  {jobData.package}
+                </p>
               </div>
             </div>
 
             <div className="mt-[12px]">
-              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">Job Description</p>
+              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">
+                Job Description
+              </p>
               <div className="space-y-[12px] text-[14px] text-[#3D3D3D] leading-[22px]">
                 <p>{jobData.JD}</p>
               </div>
             </div>
 
             <div className="mt-[16px]">
-              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">Required Skills</p>
+              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">
+                Required Skills
+              </p>
               <div className="flex flex-wrap gap-[8px]">
                 {jobData.skills.map((skill: string, index: number) => (
                   <span
@@ -254,7 +313,9 @@ const FullCompanyDetails = () => {
             </div>
 
             <div className="mt-[16px]">
-              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">Eligibility Criteria</p>
+              <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">
+                Eligibility Criteria
+              </p>
               <ul className="list-disc list-inside text-[14px] text-[#3D3D3D] leading-[22px] space-y-[8px]">
                 <li>{jobData.eligibility}</li>
               </ul>
@@ -267,7 +328,9 @@ const FullCompanyDetails = () => {
             className="bg-[#FFF] rounded-[12px] p-[16px]"
             style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
           >
-            <p className="text-[20px] md:text-[22px] font-[600] text-[#212121] mb-[12px]">Important Dates</p>
+            <p className="text-[20px] md:text-[22px] font-[600] text-[#212121] mb-[12px]">
+              Important Dates
+            </p>
             <div className="flex lg:flex-col gap-[12px] overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
               <div className="flex-shrink-0 w-[280px] lg:w-auto">
                 <div className="flex items-center gap-[12px]">
@@ -275,7 +338,9 @@ const FullCompanyDetails = () => {
                     <IoMdAlarm className="h-[20px] w-[20px] text-[#161A80]" />
                   </div>
                   <div>
-                    <p className="text-[14px] text-[#666666]">Application Deadline</p>
+                    <p className="text-[14px] text-[#666666]">
+                      Application Deadline
+                    </p>
                     <p className="text-[16px] font-[500] text-[#212121]">
                       {new Date(jobData.deadline).toLocaleDateString()}
                     </p>
@@ -288,16 +353,17 @@ const FullCompanyDetails = () => {
           <button
             onClick={handleApplyNow}
             disabled={showApplicationForm || jobData.hasApplied}
-            className={`w-full py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static ${showApplicationForm || jobData.hasApplied
-              ? "bg-[#A0A0A0] cursor-not-allowed"
-              : "bg-[#161A80] hover:bg-[#14137D] text-white"
-              }`}
+            className={`w-full py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static ${
+              showApplicationForm || jobData.hasApplied
+                ? "bg-[#A0A0A0] cursor-not-allowed"
+                : "bg-[#161A80] hover:bg-[#14137D] text-white"
+            }`}
           >
             {showApplicationForm
               ? "Application in Progress"
               : jobData.hasApplied
-                ? "Already Applied"
-                : "Apply Now"}
+              ? "Already Applied"
+              : "Apply Now"}
           </button>
         </div>
       </div>
@@ -306,12 +372,18 @@ const FullCompanyDetails = () => {
         <div
           ref={applicationFormRef}
           className="mt-8 bg-white rounded-[12px] p-[16px] md:p-[24px]"
-          style={{ boxShadow: "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)" }}
+          style={{
+            boxShadow:
+              "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          }}
         >
           <div className="mb-6">
-            <h2 className="text-[28px] font-[600] text-[#161A80]">Application Form</h2>
+            <h2 className="text-[28px] font-[600] text-[#161A80]">
+              Application Form
+            </h2>
             <p className="text-[#666666] text-[14px] mt-2">
-              Please fill in all the required fields marked with an asterisk (*). Pre-filled fields cannot be modified.
+              Please fill in all the required fields marked with an asterisk
+              (*). Pre-filled fields cannot be modified.
             </p>
           </div>
 
@@ -325,19 +397,31 @@ const FullCompanyDetails = () => {
                   {section.fields.map((field) => (
                     <div
                       key={field.id}
-                      className={`${field.type === "file" || field.type === "textarea" ? "md:col-span-2" : ""} transition-all duration-200 ease-in-out`}
+                      className={`${
+                        field.type === "file" || field.type === "textarea"
+                          ? "md:col-span-2"
+                          : ""
+                      } transition-all duration-200 ease-in-out`}
                     >
                       <label className="block text-[15px] font-[500] text-[#444444] mb-2">
                         {field.label}
-                        {field.required && <span className="text-[#DC2626] ml-1">*</span>}
+                        {field.required && (
+                          <span className="text-[#DC2626] ml-1">*</span>
+                        )}
                       </label>
                       {field.type === "textarea" ? (
                         <textarea
                           required={field.required}
                           placeholder={field.placeholder}
-                          onChange={(e) => handleInputChange(field.label, e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(field.label, e.target.value)
+                          }
                           className={`w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none transition-all
-                            ${field.readOnly ? 'bg-gray-100 cursor-not-allowed' : 'focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]'}
+                            ${
+                              field.readOnly
+                                ? "bg-gray-100 cursor-not-allowed"
+                                : "focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]"
+                            }
                             min-h-[100px]`}
                         />
                       ) : (
@@ -346,11 +430,28 @@ const FullCompanyDetails = () => {
                           required={field.required}
                           accept={field.accept}
                           placeholder={field.placeholder}
-                          value={field.readOnly ? field.value : (field.type === "file" ? undefined : formData[field.label] || "")}
+                          value={
+                            field.readOnly
+                              ? field.value
+                              : field.type === "file"
+                              ? undefined
+                              : formData[field.label] || ""
+                          }
                           readOnly={field.readOnly}
-                          onChange={(e) => handleInputChange(field.label, field.type === "file" ? e.target.files![0] : e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              field.label,
+                              field.type === "file"
+                                ? e.target.files![0]
+                                : e.target.value
+                            )
+                          }
                           className={`w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none transition-all
-                            ${field.readOnly ? 'bg-gray-100 cursor-not-allowed' : 'focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]'}
+                            ${
+                              field.readOnly
+                                ? "bg-gray-100 cursor-not-allowed"
+                                : "focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]"
+                            }
                             file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold
                             file:bg-[#161A80] file:text-white hover:file:bg-[#14137D]`}
                         />

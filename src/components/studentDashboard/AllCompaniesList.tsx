@@ -56,36 +56,31 @@ const AllCompaniesList = () => {
   useEffect(() => {
     fetchJobData();
   }, [jobTypeFilter]);
-   
-  useEffect(()=>{
-    if (!jobData) return; 
+
+  useEffect(() => {
+    if (!jobData) return;
     const filtered = jobData.filter((item: any) => {
       // Check if title or company matches search term
-      const matchesSearch = searchTerm === "" || 
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      const matchesSearch =
+        searchTerm === "" ||
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.company.toLowerCase().includes(searchTerm.toLowerCase());
-
 
       let matchesJobType = true;
       if (jobTypeFilter !== "") {
-          if (jobTypeFilter === "Internship") {
-            matchesJobType = item.jobType === "Internship";
-          } else if (jobTypeFilter === "Full Time") {
-            matchesJobType = item.jobType === "Full Time";
-          } else if (jobTypeFilter === "Intern + Full-Time") {
-            matchesJobType = item.jobType === "Intern + Full-Time";
-          }
+        if (jobTypeFilter === "Internship") {
+          matchesJobType = item.jobType === "Internship";
+        } else if (jobTypeFilter === "Full Time") {
+          matchesJobType = item.jobType === "Full Time";
+        } else if (jobTypeFilter === "Intern + Full-Time") {
+          matchesJobType = item.jobType === "Intern + Full-Time";
         }
-        
-        return matchesSearch && matchesJobType;
+      }
+
+      return matchesSearch && matchesJobType;
     });
     setFilteredJobData(filtered);
-
-
-
-  },[searchTerm,jobData,jobTypeFilter])
-
-
+  }, [searchTerm, jobData, jobTypeFilter]);
 
   const handleJobTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setJobTypeFilter(e.target.value);
@@ -103,9 +98,9 @@ const AllCompaniesList = () => {
   }
 
   return (
-    <div className="flex flex-col gap-[20px] p-4 md:p-6">
+    <div className="flex flex-col gap-[20px]">
       <div className="flex flex-col md:flex-row gap-[16px] md:gap-[28px]">
-      <div className="w-full md:w-2/3 relative">
+        <div className="w-full md:w-2/3 relative">
           <input
             className="w-full rounded-[16px] border border-[#9E9E9E] h-[52px] px-[20px] py-[16px] text-[16px] text-gray-700"
             placeholder="Search by job title or company..."
@@ -117,8 +112,19 @@ const AllCompaniesList = () => {
               onClick={() => setSearchTerm("")}
               className="absolute right-6 top-4 text-gray-400 hover:text-gray-600"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           )}
@@ -132,14 +138,16 @@ const AllCompaniesList = () => {
           <option value="Internship">Internship</option>
           <option value="Full Time">Full-Time</option>
           <option value="Intern + Full-Time">Intern + Full-Time</option>
-        </select>   
+        </select>
       </div>
       <div
         className="flex flex-col bg-[#FFFFFF] rounded-[16px] w-full h-fit p-[24px] gap-4"
         style={{ boxShadow: "1px 1px 6px 0px #00000040" }}
       >
         {filteredJobData && filteredJobData.length > 0 ? (
-          filteredJobData.map((job:any) => <CompanyCard key={job.id} jobData={job} />)
+          filteredJobData.map((job: any) => (
+            <CompanyCard key={job.id} jobData={job} />
+          ))
         ) : (
           <p className="text-center text-gray-600">
             No jobs available at the moment.

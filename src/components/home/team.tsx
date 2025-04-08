@@ -1,4 +1,5 @@
 import { studentTeamData, profTeamData as teamsData } from "@/data";
+import { TPOData } from "@/data";
 import CommonLayout from "../common-layout";
 import {
   Card,
@@ -21,11 +22,11 @@ const Team = () => {
   return (
     <CommonLayout title="Our Team" id="Team">
       <div className="flex items-center gap-y-10 flex-col">
-        {/* <h2 className="text-2xl text-center text-blue-800 font-bold mb-4">
+        <h2 className="text-2xl text-center text-blue-800 font-bold mb-4">
           Training and Placement Officer
         </h2>
         <div className="flex flex-col md:flex-row gap-20">
-          {teamsData.map((team, i) => {
+          {TPOData.map((team, i) => {
             return (
               <div
                 key={i}
@@ -42,7 +43,7 @@ const Team = () => {
               </div>
             );
           })}
-        </div> */}
+        </div>
         <h2 className="text-2xl text-center text-blue-800 font-bold mb-4">
           Faculty Committee
         </h2>

@@ -21,6 +21,7 @@ import noopur from "@/assets/noopur-mam.png";
 import pooja_mam from "@/assets/team/faculty/pooja_mam.jpg";
 import ranjan_sir from "@/assets/team/faculty/ranjan_sir.jpg";
 import shadab_Sir from "@/assets/team/faculty/shadab_sir.jpg";
+import sonali_mam from "@/assets/team/faculty/sonali-mam.jpg";
 
 //Student Images
 import shivam from "@/assets/team/students/shivam.jpg";
@@ -209,6 +210,15 @@ export const profTeamData: Team[] = [
     image: shadab_Sir,
     name: "Dr. S.Shadab Hassan",
     designation: "Faculty Coordinator",
+    department: "Training & Placement Cell, IIIT Ranchi",
+  },
+];
+
+export const TPOData: Team[] = [
+  {
+    image: sonali_mam,
+    name: "Ms. Sonali Malviya",
+    designation: "Training and Placement Officer",
     department: "Training & Placement Cell, IIIT Ranchi",
   },
 ];
