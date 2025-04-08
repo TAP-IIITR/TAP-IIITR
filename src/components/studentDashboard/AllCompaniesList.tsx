@@ -65,6 +65,7 @@ const AllCompaniesList = () => {
         item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
         item.company.toLowerCase().includes(searchTerm.toLowerCase());
 
+
       let matchesJobType = true;
       if (jobTypeFilter !== "") {
           if (jobTypeFilter === "Internship") {
@@ -81,7 +82,9 @@ const AllCompaniesList = () => {
     setFilteredJobData(filtered);
 
 
+
   },[searchTerm,jobData,jobTypeFilter])
+
 
 
   const handleJobTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

@@ -127,9 +127,11 @@ const StudentProfile = () => {
     setUploading(true);
 
     try { 
-      console.log(" the data is ", file);
 
-      const { data } = await axios.put("/api/student/resume/", {resume: file, resumeUrl: userData?.resume}, {
+      console.log(" the data is ",file)
+
+      const { data } = await axios.put("/api/student/resume/", {resume:file,resumeUrl:userData?.resume}, {
+
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -172,6 +174,38 @@ const StudentProfile = () => {
           <span className="text-xl md:text-3xl font-bold">
             {userData?.first_name.charAt(0)}{userData?.last_name.charAt(0)}
           </span>
+        </p>
+      </div>
+      <div
+        className="w-full bg-[#FFFFFF] h-fit rounded-[8px] px-[16px] py-[20px]"
+        style={{ boxShadow: "0px 2px 4px 0px #00000040" }}
+      >
+        <p className="font-[600] text-[20px] text-[#212121] pl-[16px]">
+          Personal Details
+        </p>
+        <div className="border border-[#212121] mt-[2px]"></div>
+        <div className="flex flex-col gap-[5px] mt-[12px] px-[16px]">
+          <p className="font-[500] text-[#212121] text-[16px]">
+            Email Address:
+            <span className="font-[400] text-[#212121] text-[16px]">
+              {" "}
+              {userData?.email}
+            </span>
+          </p>
+          <p className="font-[500] text-[#212121] text-[16px]">
+            Phone Number:
+            <span className="font-[400] text-[#212121] text-[16px]">
+              {" "}
+              +91 {userData?.mobile}
+            </span>
+          </p>
+          <p className="font-[500] text-[#212121] text-[16px]">
+            LinkedIn Profile:
+            <span className="font-[400] text-[#212121] text-[16px]">
+              {" "}
+              {userData?.linkedin}
+            </span>
+          </p>
         </div>
         <div>
           <h1 className="text-xl md:text-3xl font-bold text-gray-800">
@@ -180,6 +214,7 @@ const StudentProfile = () => {
           <p className="text-indigo-600 font-medium">{userData?.branch} • {Number(userData?.batch) - 4} - {Number(userData?.batch)}</p>
         </div>
       </div>
+
 
       {/* Personal Details Card */}
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
@@ -239,8 +274,73 @@ const StudentProfile = () => {
               <span className="text-gray-500 text-sm font-medium">Branch</span>
               <span className="text-gray-800 font-medium">{userData?.branch}</span>
             </div>
+
+      <div
+        className="w-full bg-[#FFFFFF] h-fit rounded-[8px] px-[16px] py-[20px]"
+        style={{ boxShadow: "0px 2px 4px 0px #00000040" }}
+      >
+        <p className="font-[600] text-[20px] text-[#212121] pl-[16px]">
+          Student's Resume
+        </p>
+        <div className="border border-[#212121] mt-[2px]"></div>
+
+        {userData?.resume ? (
+          <div
+            className="flex gap-[20px] items-center justify-between mt-[12px] px-[32px] py-[16px] bg-[#1E40AF21]  rounded-[12px] w-full"
+            style={{ boxShadow: "0px 4px 4px 0px #00000040" }}
+          >
+            <div className=" flex items-center  gap-2">
+            <BiSolidFilePdf className="w-[32px] h-[32px] text-[#282FE6]" />
+            <div className="flex flex-col">
+              <p className="font-[500] text-[#000] leading-[24px] text-[16px]">
+                Resume
+              </p>
+            </div>
+            </div>
+
+            <div className="flex gap-[20px]">
+              <Link to={userData.resume} target="_blank" rel="noopener noreferrer">
+                <FaDownload 
+                  className="w-[20px] h-[20px] text-[#000] cursor-pointer" 
+                  title="Download Resume"
+                />
+              </Link>
+
+              <FaEdit 
+                className="w-[20px] h-[20px] text-[#000] cursor-pointer" 
+                onClick={handleUpdateClick}
+                title="Update Resume"
+              />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center mt-[20px] gap-[16px]">
+            <p className="text-gray-500">No resume uploaded yet</p>
+            <button
+              onClick={handleUploadClick}
+              disabled={uploading}
+              className="flex items-center gap-2 bg-[#161A80] text-white px-4 py-2 rounded-md hover:bg-[#10126e] transition-colors"
+            >
+              <FaUpload />
+              {uploading ? "Uploading..." : "Upload Resume"}
+            </button>
+          </div>
+        )}
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          className="hidden"
+          accept="application/pdf"
+        />
+        <input
+          type="file"
+          ref={updateInputRef}
+          onChange={handleResumeUpdate}
+          className="hidden"
+          accept="application/pdf"
+        />
       </div>
 
       {/* Resume Card */}
