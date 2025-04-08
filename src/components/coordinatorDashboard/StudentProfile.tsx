@@ -2,12 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { BiSolidFilePdf } from "react-icons/bi";
 import { FaDownload, FaArrowLeft } from "react-icons/fa";
 import { MdOutlineEmail, MdPhone } from "react-icons/md";
-import {
-  FaGraduationCap,
-  FaLinkedin,
-  FaBirthdayCake,
-  FaExternalLinkAlt,
-} from "react-icons/fa";
+import { FaGraduationCap, FaLinkedin, FaExternalLinkAlt } from "react-icons/fa";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

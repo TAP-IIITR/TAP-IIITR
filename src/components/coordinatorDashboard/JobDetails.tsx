@@ -9,9 +9,6 @@ import { CiLocationOn } from "react-icons/ci";
 import { IoMdAlarm } from "react-icons/io";
 import { TbCircleX } from "react-icons/tb";
 import { useNavigate, useParams } from "react-router-dom";
-import { IoCheckmarkCircleOutline } from "react-icons/io5";
-import { RxCrossCircled } from "react-icons/rx";
-import { MdOutlineWatchLater } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -52,109 +49,109 @@ const JobDetails = () => {
   }, [id]);
 
   // Sample static data
-  const jobDetails = {
-    company: "TechCorp",
-    title: "Software Engineer",
-    location: "Ranchi, Jharkhand",
-    type: "Full Time",
-    package: "₹12,00,000/annum",
-    description:
-      "We are seeking an exceptional Software Engineer to join our innovative technology team. This is an extraordinary opportunity to work on cutting-edge projects while learning from industry experts in a dynamic, fast-paced environment.",
-    applicationDeadline: "December 15, 2023",
-    startDate: "January 15, 2024",
-    skills: [
-      "React",
-      "Node.js",
-      "TypeScript",
-      "MongoDB",
-      "AWS",
-      "Docker",
-      "Kubernetes",
-      "Python",
-      "SQL",
-      "REST APIs",
-      "GraphQL",
-    ],
-  };
+  // const jobDetails = {
+  //   company: "TechCorp",
+  //   title: "Software Engineer",
+  //   location: "Ranchi, Jharkhand",
+  //   type: "Full Time",
+  //   package: "₹12,00,000/annum",
+  //   description:
+  //     "We are seeking an exceptional Software Engineer to join our innovative technology team. This is an extraordinary opportunity to work on cutting-edge projects while learning from industry experts in a dynamic, fast-paced environment.",
+  //   applicationDeadline: "December 15, 2023",
+  //   startDate: "January 15, 2024",
+  //   skills: [
+  //     "React",
+  //     "Node.js",
+  //     "TypeScript",
+  //     "MongoDB",
+  //     "AWS",
+  //     "Docker",
+  //     "Kubernetes",
+  //     "Python",
+  //     "SQL",
+  //     "REST APIs",
+  //     "GraphQL",
+  //   ],
+  // };
 
-  const applications = [
-    {
-      id: 1,
-      name: "John Doe",
-      status: "Selected",
-      rollNo: "2021PGCACA001",
-      branch: "CSE",
-      cgpa: "8.5",
-      resume: "https://example.com/resume1.pdf",
-      appliedDate: "15 Dec 2023",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      status: "Interview Scheduled",
-      rollNo: "2021PGCACA002",
-      branch: "CSE",
-      cgpa: "9.2",
-      resume: "https://example.com/resume2.pdf",
-      appliedDate: "14 Dec 2023",
-    },
-    {
-      id: 3,
-      name: "Raj Kumar",
-      status: "Selected",
-      rollNo: "2021PGCACA003",
-      branch: "ECE",
-      cgpa: "8.9",
-      resume: "https://example.com/resume3.pdf",
-      appliedDate: "13 Dec 2023",
-    },
-    {
-      id: 4,
-      name: "Priya Singh",
-      status: "Selected",
-      rollNo: "2021PGCACA004",
-      branch: "CSE",
-      cgpa: "7.8",
-      resume: "https://example.com/resume4.pdf",
-      appliedDate: "12 Dec 2023",
-    },
-    {
-      id: 5,
-      name: "Amit Patel",
-      status: "Interview Scheduled",
-      rollNo: "2021PGCACA005",
-      branch: "CSE",
-      cgpa: "8.7",
-      resume: "https://example.com/resume5.pdf",
-      appliedDate: "11 Dec 2023",
-    },
-  ];
+  // const applications = [
+  //   {
+  //     id: 1,
+  //     name: "John Doe",
+  //     status: "Selected",
+  //     rollNo: "2021PGCACA001",
+  //     branch: "CSE",
+  //     cgpa: "8.5",
+  //     resume: "https://example.com/resume1.pdf",
+  //     appliedDate: "15 Dec 2023",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Jane Smith",
+  //     status: "Interview Scheduled",
+  //     rollNo: "2021PGCACA002",
+  //     branch: "CSE",
+  //     cgpa: "9.2",
+  //     resume: "https://example.com/resume2.pdf",
+  //     appliedDate: "14 Dec 2023",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Raj Kumar",
+  //     status: "Selected",
+  //     rollNo: "2021PGCACA003",
+  //     branch: "ECE",
+  //     cgpa: "8.9",
+  //     resume: "https://example.com/resume3.pdf",
+  //     appliedDate: "13 Dec 2023",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Priya Singh",
+  //     status: "Selected",
+  //     rollNo: "2021PGCACA004",
+  //     branch: "CSE",
+  //     cgpa: "7.8",
+  //     resume: "https://example.com/resume4.pdf",
+  //     appliedDate: "12 Dec 2023",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Amit Patel",
+  //     status: "Interview Scheduled",
+  //     rollNo: "2021PGCACA005",
+  //     branch: "CSE",
+  //     cgpa: "8.7",
+  //     resume: "https://example.com/resume5.pdf",
+  //     appliedDate: "11 Dec 2023",
+  //   },
+  // ];
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "Selected":
-        return (
-          <div className="bg-[#D6FFD6] rounded-full px-3 py-1 flex items-center gap-2">
-            <IoCheckmarkCircleOutline className="text-[#16A34A]" />
-            <span className="text-[#16A34A] font-medium">Selected</span>
-          </div>
-        );
-      case "Rejected":
-        return (
-          <div className="bg-[#F5CDCD] rounded-full px-3 py-1 flex items-center gap-2">
-            <RxCrossCircled className="text-[#DC2626]" />
-            <span className="text-[#DC2626] font-medium">Rejected</span>
-          </div>
-        );
-      default:
-        return (
-          <div className="bg-[#FFF4CD] rounded-full px-3 py-1 flex items-center gap-2">
-            <MdOutlineWatchLater className="text-[#D97706]" />
-            <span className="text-[#D97706] font-medium">{status}</span>
-          </div>
-        );
-    }
-  };
+  // const getStatusBadge = (status: string) => {
+  //   switch (status) {
+  //     case "Selected":
+  //       return (
+  //         <div className="bg-[#D6FFD6] rounded-full px-3 py-1 flex items-center gap-2">
+  //           <IoCheckmarkCircleOutline className="text-[#16A34A]" />
+  //           <span className="text-[#16A34A] font-medium">Selected</span>
+  //         </div>
+  //       );
+  //     case "Rejected":
+  //       return (
+  //         <div className="bg-[#F5CDCD] rounded-full px-3 py-1 flex items-center gap-2">
+  //           <RxCrossCircled className="text-[#DC2626]" />
+  //           <span className="text-[#DC2626] font-medium">Rejected</span>
+  //         </div>
+  //       );
+  //     default:
+  //       return (
+  //         <div className="bg-[#FFF4CD] rounded-full px-3 py-1 flex items-center gap-2">
+  //           <MdOutlineWatchLater className="text-[#D97706]" />
+  //           <span className="text-[#D97706] font-medium">{status}</span>
+  //         </div>
+  //       );
+  //   }
+  // };
 
   const formatFirestoreTimestamp = (timestamp: any) => {
     if (!timestamp || !timestamp.seconds) return "Invalid timestamp";

@@ -89,7 +89,7 @@ const StudentProfile = () => {
     setUploading(true);
 
     try {
-      const { data } = await axios.post(
+      await axios.post(
         "/api/student/resume/upload-url",
         { resume: file },
         {
@@ -113,55 +113,55 @@ const StudentProfile = () => {
     }
   };
 
-  const handleResumeUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // const handleResumeUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
 
-    // Check if file is a PDF
-    if (file.type !== "application/pdf") {
-      toast.error("Please upload a PDF file");
-      return;
-    }
+  //   // Check if file is a PDF
+  //   if (file.type !== "application/pdf") {
+  //     toast.error("Please upload a PDF file");
+  //     return;
+  //   }
 
-    // Check file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("File size should be less than 5MB");
-      return;
-    }
+  //   // Check file size (5MB limit)
+  //   if (file.size > 5 * 1024 * 1024) {
+  //     toast.error("File size should be less than 5MB");
+  //     return;
+  //   }
 
-    setUploading(true);
+  //   setUploading(true);
 
-    try {
-      const resumeUrl = userData?.resume;
+  //   try {
+  //     const resumeUrl = userData?.resume;
 
-      const updateResponse = await axios.put(
-        "/api/student/resume/",
-        { resumeUrl },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+  //     const updateResponse = await axios.put(
+  //       "/api/student/resume/",
+  //       { resumeUrl },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         withCredentials: true,
+  //       }
+  //     );
 
-      if (updateResponse.data.success) {
-        toast.success("Resume updated successfully");
-        fetchUserData();
-      } else {
-        toast.error("Failed to update resume");
-      }
-    } catch (error) {
-      console.error("Update error:", error);
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Error updating resume");
-      } else {
-        toast.error("An unexpected error occurred");
-      }
-    } finally {
-      setUploading(false);
-    }
-  };
+  //     if (updateResponse.data.success) {
+  //       toast.success("Resume updated successfully");
+  //       fetchUserData();
+  //     } else {
+  //       toast.error("Failed to update resume");
+  //     }
+  //   } catch (error) {
+  //     console.error("Update error:", error);
+  //     if (axios.isAxiosError(error)) {
+  //       toast.error(error.response?.data?.message || "Error updating resume");
+  //     } else {
+  //       toast.error("An unexpected error occurred");
+  //     }
+  //   } finally {
+  //     setUploading(false);
+  //   }
+  // };
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50">
