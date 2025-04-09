@@ -13,6 +13,7 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
     { title: "Applications", path: "/dashboard/coordinator/applications" },
     { title: "Recruiters", path: "/dashboard/coordinator/recruiters" },
     { title: "Verifications", path: "/dashboard/coordinator/verifications" },
+    { title: "Updatecgpa", path: "/dashboard/coordinator/updatecgpa" },
   ];
 
   if (isMobile) {
