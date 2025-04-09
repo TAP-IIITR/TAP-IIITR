@@ -39,6 +39,7 @@ import Recruiters from "./components/coordinatorDashboard/Recruiters";
 import Verifications from "./components/coordinatorDashboard/Verifications";
 import CoordinatorStudentProfile from "@/components/coordinatorDashboard/StudentProfile";
 import JobDetails from "./components/coordinatorDashboard/JobDetails";
+import UpdateCGPAPage from "./components/coordinatorDashboard/UpdateCGPAPage";
 
 function App() {
   window.onbeforeunload = function () {
@@ -81,6 +82,7 @@ function App() {
             <Route path="applications" element={<Applications />} />
             <Route path="recruiters" element={<Recruiters />} />
             <Route path="verifications" element={<Verifications />} />
+            <Route path="updatecgpa" element={<UpdateCGPAPage />} />
             <Route
               path="student/:studentId"
               element={<CoordinatorStudentProfile />}
