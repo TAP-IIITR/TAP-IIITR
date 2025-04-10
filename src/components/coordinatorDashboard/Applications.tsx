@@ -17,6 +17,8 @@ const Applications = () => {
     company: string;
     createdAt: string;
     student: any;
+    form: any;
+    job: any;
     // You might want to add a status field if not present in the data
     status?: string;
   }
@@ -32,7 +34,7 @@ const Applications = () => {
           withCredentials: true,
         }
       );
-      console.log(data);
+      console.log("data", data);
       if (data.success) {
         // Assuming data.data is the array of applications
         setApplications(data.data);
@@ -101,7 +103,7 @@ const Applications = () => {
   };
 
   const handleViewJobDetails = (jobId: string) => {
-    navigate(`/dashboard/coordinator/job-details/${jobId}`);
+    navigate(`/dashboard/coordinator/job-postings/${jobId}`);
   };
 
   if (loading) {
@@ -174,15 +176,15 @@ const Applications = () => {
             <div className="flex flex-col md:flex-row md:justify-between md:items-start">
               <div>
                 <p className="text-[22px] font-[600] leading-[30px] text-[#161A80]">
-                  {application.student.name}
+                  {application.form?.Name}
                 </p>
                 <p className="text-[18px] font-[500] leading-[26px] text-[#3D3D3D] mt-[8px]">
-                  {application.jobTitle}
+                  {application.job?.title}
                 </p>
                 <p className="text-[16px] font-[400] leading-[22px] text-[#666666] mt-[6px]">
-                  {application.company}
+                  {application.job?.company}
                 </p>
-                {Object.entries(application.student).map(([key, value]) => (
+                {Object.entries(application?.form).map(([key, value]) => (
                   <p
                     key={key}
                     className="text-[14px] font-[400] leading-[20px] text-[#666666] mt-[4px] capitalize"

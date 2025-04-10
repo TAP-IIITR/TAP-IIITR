@@ -35,12 +35,14 @@ const FullCompanyDetails = () => {
   const [formData, setFormData] = useState<any>({});
 
   const fetchJobData = async () => {
+    console.log("HIII");
     try {
+      console.log(`http://localhost:3000/api/jobs/student/${id}`);
       const { data } = await axios.get(
         `http://localhost:3000/api/jobs/student/${id}`,
         { withCredentials: true }
       );
-
+      console.log(data.data);
       if (data.success) {
         setJobData(data.data);
         console.log(data.data);
@@ -84,6 +86,7 @@ const FullCompanyDetails = () => {
 
   const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
+    // console.log(formData);
 
     try {
       const applicationData = {
@@ -96,14 +99,14 @@ const FullCompanyDetails = () => {
           //       formData[field.label] || ""
           //     ])
           // ),
-          studentName: `${jobData.student.firstName} ${jobData.student.lastName}`,
-          email: jobData.student.regEmail,
-          contactNumber: jobData.student.mobile,
+          Name: `${jobData.student.firstName} ${jobData.student.lastName}`,
+          Email: jobData.student.regEmail,
+          "Phone Number": jobData.student.mobile,
           cgpa: jobData.student.cgpa,
-          resumeUrl: jobData.student.resume?.url || "",
-          rollNumber: jobData.student.id,
-          branch: jobData.student.branch,
-          additionalFields: formData,
+          "Resume URL": jobData.student.resume?.url || "",
+          "Roll Number": jobData.student.id,
+          Branch: jobData.student.branch,
+          ...formData,
         },
       };
 
@@ -207,7 +210,7 @@ const FullCompanyDetails = () => {
           type: "text",
           required: true,
           readOnly: true,
-          value: jobData.student.cgpa.toString(),
+          value: jobData.student.cgpa | 0,
         },
       ],
     },
@@ -298,10 +301,10 @@ const FullCompanyDetails = () => {
 
             <div className="mt-[16px]">
               <p className="text-[22px] font-[600] text-[#212121] mb-[12px]">
-                Required Skills
+                Eligible Batches
               </p>
               <div className="flex flex-wrap gap-[8px]">
-                {jobData.skills.map((skill: string, index: number) => (
+                {jobData.eligibleBatches.map((skill: string, index: number) => (
                   <span
                     key={index}
                     className="bg-[#F0F7FF] text-[#161A80] px-[12px] py-[6px] rounded-[20px] text-[14px] font-[500] border border-[#D0E1FF]"

@@ -30,8 +30,7 @@ const CreateJobPosting = () => {
     { label: "Phone Number", type: "text", mandatory: true },
     { label: "Roll Number", type: "text", mandatory: true },
     { label: "Branch", type: "text", mandatory: true },
-    { label: "Resume", type: "file", mandatory: false }, // Non-mandatory default field
-    { label: "Cover Letter", type: "textarea", mandatory: false }, // Non-mandatory default field
+    { label: "Resume Link", type: "text", mandatory: false }, // Non-mandatory default field
   ]);
 
   const [newField, setNewField] = useState({ label: "", type: "text" });
@@ -332,7 +331,7 @@ const CreateJobPosting = () => {
               <input
                 type="text"
                 name="eligibleBatches"
-                placeholder="e.g. Python, React"
+                placeholder="e.g. 2026, 2027"
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
                 value={formData.eligibleBatches}
                 onChange={handleChange}

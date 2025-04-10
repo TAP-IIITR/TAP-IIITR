@@ -13,6 +13,10 @@ interface Job {
   postedTime: string;
   status: string;
   applicants: number;
+  jobType: any;
+  applications: any;
+  deadline: any;
+  package: any;
 }
 
 const JobListings = () => {
@@ -30,17 +34,23 @@ const JobListings = () => {
         setLoading(true);
         setError(null);
 
-        const params: { search?: string; sortBy?: string; sortOrder?: string } = {};
+        const params: { search?: string; sortBy?: string; sortOrder?: string } =
+          {};
         if (searchQuery) {
           params.search = searchQuery;
         }
         if (sortBy) {
-          params.sortBy = sortBy === "newest" || sortBy === "oldest" ? "postedTime" : "salary";
-          params.sortOrder = sortBy === "newest" ? "desc" : sortBy === "oldest" ? "asc" : "desc";
+          params.sortBy =
+            sortBy === "newest" || sortBy === "oldest"
+              ? "postedTime"
+              : "salary";
+          params.sortOrder =
+            sortBy === "newest" ? "desc" : sortBy === "oldest" ? "asc" : "desc";
         }
 
         const response = await api.get("/jobs/tap", { params });
         setJobs(response.data.data);
+        console.log(response.data.data);
       } catch (err: any) {
         console.error("Error fetching jobs:", err);
         if (err.response?.status === 401) {
@@ -49,7 +59,9 @@ const JobListings = () => {
         } else if (err.response?.status === 500) {
           setError("Server error. Please try again later or contact support.");
         } else if (err.message === "Network Error") {
-          setError("Unable to connect to the server. Please check your network or server status.");
+          setError(
+            "Unable to connect to the server. Please check your network or server status."
+          );
         } else {
           setError(err.response?.data?.message || "Failed to fetch jobs");
         }
@@ -141,9 +153,7 @@ const JobListings = () => {
       {/* Job Listings */}
       <div className="space-y-3 md:space-y-4">
         {jobs.length === 0 && (
-          <div className="text-center py-10 text-gray-600">
-            No jobs found.
-          </div>
+          <div className="text-center py-10 text-gray-600">No jobs found.</div>
         )}
         {jobs.map((job) => (
           <div
@@ -232,9 +242,9 @@ const JobListings = () => {
                     d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                {job.type}
+                {job.jobType}
               </div>
-              <div className="flex items-center gap-1">{job.salary}</div>
+              <div className="flex items-center gap-1">{job.package}</div>
               <div className="flex items-center gap-1">
                 <svg
                   className="w-3 h-3 md:w-4 md:h-4"
@@ -249,12 +259,12 @@ const JobListings = () => {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                {new Date(job.postedTime).toLocaleDateString()}
+                {new Date(job.deadline).toLocaleDateString()}
               </div>
-              {job.applicants > 0 && (
+              {true && (
                 <div className="flex items-center gap-1 ml-auto">
                   <span className="text-green-600">
-                    {job.applicants} Applicants
+                    {job.applications.length} Applicants
                   </span>
                 </div>
               )}

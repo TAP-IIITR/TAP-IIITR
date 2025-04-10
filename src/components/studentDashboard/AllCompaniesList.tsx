@@ -19,12 +19,56 @@ interface Job {
   jobid: any;
 }
 
+interface StudentData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  resume: string | null;
+  any_other_demands: string | null;
+  batch: string;
+  branch: string;
+  cgpa: number;
+  linkedin: string;
+  mobile: string;
+  rollNumber: string;
+}
+
 const AllCompaniesList = () => {
   const [jobData, setJobData] = useState<Job[] | null>(null);
+  const [userData, setUserData] = useState<StudentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [jobTypeFilter, setJobTypeFilter] = useState<string>("");
   const [filteredJobData, setFilteredJobData] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const fetchUserData = async () => {
+    try {
+      const { data } = await axios.get("/api/dashboard/student", {
+        withCredentials: true,
+      });
+
+      if (data.status === 200) {
+        setUserData(data.student);
+        console.log(data.student);
+      } else {
+        toast.error("Failed to load student data");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Error fetching student data"
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const fetchJobData = async () => {
     try {
@@ -35,8 +79,14 @@ const AllCompaniesList = () => {
         }
       );
       if (data.statusCode === 200) {
-        setJobData(data.jobs);
-        setFilteredJobData(data.jobs);
+        console.log("userData batch:", userData?.batch);
+        console.log(data.jobs);
+        const filteredJobsWithBatches = data.jobs.filter((job: any) =>
+          job?.eligibleBatches?.includes(userData?.batch.toString())
+        );
+        console.log("filet::", filteredJobData);
+        setJobData(filteredJobsWithBatches);
+        setFilteredJobData(filteredJobsWithBatches);
       } else {
         toast.error("Failed to load jobs data");
       }
@@ -54,8 +104,10 @@ const AllCompaniesList = () => {
   };
 
   useEffect(() => {
-    fetchJobData();
-  }, [jobTypeFilter]);
+    if (userData) {
+      fetchJobData();
+    }
+  }, [userData, jobTypeFilter]);
 
   useEffect(() => {
     if (!jobData) return;
