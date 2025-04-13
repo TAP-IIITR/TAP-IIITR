@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { FaArrowLeft } from "react-icons/fa";
@@ -14,7 +15,13 @@ const FullCompanyInfo = () => {
   const [jobData, setJobData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [applications, setApplications] = useState<any>(null);
-  console.log("SHUBHBHBHBH", id);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleDelete = () => {
+    // Implement actual deletion logic here
+    console.log("Deleting job...");
+    setShowModal(false);
+  };
 
   const fetchJobData = async () => {
     console.log("HIII");
@@ -199,6 +206,14 @@ const FullCompanyInfo = () => {
               </div>
             </div>
           </div>
+
+          <button
+            onClick={() => setShowModal(true)}
+            className="w-full py-3 px-4 rounded-lg font-semibold text-base transition-colors bg-red-600 hover:bg-red-700 text-white flex items-center justify-center gap-2"
+          >
+            <Trash2 size={18} />
+            Delete Job
+          </button>
         </div>
       </div>
 
@@ -288,6 +303,34 @@ const FullCompanyInfo = () => {
           )}
         </div>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-lg">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Confirm Deletion
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this job? This action cannot be
+              undone.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 rounded-lg font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 rounded-lg font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

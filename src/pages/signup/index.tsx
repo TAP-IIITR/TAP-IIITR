@@ -13,6 +13,7 @@ const initialState = {
     first_name: "",
     last_name: "",
     reg_email: "",
+    personal_email: "",
     mobile: "",
     linkedin: "",
     password: "",
@@ -76,6 +77,7 @@ const SignupPage = () => {
       );
 
       toast.success(data.message || "Registration successful!");
+      toast.success(`Verification email sent on College Email`);
       setFormData(initialState);
       navigate("/login");
     } catch (error) {

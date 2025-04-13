@@ -124,6 +124,7 @@ const FullCompanyDetails = () => {
         handleExitApplication();
       }
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
         toast.error(
           error.response?.data?.message || "Error submitting application"
@@ -210,7 +211,7 @@ const FullCompanyDetails = () => {
           type: "text",
           required: true,
           readOnly: true,
-          value: jobData.student.cgpa | 0,
+          value: jobData.student.cgpa || 0,
         },
       ],
     },
@@ -345,7 +346,14 @@ const FullCompanyDetails = () => {
                       Application Deadline
                     </p>
                     <p className="text-[16px] font-[500] text-[#212121]">
-                      {new Date(jobData.deadline).toLocaleDateString()}
+                      {new Date(jobData.deadline).toLocaleString("en-IN", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
                     </p>
                   </div>
                 </div>
@@ -355,9 +363,15 @@ const FullCompanyDetails = () => {
 
           <button
             onClick={handleApplyNow}
-            disabled={showApplicationForm || jobData.hasApplied}
+            disabled={
+              showApplicationForm ||
+              jobData.hasApplied ||
+              new Date(jobData.deadline) < new Date() // Job expired
+            }
             className={`w-full py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static ${
-              showApplicationForm || jobData.hasApplied
+              showApplicationForm ||
+              jobData.hasApplied ||
+              new Date(jobData.deadline) < new Date()
                 ? "bg-[#A0A0A0] cursor-not-allowed"
                 : "bg-[#161A80] hover:bg-[#14137D] text-white"
             }`}
@@ -366,6 +380,8 @@ const FullCompanyDetails = () => {
               ? "Application in Progress"
               : jobData.hasApplied
               ? "Already Applied"
+              : new Date(jobData.deadline) < new Date()
+              ? "Job Expired"
               : "Apply Now"}
           </button>
         </div>

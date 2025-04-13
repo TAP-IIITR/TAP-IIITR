@@ -450,7 +450,7 @@ const CreateJobPosting = () => {
               Application Deadline
             </label>
             <input
-              type="date"
+              type="datetime-local"
               name="applicationDeadline"
               className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#14137D]"
               value={formData.applicationDeadline}
