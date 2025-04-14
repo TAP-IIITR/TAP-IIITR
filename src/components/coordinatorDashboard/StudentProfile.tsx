@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { BiSolidFilePdf } from "react-icons/bi";
 import { FaDownload, FaArrowLeft } from "react-icons/fa";
 import { MdOutlineEmail, MdPhone } from "react-icons/md";
@@ -391,23 +391,50 @@ const StudentProfile = () => {
             style={{ boxShadow: "0px 2px 4px 0px #00000010" }}
           >
             <BiSolidFilePdf className="w-[40px] h-[40px] text-[#282FE6] flex-shrink-0" />
-            <div className="flex-grow">
+            {studentData?.resume?.url ? (
+              <div className="flex-grow">
+                <p className="font-[500] text-[#000] leading-[24px] text-[16px]">
+                  Resume.pdf
+                </p>
+                <p className="font-[400] text-[#666] leading-[20px] text-[13px]">
+                  <span>
+                    Uploaded on{" "}
+                    {studentData?.resume.lastUpdated
+                      ? new Date(
+                          studentData.resume.lastUpdated.seconds * 1000 +
+                            Math.floor(
+                              studentData.resume.lastUpdated.nanoseconds / 1e6
+                            )
+                        ).toLocaleString("en-IN", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                        })
+                      : "N/A"}
+                  </span>
+                </p>
+              </div>
+            ) : (
               <p className="font-[500] text-[#000] leading-[24px] text-[16px]">
-                {/* {student.resumeName} */}
+                No Resume Uploaded
               </p>
-              <p className="font-[400] text-[#666] leading-[20px] text-[13px]">
-                {/* Uploaded on {student.resumeUploadDate} */}
-              </p>
-            </div>
-            <button className="bg-[#161A80] hover:bg-[#29A8EF] rounded-full p-2 transition-colors">
-              <FaDownload className="w-[18px] h-[18px] text-white" />
-            </button>
+            )}
           </div>
 
-          <button className="w-full mt-[16px] bg-[#161A80] hover:bg-[#29A8EF] text-white py-[10px] rounded-[8px] font-[500] transition-colors flex items-center justify-center gap-[8px]">
-            <FaDownload className="w-[14px] h-[14px]" />
-            Download Resume
-          </button>
+          {studentData?.resume?.url && (
+            <Link
+              to={studentData?.resume?.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full mt-[16px] bg-[#161A80] hover:bg-[#29A8EF] text-white py-[10px] rounded-[8px] font-[500] transition-colors flex items-center justify-center gap-[8px]"
+            >
+              <FaDownload className="w-[14px] h-[14px]" />
+              Download Resume
+            </Link>
+          )}
         </div>
       </div>
 
@@ -436,7 +463,7 @@ const StudentProfile = () => {
                 <div className="mb-[12px] md:mb-0">
                   <div className="flex flex-wrap items-center gap-[12px]">
                     <p className="font-[600] text-[18px] text-[#212121]">
-                      {application.jobTitle}
+                      {application.job.title}
                     </p>
                     {/* <span
                       className={`px-[12px] py-[2px] rounded-full text-[14px] border ${getStatusColor(
@@ -447,20 +474,29 @@ const StudentProfile = () => {
                     </span> */}
                   </div>
 
-                  {/* <div className="flex flex-wrap gap-x-[24px] mt-[6px]">
+                  <div className="flex flex-wrap gap-x-[24px] mt-[6px]">
                     <p className="font-[500] text-[16px] text-[#484848]">
-                      {application.company}
+                      {application.job.company}
                     </p>
                     <p className="font-[400] text-[14px] text-[#666666]">
-                      {application.location}
+                      {application.job.location}
                     </p>
                     <p className="font-[600] text-[14px] text-[#161A80]">
-                      {application.package}
+                      {application.job.package}
                     </p>
                     <p className="font-[400] text-[14px] text-[#666666]">
-                      {application.jobType}
+                      {application.job.jobType}
                     </p>
-                  </div> */}
+                  </div>
+
+                  {Object.entries(application?.form).map(([key, value]) => (
+                    <p
+                      key={key}
+                      className="text-[14px] font-[400] leading-[20px] text-[#666666] mt-[4px] capitalize"
+                    >
+                      {key.replace(/([A-Z])/g, " $1")}: {String(value) || "N/A"}
+                    </p>
+                  ))}
 
                   {/* <div className="flex flex-wrap gap-x-[24px] mt-[4px]">
                     <p className="font-[400] text-[14px] text-[#9E9E9E]">

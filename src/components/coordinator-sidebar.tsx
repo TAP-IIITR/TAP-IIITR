@@ -13,7 +13,7 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
     { title: "Applications", path: "/dashboard/coordinator/applications" },
     { title: "Recruiters", path: "/dashboard/coordinator/recruiters" },
     { title: "Verifications", path: "/dashboard/coordinator/verifications" },
-    { title: "Updatecgpa", path: "/dashboard/coordinator/updatecgpa" },
+    { title: "Update Cgpa", path: "/dashboard/coordinator/updatecgpa" },
   ];
 
   if (isMobile) {
@@ -104,7 +104,7 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
           const isActive =
             location.pathname === item.path ||
             location.pathname === `${item.path}/`;
-            
+
           return (
             <NavLink
               key={index}

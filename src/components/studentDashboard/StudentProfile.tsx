@@ -42,6 +42,7 @@ const StudentProfile = () => {
       if (data.status === 200) {
         setUserData(data.student);
         console.log(data.student);
+        console.log(data.student);
       } else {
         toast.error("Failed to load student data");
       }

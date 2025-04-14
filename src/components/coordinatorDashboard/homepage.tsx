@@ -40,6 +40,8 @@ interface Application {
   createdAt: string;
   student: any;
   status?: string;
+  job: any;
+  form: any;
 }
 
 const CoordinatorHomepage = () => {
@@ -64,6 +66,7 @@ const CoordinatorHomepage = () => {
       console.log(data);
       if (data.success) {
         // Assuming data.data is the array of applications
+        console.log("newwwww", data.data);
         setApplications(data.data);
       } else {
         toast.error(data.message || "Failed to load applications data");
@@ -284,10 +287,10 @@ const CoordinatorHomepage = () => {
                 >
                   <div className="flex flex-col">
                     <h3 className="font-semibold text-sm md:text-base">
-                      {application.student?.name}
+                      {application?.form?.Name}
                     </h3>
                     <p className="text-gray-600 text-xs md:text-sm">
-                      {application.jobTitle} at {application.company}
+                      {application?.job.title} at {application?.job.company}
                     </p>
                   </div>
                 </div>

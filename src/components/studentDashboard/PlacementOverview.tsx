@@ -7,17 +7,58 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import ApplicationCard from "../applicationCard";
 
+interface StudentData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  resume: string | null;
+  any_other_demands: string | null;
+  batch: string;
+  branch: string;
+  cgpa: number;
+  linkedin: string;
+  mobile: string;
+  rollNumber: string;
+}
+
 const PlacementOverview = () => {
   const [applicationData, setApplicationData] = useState<any>(null);
   const [placementData, setPlacementData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<StudentData | null>(null);
+
+  const fetchUserData = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get("/api/dashboard/student", {
+        withCredentials: true,
+      });
+
+      if (data.status === 200) {
+        setUserData(data.student);
+        console.log(data.student);
+      } else {
+        toast.error("Failed to load student data");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Error fetching student data"
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Fetch both API endpoints when component mounts
-    fetchData();
+    fetchUserData();
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       // First API call - Applications
       const applicationsPromise = axios.get(
@@ -39,6 +80,7 @@ const PlacementOverview = () => {
 
       // Process applications data
       if (applicationsResponse.data.statusCode === 200) {
+        console.log(applicationsResponse.data.applications);
         setApplicationData(applicationsResponse.data.applications);
       } else {
         toast.error("Failed to load applications data");
@@ -46,7 +88,14 @@ const PlacementOverview = () => {
 
       // Process placements/jobs data
       if (placementsResponse.data.statusCode === 200) {
-        setPlacementData(placementsResponse.data.jobs);
+        console.log("userData batch:", userData?.batch);
+        console.log(placementsResponse.data.jobs);
+        const filteredJobsWithBatches = placementsResponse.data.jobs.filter(
+          (job: any) =>
+            job?.eligibleBatches?.includes(userData?.batch.toString())
+        );
+        console.log("filet::", filteredJobsWithBatches);
+        setPlacementData(filteredJobsWithBatches);
       } else {
         toast.error("Failed to load placement data");
       }
@@ -62,6 +111,12 @@ const PlacementOverview = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (userData) {
+      fetchData();
+    }
+  }, [userData]);
 
   if (loading) {
     return (
@@ -79,11 +134,14 @@ const PlacementOverview = () => {
   const companiesCount = placementData
     ? new Set(placementData.map((job: any) => job.company)).size
     : 0;
-  const totalApplicationsCount = placementData
-    ? placementData.reduce((total: number, job: any) => {
-        return total + (job.applicationCount || 0);
-      }, 0)
-    : 0;
+  // const totalApplicationsCount = placementData
+  //   ? placementData.reduce((total: number, job: any) => {
+  //       return total + (job.applicationCount || 0);
+  //     }, 0)
+  //   : 0;
+
+  // Count user's applications not whole applications
+  const totalApplicationsCount = applicationData ? applicationData.length : 0;
 
   return (
     <div className="flex flex-col gap-[26px]">
@@ -195,7 +253,9 @@ const PlacementOverview = () => {
 
           <Link to={`/dashboard/student/my-applications`}>
             <div className="bg-blue-800 hover:bg-blue-900 w-full h-[44px] rounded-[10px] flex items-center justify-center cursor-pointer">
-              <p className="font-[600] text-[16px] text-white">View All Alpplication</p>
+              <p className="font-[600] text-[16px] text-white">
+                View All Alpplication
+              </p>
             </div>
           </Link>
         </div>

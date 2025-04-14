@@ -40,6 +40,8 @@ import Verifications from "./components/coordinatorDashboard/Verifications";
 import CoordinatorStudentProfile from "@/components/coordinatorDashboard/StudentProfile";
 import JobDetails from "./components/coordinatorDashboard/JobDetails";
 import UpdateCGPAPage from "./components/coordinatorDashboard/UpdateCGPAPage";
+import FullCompanyInfo from "./components/coordinatorDashboard/FullCompanyInfo";
+
 
 function App() {
   window.onbeforeunload = function () {
@@ -77,6 +79,7 @@ function App() {
             <Route path="job-postings">
               <Route index element={<JobListings />} />
               <Route path="new" element={<CreateJobPosting />} />
+              <Route path=":id" element={<FullCompanyInfo />} />
             </Route>
             <Route path="student-data" element={<StudentData />} />
             <Route path="applications" element={<Applications />} />
