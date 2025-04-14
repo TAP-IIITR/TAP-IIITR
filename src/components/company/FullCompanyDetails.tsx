@@ -37,9 +37,11 @@ const FullCompanyDetails = () => {
   const fetchJobData = async () => {
     console.log("HIII");
     try {
-      console.log(`http://localhost:3000/api/jobs/student/${id}`);
+      console.log(
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/jobs/student/${id}`
+      );
       const { data } = await axios.get(
-        `http://localhost:3000/api/jobs/student/${id}`,
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/jobs/student/${id}`,
         { withCredentials: true }
       );
       console.log(data.data);
@@ -113,7 +115,7 @@ const FullCompanyDetails = () => {
       console.log("Application Data:", applicationData);
 
       const response = await axios.post(
-        `http://localhost:3000/api/jobs/student/${id}/apply`,
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/jobs/student/${id}/apply`,
         applicationData,
         { withCredentials: true }
       );

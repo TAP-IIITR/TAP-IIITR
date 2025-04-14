@@ -22,7 +22,7 @@ const JobDetails = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/jobs/tap/${id}`,
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/jobs/tap/${id}`,
         { withCredentials: true }
       );
       console.log(data);

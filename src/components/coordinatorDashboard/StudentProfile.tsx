@@ -16,9 +16,11 @@ const StudentProfile = () => {
 
   const fetchStudentData = async () => {
     try {
-      console.log(`http://localhost:3000/api/student/tap/${studentId}`);
+      console.log(
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/student/tap/${studentId}`
+      );
       const { data } = await axios.get(
-        `http://localhost:3000/api/student/tap/${studentId}`,
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/student/tap/${studentId}`,
         { withCredentials: true }
       );
       console.log(data);
@@ -43,7 +45,7 @@ const StudentProfile = () => {
   const fetchApplications = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/student/tap/applications/${studentId}`,
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/student/tap/applications/${studentId}`,
         { withCredentials: true }
       );
       console.log(data);

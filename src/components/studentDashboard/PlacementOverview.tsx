@@ -62,13 +62,13 @@ const PlacementOverview = () => {
     try {
       // First API call - Applications
       const applicationsPromise = axios.get(
-        `http://localhost:3000/api/jobs/student/mm`,
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/jobs/student/mm`,
         { withCredentials: true }
       );
 
       // Second API call - Jobs/Placements
       const placementsPromise = axios.get(
-        `http://localhost:3000/api/jobs/student`,
+        `https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api/jobs/student`,
         { withCredentials: true }
       );
 
