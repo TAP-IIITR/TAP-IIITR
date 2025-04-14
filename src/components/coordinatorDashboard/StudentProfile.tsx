@@ -1,37 +1,50 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { BiSolidFilePdf } from "react-icons/bi";
-import { FaDownload, FaArrowLeft } from "react-icons/fa";
-import { MdOutlineEmail, MdPhone } from "react-icons/md";
-import { FaGraduationCap, FaLinkedin, FaExternalLinkAlt } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { 
+  ArrowLeft, 
+  Mail, 
+  Phone, 
+  GraduationCap, 
+  Linkedin, 
+  ExternalLink, 
+  Download, 
+  FileText, 
+  Building, 
+  MapPin, 
+  Calendar, 
+  ChevronRight, 
+  BookOpen, 
+  Award, 
+  Briefcase
+} from "lucide-react";
 
 const StudentProfile = () => {
   const { studentId } = useParams();
   const navigate = useNavigate();
   const [studentData, setStudentData] = useState<any>(null);
-  const [applications, setApplications] = useState<any>(null);
+  const [applications, setApplications] = useState<any>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("personal");
 
   const fetchStudentData = async () => {
     try {
-      console.log(`http://localhost:3000/api/student/tap/${studentId}`);
       const { data } = await axios.get(
         `http://localhost:3000/api/student/tap/${studentId}`,
         { withCredentials: true }
       );
-      console.log(data);
+      
       if (data.success) {
+        console.log(" the student data is ",data.data)
         setStudentData(data.data);
       } else {
-        toast.error("Failed to load job data");
+        toast.error("Failed to load student data");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
-        toast.error(error.response?.data?.message || "Error fetching job data");
+        toast.error(error.response?.data?.message || "Error fetching student data");
       } else {
         toast.error("An unexpected error occurred");
       }
@@ -46,22 +59,19 @@ const StudentProfile = () => {
         `http://localhost:3000/api/student/tap/applications/${studentId}`,
         { withCredentials: true }
       );
-      console.log(data);
+      
       if (data.success) {
         setApplications(data.data);
       } else {
-        toast.error("Failed to load job data");
+        toast.error("Failed to load application data");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
-        toast.error(error.response?.data?.message || "Error fetching job data");
+        toast.error(error.response?.data?.message || "Error fetching application data");
       } else {
         toast.error("An unexpected error occurred");
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -70,457 +80,421 @@ const StudentProfile = () => {
     fetchApplications();
   }, [studentId]);
 
-  // In a real application, you would fetch the student data based on the ID
-  // const student = {
-  //   id: parseInt("dkhagsk" || "1"),
-  //   name: "John Doe",
-  //   email: "john.doe@example.com",
-  //   phone: "+91 9876543210",
-  //   branch: "Computer Science and Engineering",
-  //   dob: "01 January, 2002",
-  //   linkedin: "linkedin.com/in/john-doe-20swswwdw",
-  //   enrollment: "2020UGCS001",
-  //   cgpa: "9.5",
-  //   batch: "2020-2024",
-  //   resumeUrl: "#",
-  //   resumeName: "Resume_John_Doe.pdf",
-  //   resumeUploadDate: "16 May, 2024",
-  //   skills: [
-  //     "React",
-  //     "TypeScript",
-  //     "Node.js",
-  //     "MongoDB",
-  //     "Express",
-  //     "Python",
-  //     "Machine Learning",
-  //     "Data Structures",
-  //     "Cloud Computing",
-  //     "AWS",
-  //     "Docker",
-  //     "Kubernetes",
-  //   ],
-  //   achievements: [
-  //     "Winner, Inter-College Hackathon 2023",
-  //     "3rd place in CodeChef Regional Contest",
-  //     "Published paper in International Conference on Machine Learning",
-  //     "Smart India Hackathon Finalist 2022",
-  //     "ACM-ICPC Regional Qualifier",
-  //   ],
-  //   projects: [
-  //     {
-  //       title: "Smart Home Automation System",
-  //       description:
-  //         "IoT-based project to control home appliances using a mobile app and voice commands",
-  //     },
-  //     {
-  //       title: "AI Image Recognition App",
-  //       description:
-  //         "Mobile application that uses machine learning to identify objects in images with 95% accuracy",
-  //     },
-  //     {
-  //       title: "Blockchain-based Supply Chain",
-  //       description:
-  //         "Decentralized application for tracking product authenticity and supply chain transparency",
-  //     },
-  //   ],
-  // };
-
-  // // Enhanced mock applications data with more entries
-  // const applications = [
-  //   {
-  //     id: 1,
-  //     role: "Software Engineer",
-  //     company: "TechCorp",
-  //     status: "Selected",
-  //     appliedDate: "2 May, 2024",
-  //     package: "₹18 LPA",
-  //     location: "Bangalore, India",
-  //     jobType: "Full-time",
-  //     interviewDate: "15 May, 2024",
-  //   },
-  //   {
-  //     id: 2,
-  //     role: "Full Stack Developer",
-  //     company: "WebSolutions",
-  //     status: "Pending",
-  //     appliedDate: "5 May, 2024",
-  //     package: "₹15 LPA",
-  //     location: "Hyderabad, India",
-  //     jobType: "Full-time",
-  //     interviewDate: "18 May, 2024",
-  //   },
-  //   {
-  //     id: 3,
-  //     role: "Data Scientist",
-  //     company: "DataMinds",
-  //     status: "Selected",
-  //     appliedDate: "10 May, 2024",
-  //     package: "₹22 LPA",
-  //     location: "Pune, India",
-  //     jobType: "Full-time",
-  //     interviewDate: "12 May, 2024",
-  //   },
-  //   {
-  //     id: 4,
-  //     role: "Product Manager",
-  //     company: "Innovate Tech",
-  //     status: "Selected",
-  //     appliedDate: "15 May, 2024",
-  //     package: "₹20 LPA",
-  //     location: "Mumbai, India",
-  //     jobType: "Full-time",
-  //     interviewDate: "22 May, 2024",
-  //   },
-  //   {
-  //     id: 5,
-  //     role: "Machine Learning Engineer",
-  //     company: "AI Solutions",
-  //     status: "Pending",
-  //     appliedDate: "18 May, 2024",
-  //     package: "₹24 LPA",
-  //     location: "Delhi, India",
-  //     jobType: "Full-time",
-  //     interviewDate: "25 May, 2024",
-  //   },
-  //   {
-  //     id: 6,
-  //     role: "DevOps Engineer",
-  //     company: "CloudTech",
-  //     status: "Pending",
-  //     appliedDate: "20 May, 2024",
-  //     package: "₹16 LPA",
-  //     location: "Chennai, India",
-  //     jobType: "Full-time",
-  //     interviewDate: "27 May, 2024",
-  //   },
-  //   {
-  //     id: 7,
-  //     role: "UI/UX Designer",
-  //     company: "DesignHub",
-  //     status: "Selected",
-  //     appliedDate: "1 May, 2024",
-  //     package: "₹14 LPA",
-  //     location: "Bangalore, India",
-  //     jobType: "Full-time",
-  //     interviewDate: "10 May, 2024",
-  //   },
-  //   {
-  //     id: 8,
-  //     role: "Backend Developer",
-  //     company: "ServerLogic",
-  //     status: "Selected",
-  //     appliedDate: "8 May, 2024",
-  //     package: "₹17 LPA",
-  //     location: "Hyderabad, India",
-  //     jobType: "Full-time",
-  //     interviewDate: "16 May, 2024",
-  //   },
-  // ];
-
-  // const getStatusColor = (status: string) => {
-  //   switch (status) {
-  //     case "Selected":
-  //       return "text-green-600 bg-green-50 border-green-200";
-  //     case "Rejected":
-  //       return "text-red-600 bg-red-50 border-red-200";
-  //     case "Pending":
-  //       return "text-yellow-600 bg-yellow-50 border-yellow-200";
-  //     default:
-  //       return "text-gray-600 bg-gray-50 border-gray-200";
-  //   }
-  // };
+  const getStatusColor = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case "selected":
+      case "approved":
+      case "accepted":
+        return "text-emerald-600 bg-emerald-50 border-emerald-200";
+      case "rejected":
+      case "declined":
+        return "text-red-600 bg-red-50 border-red-200";
+      case "pending":
+      case "in review":
+        return "text-amber-600 bg-amber-50 border-amber-200";
+      default:
+        return "text-blue-600 bg-blue-50 border-blue-200";
+    }
+  };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen bg-gray-50">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-800 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading job details...</p>
+          <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-gray-600 font-medium">Loading student profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!studentData) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-50">
+        <div className="text-center p-8 bg-white rounded-xl shadow-lg max-w-md">
+          <div className="text-red-500 text-5xl mb-4">⚠️</div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-2">Student Not Found</h3>
+          <p className="text-gray-600 mb-6">We couldn't find the student profile you're looking for.</p>
+          <button
+            onClick={() => navigate(-1)}
+            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 mx-auto"
+          >
+            <ArrowLeft size={16} />
+            <span>Go Back</span>
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-[26px] p-6">
-      {/* Back button and header */}
-      <div className="flex flex-col gap-[10px]">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-[#161A80] hover:text-[#29A8EF] w-fit mb-2 transition-colors"
-        >
-          <FaArrowLeft size={14} /> Student Details
-        </button>
-
-        <div className="flex flex-col">
-          <p className="font-[500] text-[36px] text-[#161A80] mt-[-8px]">
-            {studentData.firstName} {studentData.lastName}
-          </p>
-        </div>
-      </div>
-
-      {/* Personal Details Card - Full Width */}
-      <div
-        className="w-full bg-[#FFFFFF] rounded-[12px] px-[24px] py-[24px]"
-        style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
-      >
-        <p className="font-[600] text-[22px] text-[#212121] mb-[16px]">
-          Personal Details
-        </p>
-        <div className="border-b border-[#E0E0E0] mb-[16px]"></div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
-          <div className="flex gap-[16px] items-center">
-            <div className="bg-[#E0E0E0] h-[40px] w-[40px] rounded-full flex items-center justify-center flex-shrink-0">
-              <MdOutlineEmail className="text-[#161A80] h-[20px] w-[20px]" />
-            </div>
-            <div>
-              <p className="text-[14px] font-[500] text-[#666666]">
-                Email Address
-              </p>
-              <p className="text-[16px] font-[400] text-[#212121]">
-                {studentData.regEmail}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-[16px] items-center">
-            <div className="bg-[#E0E0E0] h-[40px] w-[40px] rounded-full flex items-center justify-center flex-shrink-0">
-              <MdPhone className="text-[#161A80] h-[20px] w-[20px]" />
-            </div>
-            <div>
-              <p className="text-[14px] font-[500] text-[#666666]">
-                Phone Number
-              </p>
-              <p className="text-[16px] font-[400] text-[#212121]">
-                {studentData.mobile}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-[16px] items-center">
-            <div className="bg-[#E0E0E0] h-[40px] w-[40px] rounded-full flex items-center justify-center flex-shrink-0">
-              <FaLinkedin className="text-[#161A80] h-[20px] w-[20px]" />
-            </div>
-            <div>
-              <p className="text-[14px] font-[500] text-[#666666]">
-                LinkedIn Profile
-              </p>
-              <div className="flex items-center gap-[6px]">
-                <p className="text-[16px] font-[400] text-[#212121]">
-                  {studentData.linkedin}
-                </p>
-                <FaExternalLinkAlt className="text-[#161A80] h-[12px] w-[12px] cursor-pointer" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Academic Details and Resume - Side by Side */}
-      <div className="flex flex-col md:flex-row gap-[26px]">
-        {/* Academic Details */}
-        <div
-          className="w-full md:w-1/2 bg-[#FFFFFF] rounded-[12px] px-[24px] py-[24px]"
-          style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
-        >
-          <p className="font-[600] text-[22px] text-[#212121] mb-[16px]">
-            Academic Details
-          </p>
-          <div className="border-b border-[#E0E0E0] mb-[16px]"></div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[20px]">
-            <div>
-              <p className="text-[14px] font-[500] text-[#666666]">
-                Enrollment Number
-              </p>
-              <div className="flex gap-[10px] items-center mt-[4px]">
-                <FaGraduationCap className="text-[#161A80] h-[18px] w-[18px]" />
-                <p className="text-[16px] font-[500] text-[#212121]">
-                  {studentData.rollNumber}
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-[14px] font-[500] text-[#666666]">CGPA</p>
-              <div className="flex gap-[10px] items-center mt-[4px]">
-                <FaGraduationCap className="text-[#161A80] h-[18px] w-[18px]" />
-                <p className="text-[16px] font-[500] text-[#212121]">
-                  {studentData.cgpa}
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-[14px] font-[500] text-[#666666]">Batch</p>
-              <div className="flex gap-[10px] items-center mt-[4px]">
-                <FaGraduationCap className="text-[#161A80] h-[18px] w-[18px]" />
-                <p className="text-[16px] font-[500] text-[#212121]">
-                  {Number(studentData.batch) - 4} - {Number(studentData.batch)}
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-[14px] font-[500] text-[#666666]">Branch</p>
-              <div className="flex gap-[10px] items-center mt-[4px]">
-                <FaGraduationCap className="text-[#161A80] h-[18px] w-[18px]" />
-                <p className="text-[16px] font-[500] text-[#212121]">
-                  {studentData.branch}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Skills section with improved styling */}
-        </div>
-
-        {/* Student's Resume */}
-        <div
-          className="w-full md:w-1/2 bg-[#FFFFFF] rounded-[12px] px-[24px] py-[24px]"
-          style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
-        >
-          <p className="font-[600] text-[22px] text-[#212121] mb-[16px]">
-            Student's Resume
-          </p>
-          <div className="border-b border-[#E0E0E0] mb-[16px]"></div>
-
-          <div
-            className="flex gap-[20px] items-center mt-[20px] px-[24px] py-[20px] bg-[#1E40AF10] rounded-[12px] border border-[#1E40AF20]"
-            style={{ boxShadow: "0px 2px 4px 0px #00000010" }}
+    <div className="bg-gray-50 min-h-screen pb-10">
+      {/* Header with gradient background */}
+      <div className="bg-gradient-to-r from-indigo-800 to-blue-600 text-white p-6 md:p-10">
+        <div className="max-w-7xl mx-auto">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-indigo-100 hover:text-white transition-colors duration-300 group mb-4"
           >
-            <BiSolidFilePdf className="w-[40px] h-[40px] text-[#282FE6] flex-shrink-0" />
-            {studentData?.resume?.url ? (
-              <div className="flex-grow">
-                <p className="font-[500] text-[#000] leading-[24px] text-[16px]">
-                  Resume.pdf
-                </p>
-                <p className="font-[400] text-[#666] leading-[20px] text-[13px]">
-                  <span>
-                    Uploaded on{" "}
-                    {studentData?.resume.lastUpdated
-                      ? new Date(
-                          studentData.resume.lastUpdated.seconds * 1000 +
-                            Math.floor(
-                              studentData.resume.lastUpdated.nanoseconds / 1e6
-                            )
-                        ).toLocaleString("en-IN", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          hour12: true,
-                        })
-                      : "N/A"}
-                  </span>
-                </p>
+            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform duration-300" /> 
+            <span>Back to Student List</span>
+          </button>
+          
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold">
+                {studentData.firstName} {studentData.lastName}
+              </h1>
+              <div className="flex flex-wrap items-center gap-4 mt-3">
+                <div className="flex items-center gap-2 text-indigo-100">
+                  <GraduationCap size={16} />
+                  <span>{studentData.branch}</span>
+                </div>
+                <div className="flex items-center gap-2 text-indigo-100">
+                  <Calendar size={16} />
+                  <span>{Number(studentData.batch) - 4} - {Number(studentData.batch)}</span>
+                </div>
               </div>
-            ) : (
-              <p className="font-[500] text-[#000] leading-[24px] text-[16px]">
-                No Resume Uploaded
-              </p>
+            </div>
+            
+            {studentData?.resume?.url && (
+              <Link
+                to={studentData.resume.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 md:mt-0 flex items-center gap-2 bg-white text-indigo-700 hover:bg-indigo-50 px-4 py-2 rounded-lg transition-all duration-300 font-medium group"
+              >
+                <Download size={16} className="group-hover:translate-y-1 transition-transform duration-300" />
+                Download Resume
+              </Link>
             )}
           </div>
-
-          {studentData?.resume?.url && (
-            <Link
-              to={studentData?.resume?.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full mt-[16px] bg-[#161A80] hover:bg-[#29A8EF] text-white py-[10px] rounded-[8px] font-[500] transition-colors flex items-center justify-center gap-[8px]"
+          
+          {/* Navigation Tabs */}
+          <div className="flex space-x-1 mt-8 border-b border-indigo-700/30">
+            <button
+              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${
+                activeTab === "personal" 
+                  ? "border-white text-white" 
+                  : "border-transparent text-indigo-200 hover:text-white hover:border-indigo-300"
+              }`}
+              onClick={() => setActiveTab("personal")}
             >
-              <FaDownload className="w-[14px] h-[14px]" />
-              Download Resume
-            </Link>
-          )}
+              Personal Details
+            </button>
+            <button
+              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${
+                activeTab === "academic" 
+                  ? "border-white text-white" 
+                  : "border-transparent text-indigo-200 hover:text-white hover:border-indigo-300"
+              }`}
+              onClick={() => setActiveTab("academic")}
+            >
+              Academic Details
+            </button>
+            <button
+              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${
+                activeTab === "applications" 
+                  ? "border-white text-white" 
+                  : "border-transparent text-indigo-200 hover:text-white hover:border-indigo-300"
+              }`}
+              onClick={() => setActiveTab("applications")}
+            >
+              Applications
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* Student Applications - Full Width */}
-      <div
-        className="w-full bg-[#FFFFFF] rounded-[12px] px-[24px] py-[24px]"
-        style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
-      >
-        <div className="flex justify-between items-center mb-[16px]">
-          <p className="font-[600] text-[22px] text-[#212121]">
-            Student Applications
-          </p>
-          {/* <p className="text-[14px] font-[500] text-[#666666]">
-            Total: <span className="text-[#161A80]">{applications.length}</span>
-          </p> */}
-        </div>
-        <div className="border-b border-[#E0E0E0] mb-[16px]"></div>
-
-        <div className="flex flex-col gap-[16px]">
-          {applications && applications.length > 0 ? (
-            applications.map((application: any) => (
-              <div
-                key={application.id}
-                className="flex flex-col md:flex-row md:items-center justify-between p-[20px] rounded-[8px] border border-[#E0E0E0] hover:shadow-md transition-shadow"
-              >
-                <div className="mb-[12px] md:mb-0">
-                  <div className="flex flex-wrap items-center gap-[12px]">
-                    <p className="font-[600] text-[18px] text-[#212121]">
-                      {application.job.title}
-                    </p>
-                    {/* <span
-                      className={`px-[12px] py-[2px] rounded-full text-[14px] border ${getStatusColor(
-                        application.status
-                      )}`}
-                    >
-                      {application.status}
-                    </span> */}
-                  </div>
-
-                  <div className="flex flex-wrap gap-x-[24px] mt-[6px]">
-                    <p className="font-[500] text-[16px] text-[#484848]">
-                      {application.job.company}
-                    </p>
-                    <p className="font-[400] text-[14px] text-[#666666]">
-                      {application.job.location}
-                    </p>
-                    <p className="font-[600] text-[14px] text-[#161A80]">
-                      {application.job.package}
-                    </p>
-                    <p className="font-[400] text-[14px] text-[#666666]">
-                      {application.job.jobType}
-                    </p>
-                  </div>
-
-                  {Object.entries(application?.form).map(([key, value]) => (
-                    <p
-                      key={key}
-                      className="text-[14px] font-[400] leading-[20px] text-[#666666] mt-[4px] capitalize"
-                    >
-                      {key.replace(/([A-Z])/g, " $1")}: {String(value) || "N/A"}
-                    </p>
-                  ))}
-
-                  {/* <div className="flex flex-wrap gap-x-[24px] mt-[4px]">
-                    <p className="font-[400] text-[14px] text-[#9E9E9E]">
-                      Applied on: {application.appliedDate}
-                    </p>
-                    {application.interviewDate && (
-                      <p className="font-[400] text-[14px] text-[#9E9E9E]">
-                        Interview date: {application.interviewDate}
-                      </p>
-                    )}
-                  </div> */}
-                </div>
-
-                <button className="px-[16px] py-[8px] bg-[#F5F5F5] hover:bg-[#E0E0E0] rounded-[6px] text-[14px] font-[500] text-[#161A80] transition-colors">
-                  View Details
-                </button>
+      
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
+        {/* Personal Details Tab */}
+        {activeTab === "personal" && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Personal Information Card */}
+            <div className="lg:col-span-2 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+              <div className="border-b border-gray-100 bg-gray-50 px-6 py-4">
+                <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                  <Mail size={18} className="text-indigo-600" />
+                  Contact Information
+                </h2>
               </div>
-            ))
-          ) : (
-            <p className="text-center py-[40px] text-[#666666]">
-              No applications found for this student
-            </p>
-          )}
-        </div>
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="group">
+                    <label className="text-sm font-medium text-gray-500 mb-1 block">Email Address</label>
+                    <div className="flex items-center gap-3 mt-1 group-hover:text-indigo-700 transition-colors duration-300">
+                      <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
+                        <Mail size={18} className="text-indigo-600" />
+                      </div>
+                      <span className="text-base font-medium text-gray-800">{studentData.regEmail || "N/A"}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="group">
+                    <label className="text-sm font-medium text-gray-500 mb-1 block">Phone Number</label>
+                    <div className="flex items-center gap-3 mt-1 group-hover:text-indigo-700 transition-colors duration-300">
+                      <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
+                        <Phone size={18} className="text-indigo-600" />
+                      </div>
+                      <span className="text-base font-medium text-gray-800">{studentData.mobile || "N/A"}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="group md:col-span-2">
+                    <label className="text-sm font-medium text-gray-500 mb-1 block">LinkedIn Profile</label>
+                    <div className="flex items-center gap-3 mt-1 group-hover:text-indigo-700 transition-colors duration-300">
+                      <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
+                        <Linkedin size={18} className="text-indigo-600" />
+                      </div>
+                      <span className="text-base font-medium text-gray-800">{studentData.linkedin || "Not provided"}</span>
+                      {studentData.linkedin && (
+                        <a 
+                          href={studentData.linkedin.startsWith('http') ? studentData.linkedin : `https://${studentData.linkedin}`}
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-indigo-600 hover:text-indigo-800 transition-colors duration-300"
+                        >
+                          <ExternalLink size={16} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Resume Card */}
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+              <div className="border-b border-gray-100 bg-gray-50 px-6 py-4">
+                <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                  <FileText size={18} className="text-indigo-600" />
+                  Resume
+                </h2>
+              </div>
+              
+              <div className="p-6">
+                {studentData?.resume?.url ? (
+                  <div className="flex flex-col items-center">
+                    <div className="h-24 w-24 bg-indigo-50 rounded-lg flex items-center justify-center mb-4">
+                      <FileText size={40} className="text-indigo-600" />
+                    </div>
+                    
+                    <h3 className="font-medium text-gray-800 mb-1">Resume.pdf</h3>
+                    <p className="text-sm text-gray-500 mb-6 text-center">
+                      Uploaded on{" "}
+                      {studentData?.resume.lastUpdated
+                        ? new Date(
+                            studentData.resume.lastUpdated.seconds * 1000 +
+                              Math.floor(
+                                studentData.resume.lastUpdated.nanoseconds / 1e6
+                              )
+                          ).toLocaleString("en-IN", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          })
+                        : "N/A"}
+                    </p>
+                    
+                    <Link
+                      to={studentData.resume.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg py-3 px-4 font-medium transition-all duration-300 flex items-center justify-center gap-2 group"
+                    >
+                      <Download size={16} className="group-hover:translate-y-1 transition-transform duration-300" />
+                      Download Resume
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full py-10">
+                    <div className="h-24 w-24 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                      <FileText size={40} className="text-gray-400" />
+                    </div>
+                    <p className="text-gray-500 text-center">No resume uploaded yet</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Academic Details Tab */}
+        {activeTab === "academic" && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Academic Information */}
+            <div className="lg:col-span-2 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+              <div className="border-b border-gray-100 bg-gray-50 px-6 py-4">
+                <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                  <BookOpen size={18} className="text-indigo-600" />
+                  Academic Information
+                </h2>
+              </div>
+              <div className="p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div className="group">
+                    <label className="text-sm font-medium text-gray-500 mb-1 block">Enrollment Number</label>
+                    <div className="flex items-center gap-3 mt-1 group-hover:text-indigo-700 transition-colors duration-300">
+                      <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
+                        <GraduationCap size={18} className="text-indigo-600" />
+                      </div>
+                      <span className="text-base font-medium text-gray-800">{studentData.rollNumber || "N/A"}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="group">
+                    <label className="text-sm font-medium text-gray-500 mb-1 block">CGPA</label>
+                    <div className="flex items-center gap-3 mt-1 group-hover:text-indigo-700 transition-colors duration-300">
+                      <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
+                        <Award size={18} className="text-indigo-600" />
+                      </div>
+                      <span className="text-base font-medium text-gray-800">{studentData.cgpa || "N/A"}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="group">
+                    <label className="text-sm font-medium text-gray-500 mb-1 block">Batch</label>
+                    <div className="flex items-center gap-3 mt-1 group-hover:text-indigo-700 transition-colors duration-300">
+                      <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
+                        <Calendar size={18} className="text-indigo-600" />
+                      </div>
+                      <span className="text-base font-medium text-gray-800">
+                        {Number(studentData.batch) - 4} - {Number(studentData.batch)}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="group">
+                    <label className="text-sm font-medium text-gray-500 mb-1 block">Branch</label>
+                    <div className="flex items-center gap-3 mt-1 group-hover:text-indigo-700 transition-colors duration-300">
+                      <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
+                        <BookOpen size={18} className="text-indigo-600" />
+                      </div>
+                      <span className="text-base font-medium text-gray-800">{studentData.branch || "N/A"}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Optional Skills/Additional Info Card */}
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+              <div className="border-b border-gray-100 bg-gray-50 px-6 py-4">
+                <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                  <Award size={18} className="text-indigo-600" />
+                  Additional Information
+                </h2>
+              </div>
+              <div className="p-6">
+                <div className="mb-4">
+                  <h3 className="font-medium text-gray-800 mb-2">Degree Status</h3>
+                  <span className="px-3 py-1 rounded-full bg-green-50 text-green-600 text-sm font-medium">
+                    {Number(studentData.batch) > new Date().getFullYear() ? "Enrolled" : "Graduated"}
+                  </span>
+                </div>
+                
+                {/* Add any additional academic information if available */}
+                <p className="text-sm text-gray-500 italic mt-8">
+                  Contact student directly for additional academic information.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Applications Tab */}
+        {activeTab === "applications" && (
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="border-b border-gray-100 bg-gray-50 px-6 py-4 flex justify-between items-center">
+              <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <Briefcase size={18} className="text-indigo-600" />
+                Job Applications
+              </h2>
+              <span className="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-sm font-medium">
+                Total: {applications?.length || 0}
+              </span>
+            </div>
+            
+            <div className="divide-y divide-gray-100">
+              {applications && applications.length > 0 ? (
+                applications.map((application: any) => (
+                  <div 
+                    key={application.id}
+                    className="p-6 transition-all duration-300 hover:bg-indigo-50/30 group"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center justify-between">
+                      <div className="flex-grow">
+                        <div className="flex flex-wrap items-center gap-3 mb-2">
+                          <h3 className="text-lg font-semibold text-gray-800 group-hover:text-indigo-700 transition-colors duration-300">
+                            {application.job?.title || "Unknown Position"}
+                          </h3>
+                          {application.status && (
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(application.status)}`}>
+                              {application.status}
+                            </span>
+                          )}
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-2 my-2">
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Building size={14} className="text-gray-400" />
+                            <span>{application.job?.company || "Unknown Company"}</span>
+                          </div>
+                          
+                          {application.job?.location && (
+                            <div className="flex items-center gap-2 text-gray-600">
+                              <MapPin size={14} className="text-gray-400" />
+                              <span>{application.job.location}</span>
+                            </div>
+                          )}
+                          
+                          {application.job?.package && (
+                            <div className="flex items-center gap-2  font-medium text-indigo-600">
+                              <span>{application.job.package}</span>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {application?.form && Object.keys(application.form).length > 0 && (
+                          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1">
+                            {Object.entries(application.form).map(([key, value]) => (
+                              <div key={key} className="text-sm">
+                                <span className="text-gray-500 capitalize">{key.replace(/([A-Z])/g, " $1")}: </span>
+                                <span className="text-gray-700">{String(value) || "N/A"}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="mt-4 md:mt-0 md:ml-6">
+                        <button 
+                          className="flex items-center gap-2 px-4 py-2 border border-indigo-200 text-indigo-700 rounded-lg 
+                                   hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all duration-300 
+                                   font-medium group/btn"
+                        >
+                          View Details
+                          <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform duration-300" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="h-20 w-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <Briefcase size={32} className="text-gray-400" />
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-800 mb-2">No Applications Found</h3>
+                  <p className="text-gray-500 text-center max-w-md">
+                    This student hasn't applied to any jobs yet or no application records are available.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

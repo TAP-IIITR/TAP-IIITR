@@ -1,9 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
-import { SearchIcon } from "lucide-react";
-import { MdOutlineEmail, MdPhone } from "react-icons/md";
-import { FaGraduationCap } from "react-icons/fa";
+import { Search, ChevronRight, GraduationCap, Mail, Phone, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axiosInstance"; // Import your Axios instance
+import api from "../api/axiosInstance";
 
 interface Student {
   id: string;
@@ -20,6 +18,7 @@ const StudentData = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Fetch students from the backend
   useEffect(() => {
@@ -27,17 +26,13 @@ const StudentData = () => {
       try {
         setLoading(true);
         setError(null);
-        console.log("Fetch Students");
-
-        // Build query parameters
-        const params: { branch?: string; batch?: number } = {};
+        
+        const params: { branch?: string } = {};
         if (filterBy) {
           params.branch = filterBy;
         }
-        // Note: We're not using the batch filter in the UI yet, but you can add it later if needed
 
         const response = await api.get("/student/tap", { params });
-        console.log("response is ", response);
         const studentsData = response.data.data.map((student: any) => ({
           id: student.id,
           name: `${student.firstName} ${student.lastName}`,
@@ -66,7 +61,7 @@ const StudentData = () => {
     };
 
     fetchStudents();
-  }, [filterBy, navigate]); // Re-fetch when filterBy changes
+  }, [filterBy, navigate]);
 
   // Get unique branches for filter options
   const branches = useMemo(() => {
@@ -76,7 +71,7 @@ const StudentData = () => {
     return uniqueBranches.sort();
   }, [students]);
 
-  // Filter students based on search query (client-side filtering for name, email, etc.)
+  // Filter students based on search query
   const filteredStudents = useMemo(() => {
     return students.filter((student) => {
       const matchesSearch =
@@ -94,122 +89,177 @@ const StudentData = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-700"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-center py-10 text-red-600">{error}</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-red-50 p-6 rounded-lg shadow-md border border-red-200 max-w-lg">
+          <h3 className="text-lg font-medium text-red-800 mb-2">Error</h3>
+          <p className="text-red-700">{error}</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col gap-[26px] p-[24px]">
-      {/* Header section */}
-      <div className="flex flex-col">
-        <p className="text-[42px] font-[600] leading-[50px] text-[#161A80]">
-          Registered Students
-        </p>
-        <p className="text-[13px] font-[500] leading-[20px] text-[#212121]">
-          View and manage all registered student profiles in one place—track
-          progress, verify details, and monitor academic performance.
-        </p>
-      </div>
-
-      {/* Search and Filter Controls */}
-      <div className="flex flex-col md:flex-row gap-[16px] w-full">
-        {/* Search Bar */}
-        <div className="relative flex items-center px-[16px] py-[12px] border-[1.5px] border-[#E0E0E0] bg-white rounded-[10px] flex-grow">
-          <SearchIcon size={18} className="text-[#9E9E9E] mr-[8px]" />
-          <input
-            type="text"
-            placeholder="Search students by name, email, or branch..."
-            className="w-full bg-transparent text-[14px] focus:outline-none"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        {/* Filter Dropdown */}
-        <select
-          className="px-[16px] py-[12px] text-[14px] rounded-[10px] bg-white border-[1.5px] border-[#E0E0E0] focus:outline-none focus:border-[#14137D] md:w-[240px]"
-          value={filterBy}
-          onChange={(e) => setFilterBy(e.target.value)}
-        >
-          <option value="">All Branches</option>
-          {branches.map((branch) => (
-            <option key={branch} value={branch}>
-              {branch}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Results Count */}
-      <div className="text-[14px] font-[500] text-[#666666]">
-        Showing {filteredStudents.length}{" "}
-        {filteredStudents.length === 1 ? "student" : "students"}
-      </div>
-
-      {/* Student Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px]">
-        {filteredStudents.map((student) => (
-          <div
-            key={student.id}
-            className="w-full bg-[#FFFFFF] rounded-[12px] p-[24px] hover:shadow-lg transition-shadow"
-            style={{ boxShadow: "1px 1px 4px 0px #00000040" }}
-          >
-            <p className="text-[22px] font-[600] leading-[30px] text-[#161A80] mb-[16px]">
-              {student.name}
-            </p>
-
-            <div className="flex flex-col gap-[12px] mb-[20px]">
-              {/* Contact information */}
-              <div className="flex gap-[10px] items-center">
-                <div className="bg-[#E0E0E0] h-[32px] w-[32px] rounded-full flex items-center justify-center">
-                  <MdOutlineEmail className="text-[#161A80] h-[18px] w-[18px]" />
-                </div>
-                <p className="text-[14px] font-[400] leading-[20px] text-[#3D3D3D]">
-                  {student.email}
-                </p>
+    <div className="bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header section with gradient background */}
+        <div className="bg-gradient-to-r from-indigo-800 to-blue-600 rounded-xl p-8 mb-8 shadow-lg">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+            Registered Students
+          </h1>
+          <p className="text-indigo-100 text-sm md:text-base max-w-3xl">
+            View and manage all registered student profiles in one place—track progress, 
+            verify details, and monitor academic performance.
+          </p>
+          
+          {/* Search and Filter Controls in header */}
+          <div className="mt-6 flex flex-col sm:flex-row gap-4">
+            {/* Search Bar */}
+            <div className="relative flex-grow">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search size={18} className="text-gray-300" />
               </div>
-
-              <div className="flex gap-[10px] items-center">
-                <div className="bg-[#E0E0E0] h-[32px] w-[32px] rounded-full flex items-center justify-center">
-                  <MdPhone className="text-[#161A80] h-[18px] w-[18px]" />
-                </div>
-                <p className="text-[14px] font-[400] leading-[20px] text-[#3D3D3D]">
-                  {student.phone}
-                </p>
-              </div>
-
-              <div className="flex gap-[10px] items-center">
-                <div className="bg-[#E0E0E0] h-[32px] w-[32px] rounded-full flex items-center justify-center">
-                  <FaGraduationCap className="text-[#161A80] h-[18px] w-[18px]" />
-                </div>
-                <p className="text-[14px] font-[400] leading-[20px] text-[#3D3D3D]">
-                  {student.branch}
-                </p>
-              </div>
+              <input
+                type="text"
+                placeholder="Search students by name, email, or branch..."
+                className="w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-sm text-white placeholder-gray-300 
+                         border border-indigo-400/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 
+                         transition-all duration-200"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
 
-            <div className="border-t border-[#E0E0E0] pt-[16px]">
-              <button
-                onClick={() => handleViewProfile(student?.id)}
-                className="w-full h-[44px] rounded-[10px] bg-[#FFFFFF] border-[1.5px] border-[#161A80] flex items-center justify-center cursor-pointer hover:bg-[#F5F5F5] transition-colors"
+            {/* Filter Dropdown */}
+            <div className="relative">
+              <button 
+                className="flex items-center px-4 py-3 bg-white/10 backdrop-blur-sm text-white 
+                         border border-indigo-400/30 rounded-lg hover:bg-white/20 transition-all duration-200"
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
               >
-                <p className="font-[600] text-[16px] text-[#161A80]">
-                  View Profile
-                </p>
+                <Filter size={18} className="mr-2" />
+                <span>{filterBy || "All Branches"}</span>
               </button>
+              
+              {isFilterOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl z-10 animate-fadeIn">
+                  <div className="py-1">
+                    <button
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700"
+                      onClick={() => {
+                        setFilterBy("");
+                        setIsFilterOpen(false);
+                      }}
+                    >
+                      All Branches
+                    </button>
+                    {branches.map((branch) => (
+                      <button
+                        key={branch}
+                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700"
+                        onClick={() => {
+                          setFilterBy(branch);
+                          setIsFilterOpen(false);
+                        }}
+                      >
+                        {branch}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        ))}
-      </div>
-
-      {filteredStudents.length === 0 && (
-        <div className="text-center py-[40px] text-[#666666]">
-          No students match your search criteria
         </div>
-      )}
+
+        {/* Results Count */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="text-sm font-medium text-gray-700">
+            Showing <span className="text-indigo-700 font-semibold">{filteredStudents.length}</span>{" "}
+            {filteredStudents.length === 1 ? "student" : "students"}
+            {filterBy && <> in <span className="text-indigo-700 font-semibold">{filterBy}</span></>}
+          </div>
+        </div>
+        
+        {/* Student Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredStudents.map((student) => (
+            <div
+              key={student.id}
+              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <div className="bg-gradient-to-r from-indigo-600 to-blue-500 h-3"></div>
+              <div className="p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-4 truncate">
+                  {student.name}
+                </h2>
+
+                <div className="space-y-4 mb-6">
+                  {/* Contact information */}
+                  <div className="flex items-center group">
+                    <div className="bg-indigo-50 h-10 w-10 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors duration-200">
+                      <Mail className="text-indigo-700 h-5 w-5" />
+                    </div>
+                    <p className="ml-3 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200 truncate">
+                      {student.email}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center group">
+                    <div className="bg-indigo-50 h-10 w-10 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors duration-200">
+                      <Phone className="text-indigo-700 h-5 w-5" />
+                    </div>
+                    <p className="ml-3 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200">
+                      {student.phone}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center group">
+                    <div className="bg-indigo-50 h-10 w-10 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors duration-200">
+                      <GraduationCap className="text-indigo-700 h-5 w-5" />
+                    </div>
+                    <p className="ml-3 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200">
+                      {student.branch}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100">
+                  <button
+                    onClick={() => handleViewProfile(student.id)}
+                    className="w-full rounded-lg py-3 px-4 bg-white text-indigo-700 font-medium 
+                             border border-indigo-200 hover:bg-indigo-700 hover:text-white 
+                             transition-all duration-300 flex items-center justify-center"
+                  >
+                    <span>View Profile</span>
+                    <ChevronRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {filteredStudents.length === 0 && (
+          <div className="bg-white rounded-xl p-12 text-center shadow-md">
+            <div className="flex flex-col items-center">
+              <Search size={48} className="text-gray-300 mb-4" />
+              <h3 className="text-xl font-medium text-gray-700 mb-2">No matching students found</h3>
+              <p className="text-gray-500 max-w-md mx-auto">
+                Try adjusting your search criteria or branch filter to find what you're looking for
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
