@@ -7,7 +7,8 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 // Create an Axios instance with a base URL
 const api = axios.create({
-  baseURL: "http://localhost:3000", // Your backend server URL
+  baseURL:
+    "https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws", // Your backend server URL
 });
 import { toast } from "react-toastify";
 

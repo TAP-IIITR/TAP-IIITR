@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api", // Your backend base URL
+  baseURL: "https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws/api", // Your backend base URL
   withCredentials: true, // This ensures cookies (like the token) are sent with requests
 });
 

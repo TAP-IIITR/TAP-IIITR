@@ -5,7 +5,7 @@ import { defineConfig } from "vite"
 export default defineConfig({
   server:{
     proxy:{
-      '/api':'http://localhost:3000'
+      '/api':'https://s6dohx6twlodp6xdapdb4q4pea0gsvia.lambda-url.ap-south-1.on.aws'
     }
   },
   plugins: [react()],
