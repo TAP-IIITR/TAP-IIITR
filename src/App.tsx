@@ -42,6 +42,7 @@ import JobDetails from "./components/coordinatorDashboard/JobDetails";
 import UpdateCGPAPage from "./components/coordinatorDashboard/UpdateCGPAPage";
 import FullCompanyInfo from "./components/coordinatorDashboard/FullCompanyInfo";
 
+
 function App() {
   window.onbeforeunload = function () {
     window.scrollTo(0, 0);

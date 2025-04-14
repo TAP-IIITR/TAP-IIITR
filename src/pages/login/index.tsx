@@ -120,16 +120,16 @@ const LoginPage = () => {
 
   // Rest of your component remains unchanged...
   return (
-    <div className="flex h-screen">
+    <div className="flex min-h-screen">
       {/* Left side with background image */}
-      <div className="hidden md:flex md:w-1/2 bg-gray-900 relative">
+      <div className="hidden md:flex md:w-1/2 bg-gray-900 fixed top-0 left-0 bottom-0 max-h-screen ">
         <div className="absolute inset-0 bg-black/50 z-10"></div>
         <img
           src={acadBlock}
           alt="Campus View"
           className="object-cover w-full h-full"
         />
-        <div className="absolute z-20 text-white p-8 top-[10%] left-8 space-y-4">
+        <div className="absolute z-20 text-white p-8 top-[20%] left-8 space-y-4">
           <p className="text-sm">Placements @ IIIT Ranchi</p>
           <h1 className="text-4xl font-bold">
             Connecting Students and Companies.
@@ -139,7 +139,7 @@ const LoginPage = () => {
       </div>
 
       {/* Right side with login form */}
-      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 space-y-8">
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center  md:p-8 p-4  overflow-y-auto space-y-8 ml-auto">
         <div className="flex flex-col items-center space-y-4">
           <img src={logo} alt="IIITR Logo" className="w-32 h-32" />
           <h2 className="text-2xl font-semibold text-blue-800">
