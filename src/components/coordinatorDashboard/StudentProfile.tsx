@@ -220,14 +220,14 @@ const StudentProfile = () => {
                 </h2>
               </div>
               <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div className="group">
                     <label className="text-sm font-medium text-gray-500 mb-1 block">Email Address</label>
                     <div className="flex items-center gap-3 mt-1 group-hover:text-indigo-700 transition-colors duration-300">
                       <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
                         <Mail size={18} className="text-indigo-600" />
                       </div>
-                      <span className="text-base font-medium text-gray-800">{studentData.regEmail || "N/A"}</span>
+                      <span className="text-base font-medium text-gray-800 md:overflow-hidden overflow-x-auto">{studentData.regEmail || "N/A"}</span>
                     </div>
                   </div>
                   
@@ -247,7 +247,7 @@ const StudentProfile = () => {
                       <div className="bg-indigo-50 group-hover:bg-indigo-100 p-2 rounded-full transition-colors duration-300">
                         <Linkedin size={18} className="text-indigo-600" />
                       </div>
-                      <span className="text-base font-medium text-gray-800">{studentData.linkedin || "Not provided"}</span>
+                      <span className="text-base font-medium text-gray-800 overflow-x-auto">{studentData.linkedin || "Not provided"}</span>
                       {studentData.linkedin && (
                         <a 
                           href={studentData.linkedin.startsWith('http') ? studentData.linkedin : `https://${studentData.linkedin}`}
