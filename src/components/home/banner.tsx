@@ -16,16 +16,38 @@ const Banner: React.FC = () => {
   const [scrollLocked, setScrollLocked] = useState(true);
 
   useEffect(() => {
-    // Add or remove scroll lock class based on scrollLocked state
+    // Function to prevent scrolling
+    const preventScroll = (e: Event) => {
+      if (scrollLocked) {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+      }
+    };
+
+    // Add event listeners for different scroll events
+    window.addEventListener("wheel", preventScroll, { passive: false });
+    window.addEventListener("touchmove", preventScroll, { passive: false });
+    window.addEventListener("keydown", (e) => {
+      // Prevent scroll with arrow keys, space, page up/down
+      const keys = ["ArrowUp", "ArrowDown", "Space", "PageUp", "PageDown", " "];
+      if (scrollLocked && keys.includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+
+    // Force scroll position to top when locked
     if (scrollLocked) {
-      document.body.classList.add("scroll-lock");
+      window.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.classList.remove("scroll-lock");
+      document.body.style.overflow = "auto";
     }
 
-    // Cleanup on component unmount
     return () => {
-      document.body.classList.remove("scroll-lock");
+      // Clean up event listeners on unmount
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      document.body.style.overflow = "auto";
     };
   }, [scrollLocked]);
 
@@ -34,7 +56,7 @@ const Banner: React.FC = () => {
   };
 
   return (
-    <div className="relative bg-blue-50 h-screen scroll-mb-[100%] scroll-smooth">
+    <div className="relative bg-blue-50 h-screen scroll-mb-[100%]">
       {!scrollLocked && <Navbar />}
       <div className="w-full h-full">
         <img
