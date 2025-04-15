@@ -117,7 +117,7 @@ const SignupPage = () => {
       <div className="w-full md:w-1/2 ml-auto flex flex-col items-center justify-center p-8 space-y-8 overflow-auto">
         <div className="flex flex-col items-center space-y-4 mt-3">
           <img src={logo} alt="IIITR Logo" className="w-32 h-32" />
-          <h2 className="text-2xl font-semibold text-blue-800">
+          <h2 className="text-2xl font-semibold text-blue-800 text-center">
             Indian Institute of Information Technology, Ranchi
           </h2>
           <p className="text-gray-600">Training and Placements Portal</p>

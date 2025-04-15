@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance"; // Import your Axios instance
-import { FaGraduationCap } from "react-icons/fa";
+import { FaFileUpload, FaGraduationCap } from "react-icons/fa";
 
 interface FormField {
   label: string;
-  type: string; // e.g., "text", "file", "textarea"
-  mandatory?: boolean; // Add a flag to indicate if the field is mandatory
+  type: string;
+  mandatory?: boolean;
 }
 
 const CreateJobPosting = () => {
@@ -23,6 +23,9 @@ const CreateJobPosting = () => {
     applicationDeadline: "",
   });
 
+  const [jdFile, setJdFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string>("");
+
   // Initialize formFields with mandatory fields
   const [formFields, setFormFields] = useState<FormField[]>([
     { label: "Name", type: "text", mandatory: true },
@@ -37,6 +40,21 @@ const CreateJobPosting = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      // Only accept PDF files
+      if (file.type !== "application/pdf") {
+        setError("Only PDF files are accepted");
+        return;
+      }
+      setJdFile(file);
+      console.log(file);
+      setFileName(file.name);
+      setError(null);
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -94,7 +112,7 @@ const CreateJobPosting = () => {
         title: formData.jobTitle,
         JD: formData.description,
         location: formData.location,
-        package: formData.salary,
+        salaryPackage: formData.salary,
         eligibility: formData.eligibility,
         eligibleBatches: formData.eligibleBatches
           .split(",")
@@ -106,7 +124,13 @@ const CreateJobPosting = () => {
         jobType: formData.jobType,
       };
 
-      const response = await api.post("/jobs/tap", jobData);
+      const combinedData = new FormData();
+      combinedData.append("jobData", JSON.stringify(jobData));
+      if (jdFile) combinedData.append("jdFile", jdFile);
+
+      const response = await api.post("/jobs/tap", combinedData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       setSuccess(response.data.message || "Job created successfully!");
       setTimeout(() => {
@@ -246,6 +270,28 @@ const CreateJobPosting = () => {
               onChange={handleChange}
               required
             />
+          </div>
+
+          {/* Add JD File Upload */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Job Description Document (PDF)
+            </label>
+            <div className="flex items-center space-x-2">
+              <label className="flex items-center justify-center px-4 py-2 border border-[#14137D] text-[#14137D] rounded-lg cursor-pointer hover:bg-gray-50">
+                <FaFileUpload className="mr-2" />
+                {fileName ? "Change File" : "Upload JD PDF"}
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </label>
+              {fileName && (
+                <span className="text-sm text-gray-600">{fileName}</span>
+              )}
+            </div>
           </div>
         </section>
 

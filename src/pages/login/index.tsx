@@ -142,7 +142,7 @@ const LoginPage = () => {
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center  md:p-8 p-4  overflow-y-auto space-y-8 ml-auto">
         <div className="flex flex-col items-center space-y-4">
           <img src={logo} alt="IIITR Logo" className="w-32 h-32" />
-          <h2 className="text-2xl font-semibold text-blue-800">
+          <h2 className="text-2xl font-semibold text-blue-800 text-center">
             Indian Institute of Information Technology, Ranchi
           </h2>
           <p className="text-gray-600">Training and Placements Portal</p>

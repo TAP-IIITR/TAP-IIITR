@@ -7,6 +7,7 @@ import { MdCurrencyRupee, MdOutlineBusinessCenter } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRef } from "react";
 import { toast } from "react-toastify";
+import { ExternalLink, FileText } from "lucide-react";
 
 interface FormField {
   id: string;
@@ -33,6 +34,14 @@ const FullCompanyDetails = () => {
   const [jobData, setJobData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState<any>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Function to open the PDF in a new tab
+  const openPdfInNewTab = () => {
+    if (jobData?.jdFileUrl) {
+      window.open(jobData.jdFileUrl, "_blank");
+    }
+  };
 
   const fetchJobData = async () => {
     console.log("HIII");
@@ -298,6 +307,15 @@ const FullCompanyDetails = () => {
               <div className="space-y-[12px] text-[14px] text-[#3D3D3D] leading-[22px]">
                 <p>{jobData.JD}</p>
               </div>
+              {jobData.jdFileUrl && (
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium mt-4"
+                >
+                  <FileText size={16} />
+                  <span>View Full JD</span>
+                </button>
+              )}
             </div>
 
             <div className="mt-[16px]">
@@ -497,6 +515,49 @@ const FullCompanyDetails = () => {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-xl w-11/12 md:w-4/5 lg:w-3/4 h-5/6 flex flex-col">
+            <div className="flex justify-between items-center p-4 border-b border-gray-200">
+              <h3 className="text-xl font-semibold text-gray-900">
+                {`${jobData?.title} at ${jobData?.company}` ||
+                  "Job Description"}
+              </h3>
+              <div className="flex gap-2">
+                <button
+                  onClick={openPdfInNewTab}
+                  className="p-2 text-gray-700 hover:text-blue-600 rounded-full hover:bg-gray-100"
+                  title="Open in new tab"
+                >
+                  <ExternalLink size={20} />
+                </button>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="p-2 text-gray-700 hover:text-red-600 rounded-full hover:bg-gray-100"
+                  title="Close"
+                >
+                  <span className="text-xl font-medium">X</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 p-2 overflow-hidden">
+              {jobData?.jdFileUrl ? (
+                <iframe
+                  src={`${jobData.jdFileUrl}#view=FitH`}
+                  className="w-full h-full border-none"
+                  title="Job Description PDF"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-gray-500">PDF not available</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>

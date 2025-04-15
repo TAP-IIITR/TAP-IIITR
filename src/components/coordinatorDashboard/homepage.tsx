@@ -294,8 +294,6 @@ const CoordinatorHomepage = () => {
                     className="p-6 cursor-pointer transform transition-all duration-300 hover:bg-gray-50 hover:shadow-lg hover:translate-y-[-2px] group"
                   >
                     <div className="flex flex-col relative">
-                     
-
                       <h3 className="font-semibold text-lg text-gray-900 mb-1 group-hover:text-indigo-700 transition-colors duration-300">
                         {job.title}
                       </h3>
@@ -338,10 +336,7 @@ const CoordinatorHomepage = () => {
                         >
                           {job.status}
                         </span>
-
-
                       </div>
-
                     </div>
                   </div>
                 ))
@@ -386,19 +381,21 @@ const CoordinatorHomepage = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-lg text-gray-900 mb-1 group-hover:text-indigo-700 transition-colors duration-300">
-                          {application?.student?.name || "Unnamed Student"}
+                          {application?.form?.Name || "Unnamed Student"}
                         </h3>
                         <p className="text-gray-600 text-sm mt-1">
-                          {application?.jobTitle|| "Unnamed Position"} at{" "}
-                          {application?.company || "Unknown Company"}
+                          {application?.job?.company || "Unnamed Position"} at{" "}
+                          {application?.job?.title || "Unknown Company"}
                         </p>
                       </div>
                       <div>
-                        <span className={`inline-block text-xs px-3 py-1.5 rounded-full transition-all duration-300 ${
+                        <span
+                          className={`inline-block text-xs px-3 py-1.5 rounded-full transition-all duration-300 ${
                             application?.status === "Verified"
                               ? "bg-green-50 text-green-700 group-hover:bg-green-100 group-hover:shadow-sm"
                               : "bg-yellow-50 text-yellow-700 group-hover:bg-yellow-100 group-hover:shadow-sm"
-                          }`}>
+                          }`}
+                        >
                           {application?.status || "Pending"}
                         </span>
                       </div>
