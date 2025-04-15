@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { MdCorporateFare, MdCurrencyRupee, MdOutlineWorkOutline } from "react-icons/md";
+import {
+  MdCorporateFare,
+  MdCurrencyRupee,
+  MdOutlineWorkOutline,
+} from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { IoMdAlarm } from "react-icons/io";
 
@@ -52,9 +56,12 @@ const FullCompanyDetails = () => {
     }
 
     try {
-      const { data } = await axios.get(`http://localhost:3000/api/jobs/student/${id}`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `https://tap-backend-6krr.onrender.com/api/jobs/student/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (data.success) {
         setJob(data.data);
       } else {
@@ -62,7 +69,9 @@ const FullCompanyDetails = () => {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Error fetching job details");
+        toast.error(
+          error.response?.data?.message || "Error fetching job details"
+        );
       } else {
         toast.error("An unexpected error occurred");
       }
@@ -116,7 +125,9 @@ const FullCompanyDetails = () => {
             <div className="w-12 h-12 bg-[#E0E0E0] rounded-full flex items-center justify-center">
               <MdCorporateFare className="w-6 h-6 text-[#212121]" />
             </div>
-            <p className="text-[20px] font-[600] text-[#161A80]">{job.company}</p>
+            <p className="text-[20px] font-[600] text-[#161A80]">
+              {job.company}
+            </p>
           </div>
           <h1 className="text-[24px] md:text-[32px] font-[600] text-[#212121]">
             {job.title}
@@ -142,10 +153,14 @@ const FullCompanyDetails = () => {
       {/* Student Details Section (Prefilled and Read-Only) */}
       {job.student && (
         <div className="bg-white rounded-[12px] p-6 shadow-sm">
-          <h2 className="text-[20px] font-[600] text-[#212121] mb-4">Your Information</h2>
+          <h2 className="text-[20px] font-[600] text-[#212121] mb-4">
+            Your Information
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Name
+              </label>
               <input
                 type="text"
                 value={`${job.student.firstName} ${job.student.lastName}`}
@@ -154,7 +169,9 @@ const FullCompanyDetails = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
               <input
                 type="email"
                 value={job.student.regEmail}
@@ -163,7 +180,9 @@ const FullCompanyDetails = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Phone Number
+              </label>
               <input
                 type="text"
                 value={job.student.mobile || "Not provided"}
@@ -172,7 +191,9 @@ const FullCompanyDetails = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">CGPA</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                CGPA
+              </label>
               <input
                 type="text"
                 value={job.student.cgpa || "Not provided"}
@@ -181,7 +202,9 @@ const FullCompanyDetails = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Branch</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Branch
+              </label>
               <input
                 type="text"
                 value={job.student.branch || "Not provided"}
@@ -190,7 +213,9 @@ const FullCompanyDetails = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Resume URL</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Resume URL
+              </label>
               <input
                 type="text"
                 value={job.student.resume?.url || "Not provided"}
@@ -231,17 +256,23 @@ const FullCompanyDetails = () => {
 
       {/* Job Description Section */}
       <div className="bg-white rounded-[12px] p-6 shadow-sm">
-        <h2 className="text-[20px] font-[600] text-[#212121] mb-4">Job Description</h2>
+        <h2 className="text-[20px] font-[600] text-[#212121] mb-4">
+          Job Description
+        </h2>
         <div className="prose max-w-none">
           <p className="text-[16px] text-[#3D3D3D] mb-4">
             {job.JD || "No job description provided."}
           </p>
           <div className="mb-4">
-            <h3 className="text-[18px] font-[500] text-[#212121] mb-2">Eligibility:</h3>
+            <h3 className="text-[18px] font-[500] text-[#212121] mb-2">
+              Eligibility:
+            </h3>
             <p className="text-[16px] text-[#3D3D3D]">{job.eligibility}</p>
           </div>
           <div>
-            <h3 className="text-[18px] font-[500] text-[#212121] mb-2">Required Skills:</h3>
+            <h3 className="text-[18px] font-[500] text-[#212121] mb-2">
+              Required Skills:
+            </h3>
             <ul className="list-disc list-inside space-y-1 text-[#3D3D3D]">
               {job.skills.map((skill, index) => (
                 <li key={index}>{skill}</li>
@@ -261,7 +292,9 @@ const FullCompanyDetails = () => {
             </div>
             <div>
               <p className="text-[14px] text-[#666666]">Application Deadline</p>
-              <p className="text-[16px] font-[500]">{formatDate(job.deadline)}</p>
+              <p className="text-[16px] font-[500]">
+                {formatDate(job.deadline)}
+              </p>
             </div>
           </div>
           <div className="flex items-center">
@@ -270,7 +303,9 @@ const FullCompanyDetails = () => {
             </div>
             <div>
               <p className="text-[14px] text-[#666666]">Posted On</p>
-              <p className="text-[16px] font-[500]">{formatDate(job.createdAt)}</p>
+              <p className="text-[16px] font-[500]">
+                {formatDate(job.createdAt)}
+              </p>
             </div>
           </div>
         </div>

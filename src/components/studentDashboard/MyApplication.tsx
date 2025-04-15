@@ -13,12 +13,12 @@ const MyApplication = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/jobs/student/mm`,
+        `https://tap-backend-6krr.onrender.com/api/jobs/student/mm`,
         {
           withCredentials: true,
         }
       );
-      
+
       if (data.statusCode === 200) {
         setJobData(data.applications);
         setFilteredJobData(data.applications);
@@ -45,14 +45,15 @@ const MyApplication = () => {
 
   // Filter data whenever searchTerm, jobTypeFilter or jobData changes
   useEffect(() => {
-    if (!jobData) return; 
-    
+    if (!jobData) return;
+
     const filtered = jobData.filter((item: any) => {
       // Check if title or company matches search term
-      const matchesSearch = searchTerm === "" || 
-        item.job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      const matchesSearch =
+        searchTerm === "" ||
+        item.job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.job.company.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
       // Check job type filter
       let matchesJobType = true;
       if (jobTypeFilter !== "") {
@@ -64,13 +65,13 @@ const MyApplication = () => {
           matchesJobType = item.job.jobType === "Intern + Full-Time";
         }
       }
-      
+
       return matchesSearch && matchesJobType;
     });
-    
+
     setFilteredJobData(filtered);
   }, [searchTerm, jobData, jobTypeFilter]);
-  
+
   const handleJobTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setJobTypeFilter(e.target.value);
   };
@@ -101,8 +102,19 @@ const MyApplication = () => {
               onClick={() => setSearchTerm("")}
               className="absolute right-6 top-4 text-gray-400 hover:text-gray-600"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           )}
@@ -116,7 +128,7 @@ const MyApplication = () => {
           <option value="Internship">Internship</option>
           <option value="Full Time">Full-Time</option>
           <option value="Intern + Full-Time">Intern + Full-Time</option>
-        </select>    
+        </select>
       </div>
       <div
         className="flex flex-col bg-[#FFFFFF] rounded-[16px] w-full h-fit p-[24px] gap-4"
@@ -124,7 +136,10 @@ const MyApplication = () => {
       >
         {filteredJobData && filteredJobData.length > 0 ? (
           filteredJobData.map((data: any, index: number) => (
-            <ApplicationCompanyCard key={data.applicationId || index} data={data} />
+            <ApplicationCompanyCard
+              key={data.applicationId || index}
+              data={data}
+            />
           ))
         ) : (
           <p className="text-center py-4">No matching applications found</p>

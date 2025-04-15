@@ -73,7 +73,7 @@ const AllCompaniesList = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/jobs/student`,
+        `https://tap-backend-6krr.onrender.com/api/jobs/student`,
         {
           withCredentials: true,
         }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api", // Your backend base URL
+  baseURL: "https://tap-backend-6krr.onrender.com/api", // Your backend base URL
   withCredentials: true, // This ensures cookies (like the token) are sent with requests
 });
 

@@ -1,12 +1,12 @@
-import path from "path"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import path from "path";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
 export default defineConfig({
-  server:{
-    proxy:{
-      '/api':'http://localhost:3000'
-    }
+  server: {
+    proxy: {
+      "/api": "https://tap-backend-6krr.onrender.com",
+    },
   },
   plugins: [react()],
   resolve: {
@@ -14,4 +14,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-})
+});

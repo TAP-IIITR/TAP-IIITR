@@ -42,7 +42,7 @@ const FullCompanyInfo = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/jobs/tap/${id}`,
+        `https://tap-backend-6krr.onrender.com/api/jobs/tap/${id}`,
         { withCredentials: true }
       );
       if (data.success) {
