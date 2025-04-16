@@ -6,10 +6,10 @@ import logo from "../../assets/logoIIITR.png";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 // Create an Axios instance with a base URL
-// const api = axios.create({
-//   baseURL: "https://tap-backend-production-51ea.up.railway.app",
-//   withCredentials: true,
-// });
+const api = axios.create({
+  baseURL: "https://tap-backend-production-51ea.up.railway.app",
+  withCredentials: true,
+});
 import { toast } from "react-toastify";
 
 const inputFields = {
@@ -51,20 +51,17 @@ const LoginPage = () => {
       return;
     }
 
-    // const apiUrls: { [key: string]: string } = {
-    //   student: "/api/auth/student/login",
-    //   recruiter: "/api/auth/recruiter/login",
-    //   coordinator: "/api/auth/tap/login",
-    // };
+    const apiUrls: { [key: string]: string } = {
+      student: "/api/auth/student/login",
+      recruiter: "/api/auth/recruiter/login",
+      coordinator: "/api/auth/tap/login",
+    };
 
     try {
-      const { data } = await axios.post(
-        `https://tap-backend-production-51ea.up.railway.app/api/auth/student/login`,
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await api.post(apiUrls[currentTab], formData, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true, // Include cookies if your backend uses them (e.g., JWT)
+      });
       toast.success(data.message);
       setFormData(inputFields);
       if (currentTab === "student") {
