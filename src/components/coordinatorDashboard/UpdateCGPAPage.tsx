@@ -36,6 +36,7 @@ const UpdateCGPAPage = () => {
         "https://tap-backend-production-51ea.up.railway.app/api/dashboard/tap",
         formData,
         {
+          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
           },
