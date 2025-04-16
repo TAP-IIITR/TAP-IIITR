@@ -31,7 +31,7 @@ const StudentProfile = () => {
   const fetchStudentData = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend-6krr.onrender.com/api/student/tap/${studentId}`,
+        `https://tap-backend-production-51ea.up.railway.app/api/student/tap/${studentId}`,
         { withCredentials: true }
       );
 
@@ -58,7 +58,7 @@ const StudentProfile = () => {
   const fetchApplications = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend-6krr.onrender.com/api/student/tap/applications/${studentId}`,
+        `https://tap-backend-production-51ea.up.railway.app/api/student/tap/applications/${studentId}`,
         { withCredentials: true }
       );
 

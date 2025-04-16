@@ -29,7 +29,7 @@ const Applications = () => {
   const fetchApplications = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend-6krr.onrender.com/api/jobs/tap/applications`,
+        `https://tap-backend-production-51ea.up.railway.app/api/jobs/tap/applications`,
         {
           withCredentials: true,
         }

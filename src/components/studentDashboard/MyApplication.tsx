@@ -13,7 +13,7 @@ const MyApplication = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend-6krr.onrender.com/api/jobs/student/mm`,
+        `https://tap-backend-production-51ea.up.railway.app/api/jobs/student/mm`,
         {
           withCredentials: true,
         }

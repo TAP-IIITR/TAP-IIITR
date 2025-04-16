@@ -47,10 +47,10 @@ const FullCompanyDetails = () => {
     console.log("HIII");
     try {
       console.log(
-        `https://tap-backend-6krr.onrender.com/api/jobs/student/${id}`
+        `https://tap-backend-production-51ea.up.railway.app/api/jobs/student/${id}`
       );
       const { data } = await axios.get(
-        `https://tap-backend-6krr.onrender.com/api/jobs/student/${id}`,
+        `https://tap-backend-production-51ea.up.railway.app/api/jobs/student/${id}`,
         { withCredentials: true }
       );
       console.log(data.data);
@@ -124,7 +124,7 @@ const FullCompanyDetails = () => {
       console.log("Application Data:", applicationData);
 
       const response = await axios.post(
-        `https://tap-backend-6krr.onrender.com/api/jobs/student/${id}/apply`,
+        `https://tap-backend-production-51ea.up.railway.app/api/jobs/student/${id}/apply`,
         applicationData,
         { withCredentials: true }
       );

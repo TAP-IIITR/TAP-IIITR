@@ -22,7 +22,7 @@ const JobDetails = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend-6krr.onrender.com/api/jobs/tap/${id}`,
+        `https://tap-backend-production-51ea.up.railway.app/api/jobs/tap/${id}`,
         { withCredentials: true }
       );
       console.log(data);
