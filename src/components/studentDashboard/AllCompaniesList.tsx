@@ -43,9 +43,12 @@ const AllCompaniesList = () => {
 
   const fetchUserData = async () => {
     try {
-      const { data } = await axios.get("/api/dashboard/student", {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        "https://tap-backend-production-51ea.up.railway.app/api/dashboard/student",
+        {
+          withCredentials: true,
+        }
+      );
 
       if (data.status === 200) {
         setUserData(data.student);
