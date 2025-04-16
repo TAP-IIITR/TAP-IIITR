@@ -1,5 +1,12 @@
 import { useState, useMemo, useEffect } from "react";
-import { Search, ChevronRight, GraduationCap, Mail, Phone, Filter } from "lucide-react";
+import {
+  Search,
+  ChevronRight,
+  GraduationCap,
+  Mail,
+  Phone,
+  Filter,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance";
 
@@ -26,7 +33,7 @@ const StudentData = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const params: { branch?: string } = {};
         if (filterBy) {
           params.branch = filterBy;
@@ -116,10 +123,10 @@ const StudentData = () => {
             Registered Students
           </h1>
           <p className="text-indigo-100 text-sm md:text-base max-w-3xl">
-            View and manage all registered student profiles in one place—track progress, 
-            verify details, and monitor academic performance.
+            View and manage all registered student profiles in one place—track
+            progress, verify details, and monitor academic performance.
           </p>
-          
+
           {/* Search and Filter Controls in header */}
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
             {/* Search Bar */}
@@ -140,7 +147,7 @@ const StudentData = () => {
 
             {/* Filter Dropdown */}
             <div className="relative">
-              <button 
+              <button
                 className="flex items-center px-4 py-3 bg-white/10 backdrop-blur-sm text-white 
                          border border-indigo-400/30 rounded-lg hover:bg-white/20 transition-all duration-200"
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -148,7 +155,7 @@ const StudentData = () => {
                 <Filter size={18} className="mr-2" />
                 <span>{filterBy || "All Branches"}</span>
               </button>
-              
+
               {isFilterOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl z-10 animate-fadeIn">
                   <div className="py-1">
@@ -183,12 +190,23 @@ const StudentData = () => {
         {/* Results Count */}
         <div className="flex items-center justify-between mb-6">
           <div className="text-sm font-medium text-gray-700">
-            Showing <span className="text-indigo-700 font-semibold">{filteredStudents.length}</span>{" "}
+            Showing{" "}
+            <span className="text-indigo-700 font-semibold">
+              {filteredStudents.length}
+            </span>{" "}
             {filteredStudents.length === 1 ? "student" : "students"}
-            {filterBy && <> in <span className="text-indigo-700 font-semibold">{filterBy}</span></>}
+            {filterBy && (
+              <>
+                {" "}
+                in{" "}
+                <span className="text-indigo-700 font-semibold">
+                  {filterBy}
+                </span>
+              </>
+            )}
           </div>
         </div>
-        
+
         {/* Student Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredStudents.map((student) => (
@@ -240,7 +258,10 @@ const StudentData = () => {
                              transition-all duration-300 flex items-center justify-center"
                   >
                     <span>View Profile</span>
-                    <ChevronRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
+                    <ChevronRight
+                      size={16}
+                      className="ml-2 transition-transform group-hover:translate-x-1"
+                    />
                   </button>
                 </div>
               </div>
@@ -252,9 +273,12 @@ const StudentData = () => {
           <div className="bg-white rounded-xl p-12 text-center shadow-md">
             <div className="flex flex-col items-center">
               <Search size={48} className="text-gray-300 mb-4" />
-              <h3 className="text-xl font-medium text-gray-700 mb-2">No matching students found</h3>
+              <h3 className="text-xl font-medium text-gray-700 mb-2">
+                No matching students found
+              </h3>
               <p className="text-gray-500 max-w-md mx-auto">
-                Try adjusting your search criteria or branch filter to find what you're looking for
+                Try adjusting your search criteria or branch filter to find what
+                you're looking for
               </p>
             </div>
           </div>

@@ -94,7 +94,7 @@ const StudentProfile = () => {
 
     try {
       await axios.post(
-        "/api/student/resume/upload-url",
+        "https://tap-backend-production-51ea.up.railway.app/api/student/resume/upload-url",
         { resume: file },
         {
           headers: {

@@ -1,10 +1,9 @@
 import axios from "axios";
-import  { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { toast } from "react-toastify";
 import { FileText, Upload, Database, Info, ChevronDown } from "lucide-react";
 
-const UpdateCGPAPage= () => {
-
+const UpdateCGPAPage = () => {
   const [semester, setSemester] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,7 +25,6 @@ const UpdateCGPAPage= () => {
       return;
     }
 
-
     setIsLoading(true);
 
     try {
@@ -34,11 +32,15 @@ const UpdateCGPAPage= () => {
       formData.append("semester", semester);
       formData.append("cgpaFile", file);
       console.log([...formData.entries()]);
-      const response = await axios.post("/api/dashboard/tap", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "https://tap-backend-production-51ea.up.railway.app/api/dashboard/tap",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log(response.data);
       toast.success("CGPA data uploaded successfully");
@@ -71,23 +73,22 @@ const UpdateCGPAPage= () => {
           {/* Left side - Form */}
           <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold text-blue-800 mb-4 flex items-center">
-              <Upload className="mr-2 w-5 h-5" /> 
+              <Upload className="mr-2 w-5 h-5" />
               Upload CGPA Data
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="relative">
                 <label className="block text-gray-700 font-medium mb-2">
-                Semester 
+                  Semester
                 </label>
                 <div className="relative">
-                  <select 
-                    value={semester} 
+                  <select
+                    value={semester}
                     onChange={handleSemesterChange}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all appearance-none bg-white"
                     required
                   >
-
                     <option value="" disabled>
                       Select Semester
                     </option>
@@ -155,7 +156,6 @@ const UpdateCGPAPage= () => {
                   <FileText className="w-5 h-5 text-green-600" />
                 </div>
                 <div className="ml-3">
-
                   <p className="text-sm font-medium text-green-800">
                     File selected:
                   </p>
@@ -181,20 +181,17 @@ const UpdateCGPAPage= () => {
                 </button>
               </div>
 
-
               {showSample && (
                 <div className="overflow-hidden rounded-lg border border-gray-200">
                   <div className="bg-gray-50 p-3 border-b border-gray-200">
                     <p className="text-sm text-gray-600">
                       Your Excel file must follow this exact format:
                     </p>
-
                   </div>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-100">
                         <tr>
-
                           <th className="py-3 px-6 text-left text-xs font-semibold text-gray-700 tracking-wider">
                             reg_no
                           </th>
@@ -229,7 +226,6 @@ const UpdateCGPAPage= () => {
                   </div>
                 </div>
               )}
-
 
               <div className="mt-4 bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
                 <h3 className="text-md font-medium text-blue-800 mb-2">
@@ -277,6 +273,4 @@ const UpdateCGPAPage= () => {
   );
 };
 
-
 export default UpdateCGPAPage;
-
