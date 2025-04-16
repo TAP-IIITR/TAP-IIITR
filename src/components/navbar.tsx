@@ -110,6 +110,16 @@ const Navbar = () => {
                     </>
                   );
                 })}
+                <div
+                  className="rounded-[32px] bg-[#1E39A4] h-[48px] w-[115px] flex items-center justify-center cursor-pointer"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  <p className="font-[700] text-lg text-[#FFF] text-center ">
+                    TAP Portal
+                  </p>
+                </div>
               </div>
             </SheetDescription>
           </SheetHeader>

@@ -41,7 +41,8 @@ import CoordinatorStudentProfile from "@/components/coordinatorDashboard/Student
 import JobDetails from "./components/coordinatorDashboard/JobDetails";
 import UpdateCGPAPage from "./components/coordinatorDashboard/UpdateCGPAPage";
 import FullCompanyInfo from "./components/coordinatorDashboard/FullCompanyInfo";
-
+import StudentBugPage from "./components/studentDashboard/StudentBugPage";
+import CoordinatorBugPage from "./components/coordinatorDashboard/CoordinatorBugPage";
 
 function App() {
   window.onbeforeunload = function () {
@@ -73,6 +74,7 @@ function App() {
               element={<FullCompanyDetails />}
             />
             <Route path="my-applications" element={<MyApplication />} />
+            <Route path="report-bugs" element={<StudentBugPage />} />
           </Route>
           <Route path="/dashboard/coordinator" element={<CoordinatorLayout />}>
             <Route index element={<CoordinatorHomepage />} />
@@ -91,6 +93,7 @@ function App() {
               element={<CoordinatorStudentProfile />}
             />
             <Route path="job-details/:id" element={<JobDetails />} />
+            <Route path="report-bugs" element={<CoordinatorBugPage />} />
           </Route>
         </Routes>
       </Suspense>

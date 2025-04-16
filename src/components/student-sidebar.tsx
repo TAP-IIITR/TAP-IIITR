@@ -3,6 +3,7 @@ import logo from "../assets/iiitranchi-white-logo.png";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Bug } from "lucide-react";
 
 type StudentSidebarProps = {
   isMobile: boolean;
@@ -11,20 +12,22 @@ type StudentSidebarProps = {
 const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
-    const navigate = useNavigate();
-  
+  const navigate = useNavigate();
+
   const menuItems = [
     { title: "Student Profile", path: "/dashboard/student/profile" },
-    { title: "Placement Overview", path: "/dashboard/student/placement-overview" },
+    {
+      title: "Placement Overview",
+      path: "/dashboard/student/placement-overview",
+    },
     { title: "Job Offers", path: "/dashboard/student/job-offers" },
     { title: "My Applications", path: "/dashboard/student/my-applications" },
   ];
 
-
   const handleLogout = async () => {
-
     try {
-      const { data } = await axios.post("/api/auth/student/logout",
+      const { data } = await axios.post(
+        "https://tap-backend-production-51ea.up.railway.app/api/auth/student/logout",
         {
           headers: { "Content-Type": "application/json" },
         }
@@ -43,9 +46,6 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
     }
   };
 
-
-
-
   if (isMobile) {
     return (
       <>
@@ -54,7 +54,9 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
           <div className="flex items-center justify-between h-full px-4">
             <div className="flex gap-5 items-center">
               <img src={logo} alt="IIIT Ranchi" className="h-12 w-auto" />
-              <span className="text-lg text-white font-regular">IIIT Ranchi</span>
+              <span className="text-lg text-white font-regular">
+                IIIT Ranchi
+              </span>
             </div>
 
             <button
@@ -109,13 +111,21 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
               >
                 Logout
               </button>
+              <button
+                className="w-full h-12 text-sm flex items-center px-6 text-white hover:bg-[#29A8EF]/20"
+                onClick={() => {
+                  navigate("/dashboard/student/report-bugs");
+                  setIsDropdownOpen(false);
+                }}
+              >
+                Bug Report
+              </button>
             </div>
           </>
         )}
       </>
     );
   }
-
 
   return (
     <div className="flex flex-col h-screen w-56 gradient-bg-sidebar text-white">
@@ -131,10 +141,10 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
         {menuItems.map((item, index) => {
           const isActive =
             location.pathname === item.path ||
-            (index === 0 && 
-             (location.pathname === "/dashboard/student" || 
-              location.pathname === "/dashboard/student/"));
-            
+            (index === 0 &&
+              (location.pathname === "/dashboard/student" ||
+                location.pathname === "/dashboard/student/"));
+
           return (
             <NavLink
               key={index}
@@ -149,8 +159,21 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
         })}
       </nav>
 
-      <button className="h-12 w-full flex items-center justify-center px-6 hover:bg-[#29A8EF]/50 mb-6" onClick={handleLogout}>
+      <button
+        className="h-12 w-full flex items-center justify-center px-6 hover:bg-[#29A8EF]/50 mb-1"
+        onClick={handleLogout}
+      >
         Logout
+      </button>
+      <button
+        className="w-full py-2 px-3 mb-4 flex items-center gap-2 text-blue-100 hover:bg-blue-700 rounded-md transition-colors text-sm justify-center"
+        onClick={() => {
+          navigate("/dashboard/student/report-bugs");
+        }}
+        aria-label="Report a bug"
+      >
+        <Bug size={16} />
+        <span>Bug Report</span>
       </button>
     </div>
   );

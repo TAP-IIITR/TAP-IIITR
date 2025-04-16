@@ -203,10 +203,10 @@ const UpdateCGPAPage = () => {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {[
-                          { reg: "2023ug1020", cgpa: "8.9" },
-                          { reg: "2023ug1021", cgpa: "9.1" },
-                          { reg: "2023ug1022", cgpa: "8.5" },
-                          { reg: "2023ug1023", cgpa: "9.3" },
+                          { reg: "2023UG1020", cgpa: "8.9" },
+                          { reg: "2023UG1021", cgpa: "9.1" },
+                          { reg: "2023UG1022", cgpa: "8.5" },
+                          { reg: "2023UG1023", cgpa: "9.3" },
                         ].map((item, index) => (
                           <tr
                             key={index}

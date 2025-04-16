@@ -1,10 +1,14 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/iiitranchi-white-logo.png";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Bug } from "lucide-react";
 
 const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const menuItems = [
     { title: "Dashboard", path: "/dashboard/coordinator" },
@@ -15,6 +19,28 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
     { title: "Verifications", path: "/dashboard/coordinator/verifications" },
     { title: "Update Cgpa", path: "/dashboard/coordinator/updatecgpa" },
   ];
+
+  const handleLogout = async () => {
+    try {
+      const { data } = await axios.post(
+        "https://tap-backend-production-51ea.up.railway.app/api/auth/tap/logout",
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      toast.success(data.message || "Logout successful!");
+      navigate("/login");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.errors[0]?.message || "Logout failed!"
+        );
+      } else {
+        toast.error("An unexpected error occurred!");
+      }
+    }
+  };
 
   if (isMobile) {
     return (
@@ -77,9 +103,21 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
               ))}
               <button
                 className="w-full h-12 text-sm flex items-center px-6 text-white hover:bg-[#29A8EF]/20"
-                onClick={() => setIsDropdownOpen(false)}
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  handleLogout();
+                }}
               >
                 Logout
+              </button>
+              <button
+                className="w-full h-12 text-sm flex items-center px-6 text-white hover:bg-[#29A8EF]/20"
+                onClick={() => {
+                  navigate("/dashboard/coordinator/report-bugs");
+                  setIsDropdownOpen(false);
+                }}
+              >
+                Bug Report
               </button>
             </div>
           </>
@@ -119,8 +157,21 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
         })}
       </nav>
 
-      <button className="h-12 w-full flex items-center justify-center px-6 hover:bg-[#29A8EF]/50">
+      <button
+        className="h-12 w-full flex items-center justify-center px-6 hover:bg-[#29A8EF]/50"
+        onClick={handleLogout}
+      >
         Logout
+      </button>
+      <button
+        className="w-full py-2 px-3 mb-4 flex items-center gap-2 text-blue-100 hover:bg-blue-700 rounded-md transition-colors text-sm justify-center"
+        onClick={() => {
+          navigate("/dashboard/coordinator/report-bugs");
+        }}
+        aria-label="Report a bug"
+      >
+        <Bug size={16} />
+        <span>Bug Report</span>
       </button>
     </div>
   );
