@@ -51,11 +51,11 @@ const LoginPage = () => {
       return;
     }
 
-    const apiUrls: { [key: string]: string } = {
-      student: "/api/auth/student/login",
-      recruiter: "/api/auth/recruiter/login",
-      coordinator: "/api/auth/tap/login",
-    };
+    // const apiUrls: { [key: string]: string } = {
+    //   student: "/api/auth/student/login",
+    //   recruiter: "/api/auth/recruiter/login",
+    //   coordinator: "/api/auth/tap/login",
+    // };
 
     try {
       const { data } = await axios.post(
