@@ -9,11 +9,6 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 const api = axios.create({
   baseURL: "https://tap-backend-production-51ea.up.railway.app",
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-    "Access-Control-Allow-Credentials": "true", // Add this
-  },
 });
 import { toast } from "react-toastify";
 
