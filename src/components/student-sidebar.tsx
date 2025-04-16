@@ -30,6 +30,7 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
         "https://tap-backend-production-51ea.up.railway.app/api/auth/student/logout",
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
       );
 

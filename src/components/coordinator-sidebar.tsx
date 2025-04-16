@@ -26,6 +26,7 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
         "https://tap-backend-production-51ea.up.railway.app/api/auth/tap/logout",
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
       );
 
