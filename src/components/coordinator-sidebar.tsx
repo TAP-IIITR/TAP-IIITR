@@ -24,9 +24,10 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
     try {
       const { data } = await axios.post(
         "https://tap-backend-production-51ea.up.railway.app/api/auth/tap/logout",
+        {}, // No body needed for logout in most cases
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+          withCredentials: true, // This ensures cookies are sent
         }
       );
 

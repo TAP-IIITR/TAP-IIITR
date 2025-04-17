@@ -28,8 +28,10 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
     try {
       const { data } = await axios.post(
         "https://tap-backend-production-51ea.up.railway.app/api/auth/student/logout",
+        {}, // No body needed for logout in most cases
         {
-          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true, // This ensures cookies are sent
         }
       );
 
