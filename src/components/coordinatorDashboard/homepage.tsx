@@ -164,6 +164,7 @@ const CoordinatorHomepage = () => {
         console.error("Error fetching dashboard data:", err);
         if (err.response?.status === 401) {
           setError("You are not authorized. Please log in again.");
+          setTimeout(() => navigate("/login"), 2000);
         } else if (err.response?.status === 500) {
           setError("Server error. Please try again later or contact support.");
         } else if (err.message === "Network Error") {

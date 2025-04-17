@@ -106,9 +106,9 @@ const StudentData = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="bg-red-50 p-6 rounded-lg shadow-md border border-red-200 max-w-lg">
-          <h3 className="text-lg font-medium text-red-800 mb-2">Error</h3>
-          <p className="text-red-700">{error}</p>
+        <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+          <h3 className="text-red-700 font-semibold text-lg mb-2">Error</h3>
+          <p className="text-red-600">{error}</p>
         </div>
       </div>
     );

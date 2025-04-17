@@ -9,7 +9,7 @@ import {
   FaGraduationCap,
   FaFileAlt,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 interface StudentData {
@@ -27,6 +27,8 @@ interface StudentData {
 }
 
 const StudentProfile = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<StudentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -49,8 +51,11 @@ const StudentProfile = () => {
       } else {
         toast.error("Failed to load student data");
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
+    } catch (error: any) {
+      if (error?.response?.status === 401) {
+        setError("You are not authorized. Please log in again.");
+        setTimeout(() => navigate("/login"), 2000);
+      } else if (axios.isAxiosError(error)) {
         toast.error(
           error.response?.data?.message || "Error fetching student data"
         );
@@ -166,6 +171,18 @@ const StudentProfile = () => {
   //     setUploading(false);
   //   }
   // };
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+          <h3 className="text-red-700 font-semibold text-lg mb-2">Error</h3>
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50">

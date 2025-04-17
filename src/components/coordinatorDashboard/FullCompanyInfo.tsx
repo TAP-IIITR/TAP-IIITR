@@ -25,6 +25,7 @@ const FullCompanyInfo = () => {
   const [applications, setApplications] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Function to open the PDF in a new tab
   const openPdfInNewTab = () => {
@@ -52,9 +53,11 @@ const FullCompanyInfo = () => {
       } else {
         toast.error("Failed to load job data");
       }
-    } catch (error) {
-      console.log(error);
-      if (axios.isAxiosError(error)) {
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        setError("You are not authorized. Please log in again.");
+        setTimeout(() => navigate("/login"), 2000);
+      } else if (axios.isAxiosError(error)) {
         toast.error(error.response?.data?.message || "Error fetching job data");
       } else {
         toast.error("An unexpected error occurred");
@@ -100,6 +103,17 @@ const FullCompanyInfo = () => {
     // Export the file
     XLSX.writeFile(workbook, `${jobData.company}-studentApplications.xlsx`);
   };
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+          <h3 className="text-red-700 font-semibold text-lg mb-2">Error</h3>
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

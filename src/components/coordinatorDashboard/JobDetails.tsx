@@ -18,6 +18,7 @@ const JobDetails = () => {
   const { id } = useParams();
   const [jobData, setJobData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchJobData = async () => {
     try {
@@ -31,9 +32,12 @@ const JobDetails = () => {
       } else {
         toast.error("Failed to load job data");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        setError("You are not authorized. Please log in again.");
+        setTimeout(() => navigate("/login"), 2000);
+      } else if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data?.message || "Error fetching job data");
       } else {
@@ -164,6 +168,17 @@ const JobDetails = () => {
       day: "numeric",
     });
   };
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+          <h3 className="text-red-700 font-semibold text-lg mb-2">Error</h3>
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

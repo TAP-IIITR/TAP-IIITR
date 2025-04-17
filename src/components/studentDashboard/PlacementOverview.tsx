@@ -4,7 +4,7 @@ import { BsPersonVcardFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ApplicationCard from "../applicationCard";
 
 interface StudentData {
@@ -22,6 +22,8 @@ interface StudentData {
 }
 
 const PlacementOverview = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
   const [applicationData, setApplicationData] = useState<any>(null);
   const [placementData, setPlacementData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -42,8 +44,11 @@ const PlacementOverview = () => {
       } else {
         toast.error("Failed to load student data");
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
+    } catch (error: any) {
+      if (error?.response?.status === 401) {
+        setError("You are not authorized. Please log in again.");
+        setTimeout(() => navigate("/login"), 2000);
+      } else if (axios.isAxiosError(error)) {
         toast.error(
           error.response?.data?.message || "Error fetching student data"
         );
@@ -119,6 +124,17 @@ const PlacementOverview = () => {
       fetchData();
     }
   }, [userData]);
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+          <h3 className="text-red-700 font-semibold text-lg mb-2">Error</h3>
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

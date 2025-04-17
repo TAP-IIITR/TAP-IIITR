@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import ApplicationCompanyCard from "../application-company-card";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyApplication = () => {
   const [jobData, setJobData] = useState<any>(null);
@@ -9,6 +10,8 @@ const MyApplication = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [jobTypeFilter, setJobTypeFilter] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const fetchJobData = async () => {
     try {
@@ -25,8 +28,11 @@ const MyApplication = () => {
       } else {
         toast.error("Failed to load jobs data");
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
+    } catch (error: any) {
+      if (error?.response?.status === 401) {
+        setError("You are not authorized. Please log in again.");
+        setTimeout(() => navigate("/login"), 2000);
+      } else if (axios.isAxiosError(error)) {
         toast.error(
           error.response?.data?.message || "Error fetching jobs data"
         );
@@ -75,6 +81,17 @@ const MyApplication = () => {
   const handleJobTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setJobTypeFilter(e.target.value);
   };
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+          <h3 className="text-red-700 font-semibold text-lg mb-2">Error</h3>
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
