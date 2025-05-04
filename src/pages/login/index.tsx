@@ -97,7 +97,7 @@ const LoginPage = () => {
     };
 
     try {
-      const { data } = await axios.post(
+      const { data } = await api.post(
         apiUrls[currentTab],
         { reg_email: formData.reg_email },
         {
