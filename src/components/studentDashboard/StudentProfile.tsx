@@ -38,7 +38,7 @@ const StudentProfile = () => {
   const fetchUserData = async () => {
     try {
       const { data } = await axios.get(
-        "https://tap-backend-production-51ea.up.railway.app/api/dashboard/student",
+        "https://tap-backend.up.railway.app/api/dashboard/student",
         {
           withCredentials: true,
         }
@@ -99,7 +99,7 @@ const StudentProfile = () => {
 
     try {
       await axios.post(
-        "https://tap-backend-production-51ea.up.railway.app/api/student/resume/upload-url",
+        "https://tap-backend.up.railway.app/api/student/resume/upload-url",
         { resume: file },
         {
           headers: {

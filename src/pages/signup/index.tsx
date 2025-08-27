@@ -63,9 +63,9 @@ const SignupPage = () => {
 
     const apiUrls: { [key: string]: string } = {
       student:
-        "https://tap-backend-production-51ea.up.railway.app/api/auth/student/register",
+        "https://tap-backend.up.railway.app/api/auth/student/register",
       recruiter:
-        "https://tap-backend-production-51ea.up.railway.app/api/auth/recruiter/register",
+        "https://tap-backend.up.railway.app/api/auth/recruiter/register",
       // coordinator: "/api/auth/coordinator/register",
     };
 

@@ -27,7 +27,7 @@ const StudentSidebar = ({ isMobile }: StudentSidebarProps) => {
   const handleLogout = async () => {
     try {
       const { data } = await axios.post(
-        "https://tap-backend-production-51ea.up.railway.app/api/auth/student/logout",
+        "https://tap-backend.up.railway.app/api/auth/student/logout",
         {}, // No body needed for logout in most cases
         {
           headers: { "Content-Type": "application/json" },

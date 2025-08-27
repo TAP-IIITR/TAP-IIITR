@@ -23,7 +23,7 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
   const handleLogout = async () => {
     try {
       const { data } = await axios.post(
-        "https://tap-backend-production-51ea.up.railway.app/api/auth/tap/logout",
+        "https://tap-backend.up.railway.app/api/auth/tap/logout",
         {}, // No body needed for logout in most cases
         {
           headers: { "Content-Type": "application/json" },

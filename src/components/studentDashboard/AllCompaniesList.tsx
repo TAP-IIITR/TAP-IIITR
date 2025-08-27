@@ -47,7 +47,7 @@ const AllCompaniesList = () => {
   const fetchUserData = async () => {
     try {
       const { data } = await axios.get(
-        "https://tap-backend-production-51ea.up.railway.app/api/dashboard/student",
+        "https://tap-backend.up.railway.app/api/dashboard/student",
         {
           withCredentials: true,
         }
@@ -82,7 +82,7 @@ const AllCompaniesList = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend-production-51ea.up.railway.app/api/jobs/student`,
+        `https://tap-backend.up.railway.app/api/jobs/student`,
         {
           withCredentials: true,
         }

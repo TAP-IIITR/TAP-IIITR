@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   server: {
     proxy: {
-      "/api": "https://tap-backend-production-51ea.up.railway.app/",
+      "/api": "https://tap-backend.up.railway.app/",
     },
   },
   plugins: [react()],

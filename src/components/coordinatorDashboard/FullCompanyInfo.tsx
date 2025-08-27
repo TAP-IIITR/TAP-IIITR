@@ -43,7 +43,7 @@ const FullCompanyInfo = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend-production-51ea.up.railway.app/api/jobs/tap/${id}`,
+        `https://tap-backend.up.railway.app/api/jobs/tap/${id}`,
         { withCredentials: true }
       );
       if (data.success) {

@@ -58,7 +58,7 @@ const FullCompanyDetails = () => {
 
     try {
       const { data } = await axios.get(
-        `https://tap-backend-production-51ea.up.railway.app/api/jobs/student/${id}`,
+        `https://tap-backend.up.railway.app/api/jobs/student/${id}`,
         {
           withCredentials: true,
         }

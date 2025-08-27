@@ -30,7 +30,7 @@ const Applications = () => {
   const fetchApplications = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend-production-51ea.up.railway.app/api/jobs/tap/applications`,
+        `https://tap-backend.up.railway.app/api/jobs/tap/applications`,
         {
           withCredentials: true,
         }
