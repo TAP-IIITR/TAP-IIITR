@@ -67,6 +67,7 @@ const LoginPage = () => {
       if (currentTab === "student") {
         navigate("/dashboard/student");
       } else if (currentTab === "coordinator") {
+        localStorage.setItem("role", data.data.role);
         navigate("/dashboard/coordinator");
       }
     } catch (error) {

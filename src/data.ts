@@ -193,25 +193,7 @@ export const profTeamData: Team[] = [
     name: "Dr. Noopur",
     designation: "Faculty Coordinator",
     department: "Training & Placement Cell, IIIT Ranchi",
-  },
-  {
-    image: pooja_mam,
-    name: "Dr. Puja Ghosh ",
-    designation: "Faculty Coordinator",
-    department: "Training & Placement Cell, IIIT Ranchi",
-  },
-  {
-    image: ranjan_sir,
-    name: "Dr. Ranjan Behera",
-    designation: "Faculty Coordinator",
-    department: "Training & Placement Cell, IIIT Ranchi",
-  },
-  {
-    image: shadab_Sir,
-    name: "Dr. S.Shadab Hassan",
-    designation: "Faculty Coordinator",
-    department: "Training & Placement Cell, IIIT Ranchi",
-  },
+  }
 ];
 
 export const TPOData: Team[] = [

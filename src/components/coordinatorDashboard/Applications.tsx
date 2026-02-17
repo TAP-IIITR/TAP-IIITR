@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { SearchIcon, X } from "lucide-react";
+import { SearchIcon, X, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -24,6 +24,7 @@ const Applications = () => {
     form: any;
     job: any;
     status?: string;
+    appliedAt?: string;
   }
 
   const [applications, setApplications] = useState<Application[]>([]);
@@ -146,6 +147,45 @@ const Applications = () => {
     }
   };
 
+  const downloadCSV = () => {
+    if (filteredApplications.length === 0) {
+      toast.info("No data to export");
+      return;
+    }
+
+    // Define headers
+    const headers = ["Student Name", "Email", "Roll Number", "Branch", "Job Title", "Company", "Status", "Applied At"];
+
+    // Map data to rows
+    const rows = filteredApplications.map(app => [
+      app.form?.Name || "N/A",
+      app.student?.regEmail || "N/A",
+      app.student?.rollNumber || "N/A",
+      app.student?.branch || "N/A",
+      app.job?.title || "N/A",
+      app.job?.company || "N/A",
+      app.status || "Pending",
+      app.appliedAt ? new Date(app.appliedAt).toLocaleString() : app.createdAt ? new Date(app.createdAt).toLocaleString() : "N/A"
+    ]);
+
+    // Create CSV content
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+    ].join("\n");
+
+    // Create blob and trigger download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `applications_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (error) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -208,6 +248,15 @@ const Applications = () => {
             </option>
           ))}
         </select>
+
+        {/* Export Button */}
+        <button
+          onClick={downloadCSV}
+          className="flex items-center justify-center gap-2 px-[16px] py-[12px] text-[14px] font-[600] rounded-[10px] bg-white border-[1.5px] border-[#161A80] text-[#161A80] hover:bg-[#F5F5F5] transition-all duration-200 md:w-auto"
+        >
+          <Download size={18} />
+          <span>Export CSV</span>
+        </button>
       </div>
 
       {/* Results Count */}

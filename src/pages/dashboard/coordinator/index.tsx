@@ -15,7 +15,7 @@ const Layout = () => {
   }, []);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       {/* Sidebar */}
       <div className="hidden md:block md:flex-shrink-0">
         <CoordinatorSidebar isMobile={false} />
@@ -25,10 +25,11 @@ const Layout = () => {
       {isMobile && <CoordinatorSidebar isMobile={true} />}
 
       {/* Main content */}
-      <main className={`flex-1 overflow-auto bg-[#F5F5F5] ${isMobile ? 'pt-16' : ''}`}>
-        <div className="h-full">
-          <Outlet />
-
+      <main className={`flex-1 overflow-hidden flex flex-col ${isMobile ? 'pt-16' : ''}`}>
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="max-w-7xl mx-auto w-full">
+            <Outlet />
+          </div>
         </div>
       </main>
     </div>
