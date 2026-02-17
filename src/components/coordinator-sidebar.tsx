@@ -65,8 +65,8 @@ const CoordinatorSidebar = ({ isMobile }: { isMobile?: boolean }) => {
 
   if (role === "tpo") {
     menuItems.push({
-      title: "Add Coordinator",
-      path: "/dashboard/coordinator/add-coordinator",
+      title: "Manage Members",
+      path: "/dashboard/coordinator/manage-members",
       icon: <UserPlus size={20} />,
     });
   }

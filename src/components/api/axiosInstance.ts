@@ -10,10 +10,9 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized access (e.g., redirect to login)
-      console.error("Unauthorized access. Please log in again.");
-      // Optionally redirect to login page
-      // window.location.href = "/login";
+      // Handle unauthorized access
+      localStorage.removeItem("role"); // Clear role
+      window.location.href = "/login"; // Redirect to login
     }
     return Promise.reject(error);
   }

@@ -33,6 +33,9 @@ const CoordinatorBugPage = lazy(
 const AddCoordinator = lazy(
   () => import("./components/coordinatorDashboard/AddCoordinator")
 );
+const ManageMembers = lazy(
+  () => import("./components/coordinatorDashboard/ManageMembers")
+);
 const CoordinatorHomepage = lazy(
   () => import("./components/coordinatorDashboard/homepage")
 );
@@ -91,6 +94,7 @@ function App() {
             <Route path="verifications" element={<Verifications />} />
             <Route path="updatecgpa" element={<UpdateCGPAPage />} />
             <Route path="add-coordinator" element={<AddCoordinator />} />
+            <Route path="manage-members" element={<ManageMembers />} />
             <Route
               path="student/:studentId"
               element={<CoordinatorStudentProfile />}
