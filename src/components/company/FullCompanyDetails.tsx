@@ -48,10 +48,10 @@ const FullCompanyDetails = () => {
     console.log("HIII");
     try {
       console.log(
-        `https://tap-backend.up.railway.app/api/jobs/student/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/jobs/student/${id}`
       );
       const { data } = await axios.get(
-        `https://tap-backend.up.railway.app/api/jobs/student/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/jobs/student/${id}`,
         { withCredentials: true }
       );
       console.log(data.data);
@@ -128,7 +128,7 @@ const FullCompanyDetails = () => {
       console.log("Application Data:", applicationData);
 
       const response = await axios.post(
-        `https://tap-backend.up.railway.app/api/jobs/student/${id}/apply`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/jobs/student/${id}/apply`,
         applicationData,
         { withCredentials: true }
       );
@@ -258,19 +258,19 @@ const FullCompanyDetails = () => {
     ...preFilledFields,
     ...(additionalFields.length > 0
       ? [
-          {
-            sectionId: "additional",
-            title: "Additional Information",
-            fields: additionalFields.map((field: any) => ({
-              id: field.label.toLowerCase().replace(/\s+/g, "-"),
-              label: field.label,
-              type: field.type as "text" | "file" | "textarea",
-              required: true,
-              placeholder: `Enter ${field.label.toLowerCase()}`,
-              accept: field.type === "file" ? ".pdf,.doc,.docx" : undefined,
-            })),
-          },
-        ]
+        {
+          sectionId: "additional",
+          title: "Additional Information",
+          fields: additionalFields.map((field: any) => ({
+            id: field.label.toLowerCase().replace(/\s+/g, "-"),
+            label: field.label,
+            type: field.type as "text" | "file" | "textarea",
+            required: true,
+            placeholder: `Enter ${field.label.toLowerCase()}`,
+            accept: field.type === "file" ? ".pdf,.doc,.docx" : undefined,
+          })),
+        },
+      ]
       : []),
   ];
 
@@ -403,21 +403,20 @@ const FullCompanyDetails = () => {
               jobData.hasApplied ||
               new Date(jobData.deadline) < new Date() // Job expired
             }
-            className={`w-full py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static ${
-              showApplicationForm ||
-              jobData.hasApplied ||
-              new Date(jobData.deadline) < new Date()
+            className={`w-full py-[12px] rounded-[10px] font-[600] text-[16px] transition-colors sticky bottom-4 lg:static ${showApplicationForm ||
+                jobData.hasApplied ||
+                new Date(jobData.deadline) < new Date()
                 ? "bg-[#A0A0A0] cursor-not-allowed"
                 : "bg-[#161A80] hover:bg-[#14137D] text-white"
-            }`}
+              }`}
           >
             {showApplicationForm
               ? "Application in Progress"
               : jobData.hasApplied
-              ? "Already Applied"
-              : new Date(jobData.deadline) < new Date()
-              ? "Job Expired"
-              : "Apply Now"}
+                ? "Already Applied"
+                : new Date(jobData.deadline) < new Date()
+                  ? "Job Expired"
+                  : "Apply Now"}
           </button>
         </div>
       </div>
@@ -451,11 +450,10 @@ const FullCompanyDetails = () => {
                   {section.fields.map((field) => (
                     <div
                       key={field.id}
-                      className={`${
-                        field.type === "file" || field.type === "textarea"
+                      className={`${field.type === "file" || field.type === "textarea"
                           ? "md:col-span-2"
                           : ""
-                      } transition-all duration-200 ease-in-out`}
+                        } transition-all duration-200 ease-in-out`}
                     >
                       <label className="block text-[15px] font-[500] text-[#444444] mb-2">
                         {field.label}
@@ -471,10 +469,9 @@ const FullCompanyDetails = () => {
                             handleInputChange(field.label, e.target.value)
                           }
                           className={`w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none transition-all
-                            ${
-                              field.readOnly
-                                ? "bg-gray-100 cursor-not-allowed"
-                                : "focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]"
+                            ${field.readOnly
+                              ? "bg-gray-100 cursor-not-allowed"
+                              : "focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]"
                             }
                             min-h-[100px]`}
                         />
@@ -488,8 +485,8 @@ const FullCompanyDetails = () => {
                             field.readOnly
                               ? field.value
                               : field.type === "file"
-                              ? undefined
-                              : formData[field.label] || ""
+                                ? undefined
+                                : formData[field.label] || ""
                           }
                           readOnly={field.readOnly}
                           onChange={(e) =>
@@ -501,10 +498,9 @@ const FullCompanyDetails = () => {
                             )
                           }
                           className={`w-full p-3 border-2 border-[#E0E0E0] rounded-[8px] focus:outline-none transition-all
-                            ${
-                              field.readOnly
-                                ? "bg-gray-100 cursor-not-allowed"
-                                : "focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]"
+                            ${field.readOnly
+                              ? "bg-gray-100 cursor-not-allowed"
+                              : "focus:border-[#161A80] focus:ring-1 focus:ring-[#161A80]"
                             }
                             file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold
                             file:bg-[#161A80] file:text-white hover:file:bg-[#14137D]`}

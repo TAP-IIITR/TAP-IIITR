@@ -32,7 +32,7 @@ const StudentProfile = () => {
   const fetchStudentData = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend.up.railway.app/api/student/tap/${studentId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/student/tap/${studentId}`,
         { withCredentials: true }
       );
 
@@ -62,7 +62,7 @@ const StudentProfile = () => {
   const fetchApplications = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend.up.railway.app/api/student/tap/applications/${studentId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/student/tap/applications/${studentId}`,
         { withCredentials: true }
       );
 
@@ -210,31 +210,28 @@ const StudentProfile = () => {
           {/* Navigation Tabs */}
           <div className="flex space-x-1 mt-8 border-b border-indigo-700/30">
             <button
-              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${
-                activeTab === "personal"
+              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${activeTab === "personal"
                   ? "border-white text-white"
                   : "border-transparent text-indigo-200 hover:text-white hover:border-indigo-300"
-              }`}
+                }`}
               onClick={() => setActiveTab("personal")}
             >
               Personal Details
             </button>
             <button
-              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${
-                activeTab === "academic"
+              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${activeTab === "academic"
                   ? "border-white text-white"
                   : "border-transparent text-indigo-200 hover:text-white hover:border-indigo-300"
-              }`}
+                }`}
               onClick={() => setActiveTab("academic")}
             >
               Academic Details
             </button>
             <button
-              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${
-                activeTab === "applications"
+              className={`px-4 py-3 font-medium transition-all duration-300 border-b-2 ${activeTab === "applications"
                   ? "border-white text-white"
                   : "border-transparent text-indigo-200 hover:text-white hover:border-indigo-300"
-              }`}
+                }`}
               onClick={() => setActiveTab("applications")}
             >
               Applications
@@ -340,15 +337,15 @@ const StudentProfile = () => {
                       Uploaded on{" "}
                       {studentData?.resume.lastUpdated
                         ? new Date(
-                            studentData.resume.lastUpdated.seconds * 1000 +
-                              Math.floor(
-                                studentData.resume.lastUpdated.nanoseconds / 1e6
-                              )
-                          ).toLocaleString("en-IN", {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          })
+                          studentData.resume.lastUpdated.seconds * 1000 +
+                          Math.floor(
+                            studentData.resume.lastUpdated.nanoseconds / 1e6
+                          )
+                        ).toLocaleString("en-IN", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })
                         : "N/A"}
                     </p>
 
@@ -562,8 +559,8 @@ const StudentProfile = () => {
 
                       <div className="mt-4 md:mt-0 md:ml-6">
                         <button
-                          className="flex items-center gap-2 px-4 py-2 border border-indigo-200 text-indigo-700 rounded-lg 
-                                   hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all duration-300 
+                          className="flex items-center gap-2 px-4 py-2 border border-indigo-200 text-indigo-700 rounded-lg
+                                   hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all duration-300
                                    font-medium group/btn"
                         >
                           View Details

@@ -63,9 +63,9 @@ const SignupPage = () => {
 
     const apiUrls: { [key: string]: string } = {
       student:
-        "https://tap-backend.up.railway.app/api/auth/student/register",
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/student/register`,
       recruiter:
-        "https://tap-backend.up.railway.app/api/auth/recruiter/register",
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/recruiter/register`,
       // coordinator: "/api/auth/coordinator/register",
     };
 
@@ -130,11 +130,10 @@ const SignupPage = () => {
             <button
               key={tab}
               onClick={() => setCurrentTab(tab)}
-              className={`flex-1 px-4 py-2 rounded-full ${
-                currentTab === tab
+              className={`flex-1 px-4 py-2 rounded-full ${currentTab === tab
                   ? "bg-blue-800 text-white"
                   : "hover:bg-gray-200 text-gray-600"
-              } text-sm`}
+                } text-sm`}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>

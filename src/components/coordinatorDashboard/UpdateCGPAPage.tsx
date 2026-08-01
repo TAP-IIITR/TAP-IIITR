@@ -33,7 +33,7 @@ const UpdateCGPAPage = () => {
       formData.append("cgpaFile", file);
       console.log([...formData.entries()]);
       const response = await axios.post(
-        "https://tap-backend.up.railway.app/api/dashboard/tap",
+        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/tap`,
         formData,
         {
           withCredentials: true,

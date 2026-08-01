@@ -16,7 +16,7 @@ const MyApplication = () => {
   const fetchJobData = async () => {
     try {
       const { data } = await axios.get(
-        `https://tap-backend.up.railway.app/api/jobs/student/mm`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/jobs/student/mm`,
         {
           withCredentials: true,
         }

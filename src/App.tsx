@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GlobalLoader } from "./components/ui/GlobalLoader";
 
 // Lazy load components
 const Home = lazy(() => import("./pages/home"));
@@ -23,6 +24,18 @@ const FullCompanyDetails = lazy(
 const MyApplication = lazy(
   () => import("./components/studentDashboard/MyApplication")
 );
+const StudentBugPage = lazy(
+  () => import("./components/studentDashboard/StudentBugPage")
+);
+const CoordinatorBugPage = lazy(
+  () => import("./components/coordinatorDashboard/CoordinatorBugPage")
+);
+const AddCoordinator = lazy(
+  () => import("./components/coordinatorDashboard/AddCoordinator")
+);
+const ManageMembers = lazy(
+  () => import("./components/coordinatorDashboard/ManageMembers")
+);
 const CoordinatorHomepage = lazy(
   () => import("./components/coordinatorDashboard/homepage")
 );
@@ -41,8 +54,6 @@ import CoordinatorStudentProfile from "@/components/coordinatorDashboard/Student
 import JobDetails from "./components/coordinatorDashboard/JobDetails";
 import UpdateCGPAPage from "./components/coordinatorDashboard/UpdateCGPAPage";
 import FullCompanyInfo from "./components/coordinatorDashboard/FullCompanyInfo";
-import StudentBugPage from "./components/studentDashboard/StudentBugPage";
-import CoordinatorBugPage from "./components/coordinatorDashboard/CoordinatorBugPage";
 
 function App() {
   window.onbeforeunload = function () {
@@ -52,13 +63,7 @@ function App() {
   return (
     <>
       <ToastContainer position="top-center" autoClose={3000} />
-      <Suspense
-        fallback={
-          <div className="flex justify-center items-center h-screen">
-            Loading...
-          </div>
-        }
-      >
+      <Suspense fallback={<GlobalLoader />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -88,6 +93,8 @@ function App() {
             <Route path="recruiters" element={<Recruiters />} />
             <Route path="verifications" element={<Verifications />} />
             <Route path="updatecgpa" element={<UpdateCGPAPage />} />
+            <Route path="add-coordinator" element={<AddCoordinator />} />
+            <Route path="manage-members" element={<ManageMembers />} />
             <Route
               path="student/:studentId"
               element={<CoordinatorStudentProfile />}
@@ -96,7 +103,7 @@ function App() {
             <Route path="report-bugs" element={<CoordinatorBugPage />} />
           </Route>
         </Routes>
-      </Suspense>
+      </Suspense >
     </>
   );
 }

@@ -38,7 +38,7 @@ const StudentProfile = () => {
   const fetchUserData = async () => {
     try {
       const { data } = await axios.get(
-        "https://tap-backend.up.railway.app/api/dashboard/student",
+        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/student`,
         {
           withCredentials: true,
         }
@@ -99,7 +99,7 @@ const StudentProfile = () => {
 
     try {
       await axios.post(
-        "https://tap-backend.up.railway.app/api/student/resume/upload-url",
+        `${import.meta.env.VITE_BACKEND_URL}/api/student/resume/upload-url`,
         { resume: file },
         {
           headers: {
@@ -288,9 +288,8 @@ const StudentProfile = () => {
                   <div
                     className="h-full bg-indigo-600 rounded-full"
                     style={{
-                      width: `${
-                        ((userData?.cgpa ? userData.cgpa : 0) / 10) * 100
-                      }%`,
+                      width: `${((userData?.cgpa ? userData.cgpa : 0) / 10) * 100
+                        }%`,
                     }}
                   ></div>
                 </div>

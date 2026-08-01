@@ -2,9 +2,6 @@ import { useState, useMemo, useEffect } from "react";
 import {
   Search,
   ChevronRight,
-  GraduationCap,
-  Mail,
-  Phone,
   Filter,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -137,8 +134,8 @@ const StudentData = () => {
               <input
                 type="text"
                 placeholder="Search students by name, email, or branch..."
-                className="w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-sm text-white placeholder-gray-300 
-                         border border-indigo-400/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 
+                className="w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-sm text-white placeholder-gray-300
+                         border border-indigo-400/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50
                          transition-all duration-200"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -148,7 +145,7 @@ const StudentData = () => {
             {/* Filter Dropdown */}
             <div className="relative">
               <button
-                className="flex items-center px-4 py-3 bg-white/10 backdrop-blur-sm text-white 
+                className="flex items-center px-4 py-3 bg-white/10 backdrop-blur-sm text-white
                          border border-indigo-400/30 rounded-lg hover:bg-white/20 transition-all duration-200"
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
               >
@@ -207,66 +204,89 @@ const StudentData = () => {
           </div>
         </div>
 
-        {/* Student Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredStudents.map((student) => (
-            <div
-              key={student.id}
-              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            >
-              <div className="bg-gradient-to-r from-indigo-600 to-blue-500 h-3"></div>
-              <div className="p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-4 truncate">
-                  {student.name}
-                </h2>
-
-                <div className="space-y-4 mb-6">
-                  {/* Contact information */}
-                  <div className="flex items-center group">
-                    <div className="bg-indigo-50 h-10 w-10 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors duration-200">
-                      <Mail className="text-indigo-700 h-5 w-5" />
-                    </div>
-                    <p className="ml-3 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200 truncate">
-                      {student.email}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center group">
-                    <div className="bg-indigo-50 h-10 w-10 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors duration-200">
-                      <Phone className="text-indigo-700 h-5 w-5" />
-                    </div>
-                    <p className="ml-3 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200">
-                      {student.phone}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center group">
-                    <div className="bg-indigo-50 h-10 w-10 rounded-full flex items-center justify-center group-hover:bg-indigo-100 transition-colors duration-200">
-                      <GraduationCap className="text-indigo-700 h-5 w-5" />
-                    </div>
-                    <p className="ml-3 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200">
-                      {student.branch}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-gray-100">
-                  <button
-                    onClick={() => handleViewProfile(student.id)}
-                    className="w-full rounded-lg py-3 px-4 bg-white text-indigo-700 font-medium 
-                             border border-indigo-200 hover:bg-indigo-700 hover:text-white 
-                             transition-all duration-300 flex items-center justify-center"
+        {/* Student Table */}
+        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
                   >
-                    <span>View Profile</span>
-                    <ChevronRight
-                      size={16}
-                      className="ml-2 transition-transform group-hover:translate-x-1"
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+                    Name
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Email
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Phone
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Branch
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredStudents.map((student) => (
+                  <tr
+                    key={student.id}
+                    className="hover:bg-gray-50 transition-colors duration-150"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-10 w-10">
+                          <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-lg">
+                            {student.name.charAt(0)}
+                          </div>
+                        </div>
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900">
+                            {student.name}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{student.email}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{student.phone}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                        {student.branch}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button
+                        onClick={() => handleViewProfile(student.id)}
+                        className="text-indigo-600 hover:text-indigo-900 flex items-center justify-end w-full"
+                      >
+                        View Profile
+                        <ChevronRight size={16} className="ml-1" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {filteredStudents.length === 0 && (

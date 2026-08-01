@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://tap-backend.up.railway.app/api", // Your backend base URL
+  baseURL: import.meta.env.VITE_BACKEND_URL + "/api", // Your backend base URL
   withCredentials: true, // This ensures cookies (like the token) are sent with requests
 });
 
@@ -10,10 +10,9 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized access (e.g., redirect to login)
-      console.error("Unauthorized access. Please log in again.");
-      // Optionally redirect to login page
-      // window.location.href = "/login";
+      // Handle unauthorized access
+      localStorage.removeItem("role"); // Clear role
+      window.location.href = "/login"; // Redirect to login
     }
     return Promise.reject(error);
   }

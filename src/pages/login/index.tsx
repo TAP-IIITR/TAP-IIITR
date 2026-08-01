@@ -7,7 +7,7 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 // Create an Axios instance with a base URL
 const api = axios.create({
-  baseURL: "https://tap-backend.up.railway.app/",
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true,
 });
 import { toast } from "react-toastify";
@@ -67,6 +67,7 @@ const LoginPage = () => {
       if (currentTab === "student") {
         navigate("/dashboard/student");
       } else if (currentTab === "coordinator") {
+        localStorage.setItem("role", data.data.role);
         navigate("/dashboard/coordinator");
       }
     } catch (error) {
@@ -109,7 +110,7 @@ const LoginPage = () => {
       if (axios.isAxiosError(error)) {
         toast.error(
           error.response?.data?.errors[0]?.message ||
-            "Problem in sending Password reset email"
+          "Problem in sending Password reset email"
         );
       } else {
         toast.error("An unexpected error occurred");
@@ -154,11 +155,10 @@ const LoginPage = () => {
             <button
               key={tab}
               onClick={() => setCurrentTab(tab)}
-              className={`flex-1 px-4 py-2 rounded-full ${
-                currentTab === tab
-                  ? "bg-blue-800 text-white"
-                  : "hover:bg-gray-200 text-gray-600"
-              } text-sm`}
+              className={`flex-1 px-4 py-2 rounded-full ${currentTab === tab
+                ? "bg-blue-800 text-white"
+                : "hover:bg-gray-200 text-gray-600"
+                } text-sm`}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>

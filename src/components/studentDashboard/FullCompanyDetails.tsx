@@ -58,7 +58,7 @@ const FullCompanyDetails = () => {
 
     try {
       const { data } = await axios.get(
-        `https://tap-backend.up.railway.app/api/jobs/student/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/jobs/student/${id}`,
         {
           withCredentials: true,
         }
@@ -151,17 +151,16 @@ const FullCompanyDetails = () => {
         <button
           onClick={handleApply}
           disabled={job.hasApplied || new Date(job.deadline) < new Date()}
-          className={`${
-            job.hasApplied || new Date(job.deadline) < new Date()
+          className={`${job.hasApplied || new Date(job.deadline) < new Date()
               ? "bg-gray-500"
               : "bg-[#DC2626] hover:bg-[#B91C1C]"
-          } text-white px-6 py-3 rounded-lg font-[600] text-[16px] transition-colors w-full md:w-auto`}
+            } text-white px-6 py-3 rounded-lg font-[600] text-[16px] transition-colors w-full md:w-auto`}
         >
           {job.hasApplied
             ? "Applied"
             : new Date(job.deadline) < new Date()
-            ? "Expired"
-            : "Apply Now"}
+              ? "Expired"
+              : "Apply Now"}
         </button>
       </div>
 
@@ -331,17 +330,16 @@ const FullCompanyDetails = () => {
         <button
           onClick={handleApply}
           disabled={job.hasApplied || new Date(job.deadline) < new Date()}
-          className={`${
-            job.hasApplied || new Date(job.deadline) < new Date()
+          className={`${job.hasApplied || new Date(job.deadline) < new Date()
               ? "bg-gray-500"
               : "bg-[#DC2626] hover:bg-[#B91C1C]"
-          } text-white px-6 py-3 rounded-lg font-[600] text-[16px] transition-colors w-full`}
+            } text-white px-6 py-3 rounded-lg font-[600] text-[16px] transition-colors w-full`}
         >
           {job.hasApplied
             ? "Applied"
             : new Date(job.deadline) < new Date()
-            ? "Expired"
-            : "Apply Now"}
+              ? "Expired"
+              : "Apply Now"}
         </button>
       </div>
     </div>

@@ -33,7 +33,7 @@ const PlacementOverview = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        "https://tap-backend.up.railway.app/api/dashboard/student",
+        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/student`,
         {
           withCredentials: true,
         }
@@ -69,13 +69,13 @@ const PlacementOverview = () => {
     try {
       // First API call - Applications
       const applicationsPromise = axios.get(
-        `https://tap-backend.up.railway.app/api/jobs/student/mm`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/jobs/student/mm`,
         { withCredentials: true }
       );
 
       // Second API call - Jobs/Placements
       const placementsPromise = axios.get(
-        `https://tap-backend.up.railway.app/api/jobs/student`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/jobs/student`,
         { withCredentials: true }
       );
 
